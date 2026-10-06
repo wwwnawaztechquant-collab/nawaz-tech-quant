@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nawaz Tech Quant — Desk</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
+<style>
+:root{--bg:#030a1a;--p:#06142e;--g:#3da5ff;--d:#15407a;--r:#ff5d7a;--y:#ffd24d;--t:#dcecff;--up:#4cc3ff;--m:#7fa9d9;--card:#0a2250}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--t);font-family:'Noto Naskh Arabic','Noto Sans Devanagari','Share Tech Mono',sans-serif;font-size:14px;display:flex;flex-direction:column;overflow:hidden;
+background-image:linear-gradient(#15407a33 1px,transparent 1px),linear-gradient(90deg,#15407a33 1px,transparent 1px);background-size:32px 32px}
+.edu{background:#0b2a66;color:var(--y);text-align:center;font-size:12px;padding:2px;letter-spacing:1px}
+header{display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--d);background:var(--p);padding:6px 12px;direction:ltr}
+h1{margin:0;font:700 18px 'Share Tech Mono',monospace;color:var(--g);letter-spacing:3px;text-shadow:0 0 12px var(--g);white-space:nowrap}
+.sub{font:10px 'Share Tech Mono',monospace;color:var(--m)}
+#price{font:700 20px 'Share Tech Mono',monospace;color:var(--up);min-width:110px;text-align:right}
+header select{width:auto;max-width:170px}
+main{flex:1;min-height:0;display:grid;grid-template-columns:1fr 310px;gap:8px;padding:8px;direction:ltr}
+.side{overflow-y:auto;display:flex;flex-direction:column;gap:8px;min-height:0}
+body.rtl .side{direction:rtl}body:not(.rtl) .side{direction:ltr}
+.box{border:1px solid var(--d);background:var(--p);border-radius:8px;padding:10px}
+.box h2{margin:0 0 6px;font:12px 'Share Tech Mono',monospace;color:var(--g);letter-spacing:2px}
+#cw{display:flex;flex-direction:column;min-height:0;padding:4px;position:relative}
+.tb{display:flex;gap:4px;align-items:center;flex-wrap:wrap;padding:2px 2px 6px;direction:ltr}
+.tb button{width:auto;padding:4px 9px;font-size:12px;font-family:'Share Tech Mono',monospace}
+.tb button.on{background:#1f6fe0;border-color:#6bb8ff;color:#fff}
+.tb .sep{width:1px;height:20px;background:var(--d);margin:0 4px}
+.tb .ib{background:#1f6fe0;border-color:#6bb8ff;color:#fff;font-weight:700}
+body.ctp #wmk{filter:invert(1)}
+.tb{gap:4px}.tb button,.tb select{padding:3px 7px!important;font-size:12px}#undob,#redob,#ctb{min-width:28px;font-size:15px!important;line-height:1}.tb .sep{margin:0 2px}
+body #cts{font-weight:700;border:1px solid #f5c242!important;color:#f5c242!important}
+#chwrap{position:relative;flex:1;min-height:0}#chart{position:absolute;inset:0}
+#msg{font-size:11px;color:var(--m);padding:3px 6px;direction:ltr}
+.call{font:700 34px 'Share Tech Mono',monospace;direction:ltr;text-align:center;line-height:1.1}
+.call.WAIT{color:var(--y)}.call.SELL{color:var(--r)}.call.BUY{color:var(--up);text-shadow:0 0 14px var(--up)}
+.cl{font-size:15px;font-weight:700;text-align:center}
+input,select,button,textarea{font:inherit;background:#041029;color:var(--t);border:1px solid var(--d);border-radius:5px;padding:5px;width:100%}
+button{cursor:pointer;font-weight:700}button:hover{border-color:var(--g)}
+label{display:block;font:11px 'Share Tech Mono',monospace;color:var(--m);margin:6px 0 2px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.out{font-family:'Share Tech Mono',monospace;direction:ltr;text-align:left;color:var(--up);line-height:1.7}
+.tiny{font-size:11px;color:var(--m);margin-top:4px;line-height:1.6}
+.bot{display:flex;gap:8px;align-items:center;justify-content:center}.bot svg{width:80px;flex:none}
+.eye{fill:var(--g);transition:.3s}.alert .eye{fill:var(--y);animation:bl .5s infinite alternate}
+@keyframes bl{to{opacity:.2}}.ant{animation:pu 1.6s infinite}@keyframes pu{50%{opacity:.3}}
+.ag{display:flex;align-items:center;gap:8px;padding:5px 8px;border-inline-start:4px solid var(--r);background:var(--card);margin-bottom:4px;border-radius:4px;user-select:none;font-size:13px}
+.ag.s1{border-color:var(--y)}.ag.s2{border-color:var(--g)}.ag b{flex:1}
+.ic{font:700 16px 'Share Tech Mono',monospace;width:22px;text-align:center}
+.s0 .ic{color:var(--r)}.s1 .ic{color:var(--y)}.s2 .ic{color:var(--g)}
+.meter{height:8px;background:#0d2a5a;border-radius:4px;overflow:hidden;margin-top:6px}.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--r),var(--y),var(--up));width:0;transition:.4s}
+#news{flex:1;min-width:0;display:flex;align-items:center;gap:8px;overflow:hidden;border:1px solid var(--d);border-radius:5px;background:#041029;padding:4px 8px}.nb{background:#ff5d7a;color:#fff;font:700 10px "Share Tech Mono",monospace;padding:1px 6px;border-radius:3px}.nw{flex:1;overflow:hidden;white-space:nowrap}#nt{display:inline-block;padding-left:100%;animation:sc 80s linear infinite;direction:ltr;font:12px "Share Tech Mono",monospace;color:#cfe6ff}#nt:hover{animation-play-state:paused}@keyframes sc{to{transform:translateX(-100%)}}
+/* switch */
+.swt{appearance:none;-webkit-appearance:none;width:34px!important;height:18px;border-radius:9px;background:#26324f;position:relative;flex:none;border:1px solid var(--d);cursor:pointer;transition:.2s;padding:0!important}
+.swt::after{content:'';position:absolute;top:1px;left:1px;width:14px;height:14px;border-radius:50%;background:var(--m);transition:.2s}
+.swt:checked{background:#1f6fe0}.swt:checked::after{left:17px;background:#fff}
+.ck{display:flex;gap:8px;align-items:center;margin:5px 0;font-size:13px;cursor:pointer}
+/* legend */
+#lg{position:absolute;left:46px;top:6px;z-index:5;pointer-events:none;font:12px 'Share Tech Mono',monospace;direction:ltr;max-width:70%}
+#lg .sym{color:#fff;font-weight:700;margin-bottom:2px;text-shadow:0 0 4px #000}#lg .ohlc{color:var(--m)}
+.lr{display:flex;align-items:center;gap:6px;pointer-events:auto;padding:1px 4px;border-radius:4px;background:#030a1acc;margin-top:2px;width:max-content;max-width:100%}
+.lr .ln{white-space:nowrap}.lr .lv{white-space:nowrap}
+.lr button{width:22px;height:20px;padding:0;font-size:12px;border:none;background:transparent;color:var(--m);opacity:.35}
+.lr:hover button{opacity:1}.lr.off .ln,.lr.off .lv{opacity:.35;text-decoration:line-through}
+#lmain{max-height:38vh;overflow-y:auto;pointer-events:auto}.lrs{position:absolute;left:0;pointer-events:none}
+.pdiv{position:absolute;left:0;right:56px;border-top:1px solid #1d4a8f;pointer-events:none;z-index:3}
+/* modals */
+.md{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:50;align-items:center;justify-content:center}.md.show{display:flex}
+.mb{background:var(--p);border:1px solid var(--g);border-radius:10px;padding:0;display:flex;flex-direction:column;max-height:86vh}
+#ind .mb{width:min(860px,96vw);height:min(600px,86vh)}#set .mb{width:min(440px,94vw);padding:14px;overflow:auto}
+.mh{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--d)}.mh h3{margin:0;font:700 15px 'Share Tech Mono',monospace;color:var(--g);flex:none}
+.mh input{flex:1}.mh .x{width:34px;flex:none}
+.mbody{flex:1;display:flex;min-height:0}
+.cats{width:210px;flex:none;border-inline-end:1px solid var(--d);overflow-y:auto;padding:6px}
+.cat{padding:8px 10px;border-radius:6px;cursor:pointer;font-size:13px;display:flex;justify-content:space-between;gap:6px;align-items:center}
+.cat:hover{background:var(--card)}.cat.on{background:#1f6fe0;color:#fff}.cat small{opacity:.7;font:11px 'Share Tech Mono',monospace}
+.lst{flex:1;overflow-y:auto;padding:6px 10px}
+.it{display:flex;align-items:center;gap:10px;padding:8px 6px;border-bottom:1px solid #0d2a5a;cursor:pointer;border-radius:5px}.it:hover{background:var(--card)}
+.it b{font:700 13px 'Share Tech Mono',monospace;color:#fff;min-width:170px}.it span{flex:1;font-size:12px;color:var(--m)}
+.it .tag{flex:none;font:10px 'Share Tech Mono',monospace;border:1px solid var(--d);border-radius:4px;padding:1px 6px;color:var(--g)}
+.it.soon{opacity:.55;cursor:default}.it .add{width:28px;flex:none;padding:2px}
+.empty{padding:18px;text-align:center;color:var(--m);line-height:1.9;border:1px dashed var(--d);border-radius:8px;margin:8px 0}
+.tabs{display:flex;gap:4px;margin-bottom:10px}.tabs button{padding:6px}.tabs button.on{background:#1f6fe0;color:#fff}
+.sr{display:flex;align-items:center;gap:8px;margin:6px 0}.sr label{flex:1;margin:0;font-size:12px}.sr input,.sr select{width:130px}.sr input[type=color]{height:30px;padding:2px;width:60px}.sr input[type=checkbox]{width:34px}
+#dc{position:absolute;inset:0;pointer-events:none;z-index:2}
+#dtools{position:absolute;left:4px;top:6px;z-index:6;display:flex;flex-direction:column;gap:3px;background:#030a1acc;border:1px solid var(--d);border-radius:6px;padding:3px}
+#dtools button{width:32px;height:30px;padding:0;font-size:14px;border:1px solid transparent;background:transparent;font-family:'Share Tech Mono',monospace}
+#dtools button.on{background:#1f6fe0;border-color:#6bb8ff;color:#fff}#dtools hr{width:80%;border:0;border-top:1px solid var(--d);margin:2px auto}
+#dsty{position:absolute;top:6px;left:50%;transform:translateX(-50%);z-index:7;display:none;gap:6px;align-items:center;background:var(--p);border:1px solid var(--g);border-radius:8px;padding:4px 8px}
+#dsty input,#dsty select,#dsty button{width:auto;padding:2px 6px}#dsty input[type=color]{width:38px;height:26px;padding:1px}
+#cd{position:absolute;right:0;width:62px;text-align:center;font:700 11px 'Share Tech Mono',monospace;color:#fff;padding:2px 0;z-index:4;pointer-events:none;display:none;border-radius:2px}
+#txin{position:absolute;z-index:8;display:none;width:180px}
+#chips{display:flex;flex-wrap:wrap;gap:4px;padding:0 2px 6px;direction:ltr;max-height:64px;overflow-y:auto}
+.chip{display:flex;align-items:center;gap:4px;border:1px solid var(--d);background:#041029;border-radius:14px;padding:1px 3px 1px 9px;font:11px 'Share Tech Mono',monospace}
+.chip i{width:9px;height:9px;border-radius:50%;display:inline-block}.chip.off>span,.chip.off>i{opacity:.35;text-decoration:line-through}
+.chip button{width:24px;height:22px;padding:0;border:none;background:transparent;font-size:13px}.chip button:hover{background:#15407a;border-radius:50%}
+.cv{display:inline-flex;gap:5px}.lrs{z-index:6}.lr button{opacity:.8!important}
+.drrow{display:flex;align-items:center;gap:8px;padding:6px 4px;border-bottom:1px solid #0d2a5a}.drrow i{width:14px;height:14px;border-radius:3px;display:inline-block}.drrow span{flex:1}.drrow button{width:36px;padding:2px}
+#lvd{font:700 12px 'Share Tech Mono',monospace;color:var(--m);white-space:nowrap}#lvdot{font-size:14px}
+@media(max-width:900px){body{overflow:auto;height:auto}main{grid-template-columns:1fr}#cw{height:78vh;order:-1}.side{overflow:visible}.cats{width:120px}.it b{min-width:110px}}
+
+/* ===== GLASS THEME ===== */
+.orbs{display:none;position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orbs i{position:absolute;border-radius:50%;box-shadow:inset -30px -40px 80px rgba(0,0,60,.22),0 40px 80px rgba(20,60,160,.22)}
+.o1{left:22%;top:-12%;width:34vw;height:34vw;background:radial-gradient(circle at 30% 28%,#fff 0,#2f7bffaa 18%,#2f7bff 55%,#2f7bffdd 100%)}
+.o2{left:48%;top:58%;width:24vw;height:24vw;background:radial-gradient(circle at 30% 28%,#fff 0,#7fd6ffaa 18%,#7fd6ff 55%,#7fd6ffdd 100%)}
+.o3{right:20%;top:30%;width:15vw;height:15vw;background:radial-gradient(circle at 30% 28%,#fff 0,#ffc94daa 18%,#ffc94d 55%,#ffc94ddd 100%)}
+.o4{right:-6%;bottom:-14%;width:30vw;height:30vw;background:radial-gradient(circle at 30% 28%,#fff 0,#2f7bffaa 18%,#2f7bff 55%,#2f7bffdd 100%)}
+.o5{left:-8%;bottom:8%;width:24vw;height:24vw;background:none;border:3vw solid #7fd6ff;box-shadow:inset 0 0 40px rgba(255,255,255,.6),0 30px 60px rgba(20,60,160,.2)}
+body.glass .orbs{display:block}
+header,main,.edu{position:relative;z-index:1}
+body.glass{--bg:#cfe6ff;--p:rgba(255,255,255,.4);--g:#2f6fe0;--d:rgba(255,255,255,.9);--r:#ef476f;--y:#d98200;--t:#0b2a66;--up:#10b981;--m:#4a6fa8;--card:rgba(255,255,255,.55);background:linear-gradient(135deg,#e6f3ff 0%,#a9d4ff 45%,#6fa8ff 100%) fixed}
+body.glass .box,body.glass header,body.glass .mb,body.glass #dtools,body.glass #dsty{background:linear-gradient(135deg,rgba(255,255,255,.62),rgba(255,255,255,.2));border:1.5px solid rgba(255,255,255,.85);-webkit-backdrop-filter:blur(30px) saturate(1.8);backdrop-filter:blur(30px) saturate(1.8);box-shadow:0 24px 60px rgba(30,80,200,.25),inset 0 2px 0 rgba(255,255,255,.95),inset 0 -3px 10px rgba(255,255,255,.3)}
+body.glass .box{border-radius:26px}
+body.glass header{margin:8px 8px 0;border-radius:22px}
+body.glass .edu{background:rgba(255,255,255,.55);color:#0b2a66}
+body.glass h1{color:#0b2a66;text-shadow:none}body.glass .sub{color:var(--m)}
+body.glass input,body.glass select,body.glass button,body.glass textarea{background:rgba(255,255,255,.58);color:var(--t);border:1px solid rgba(255,255,255,.95);box-shadow:inset 0 1px 0 #fff,0 3px 8px rgba(30,80,200,.1)}
+body.glass .tb button.on,body.glass .ib,body.glass #dtools button.on,body.glass .tabs button.on,body.glass .cat.on{background:linear-gradient(135deg,#5aa2ff,#2f6fe0);color:#fff;border-color:#8dbaff}
+body.glass #dtools button,body.glass .lr button,body.glass .chip button{background:transparent;border-color:transparent;box-shadow:none;color:var(--t)}
+body.glass #news,body.glass .chip,body.glass .lr{background:rgba(255,255,255,.58);border-color:#fff;color:var(--t)}
+body.glass #nt{color:#0b2a66}body.glass #lg .sym{color:var(--t);text-shadow:none}body.glass .ohlc{color:var(--m)}
+body.glass #price{color:#0b2a66}body.glass .out{color:#1d5fd0}
+body.glass .call.WAIT{color:#d98200}body.glass .call.BUY{text-shadow:0 6px 24px rgba(16,185,129,.45)}
+body.glass .md{background:rgba(20,60,140,.3);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+body.glass .swt{background:rgba(110,140,190,.4)}body.glass .swt:checked{background:#2f6fe0}
+body.glass #chwrap{border-radius:18px;background:rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.85);box-shadow:inset 0 2px 12px rgba(255,255,255,.6)}
+body.glass .meter{background:rgba(255,255,255,.65)}body.glass .eye{fill:#2f6fe0}
+body.glass .ag,body.glass .it:hover,body.glass .drrow{background:rgba(255,255,255,.5)}
+body.glass .it b,body.glass .cat{color:var(--t)}body.glass .cat.on{color:#fff}
+body.glass .pdiv{border-top-color:rgba(255,255,255,.9)}
+body.glass #cd{box-shadow:0 2px 8px rgba(0,0,0,.2)}
+body.glass .tiny,body.glass label{color:var(--m)}
+body.glass .btk{background:rgba(255,255,255,.55);border-color:#fff}
+.btg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.btk{border:1px solid var(--d);border-radius:12px;padding:8px 10px;background:var(--card)}.btk b{font:700 20px 'DejaVu Sans Mono','Share Tech Mono',monospace}
+.bttb{width:100%;border-collapse:collapse;font:12px 'DejaVu Sans Mono','Share Tech Mono',monospace}.bttb td,.bttb th{padding:4px 8px;border-bottom:1px solid rgba(120,150,200,.3);text-align:left;white-space:nowrap}
+.sh{margin:12px 0 4px;padding:4px 8px;border-radius:8px;background:rgba(245,194,66,.15);color:var(--g);font:700 12px "Share Tech Mono",monospace;direction:ltr}
+
+/* ===== permanent brand watermark (cannot be switched off) ===== */
+#wmk{position:absolute;inset:0;z-index:3;pointer-events:none;user-select:none;overflow:hidden;
+ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='360' height='200'><text x='180' y='100' text-anchor='middle' font-family='monospace' font-weight='700' font-size='15' letter-spacing='4' fill='%23ffffff' fill-opacity='.07' transform='rotate(-24 180 100)'>NAWAZTECH QUANT</text></svg>")}
+#wmk .wmt{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:100%}
+#wmk .wmt b{display:block;font:700 clamp(24px,5.4vw,76px)/1 'Share Tech Mono',monospace;letter-spacing:.2em;padding-left:.2em;white-space:nowrap;background:linear-gradient(180deg,#fff3c4 0%,#f5c242 48%,#b98a1a 100%);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.2;filter:drop-shadow(0 2px 10px rgba(245,194,66,.35))}
+#wmk .wmt i{display:block;margin-top:10px;font:600 clamp(9px,1.2vw,14px) 'Share Tech Mono',monospace;letter-spacing:.32em;color:#f5c242;opacity:.22;font-style:normal;white-space:nowrap}
+#wmk .wmc{position:absolute;right:76px;bottom:30px;font:700 11px 'Share Tech Mono',monospace;letter-spacing:.2em;color:#f5c242;opacity:.4;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+body.glass #wmk .wmt b{background:linear-gradient(180deg,#5aa2ff,#1d4fb8);-webkit-background-clip:text;background-clip:text;opacity:.2;filter:none}body.glass #wmk .wmt i,body.glass #wmk .wmc{color:#1d4fb8}
+#nvb{width:auto!important;padding:2px 8px!important;font-size:13px;flex:none}
+.btsel{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}.btsel label{display:flex;align-items:center;gap:5px;border:1px solid rgba(120,150,200,.4);border-radius:14px;padding:3px 10px;font-size:12px;cursor:pointer;margin:0;direction:ltr}.btsel input{width:auto;margin:0}.btsel label.on{background:rgba(245,194,66,.18);border-color:#f5c242}
+.up{color:#10b981}.dn{color:#ef476f}
+
+/* ===== DARK GLASS (Midnight Gold) ===== */
+body.dg{--bg:#060914;--p:rgba(255,255,255,.06);--d:rgba(255,255,255,.14);--g:#f5c242;--y:#f5c242;--t:#eef2fb;--m:#a3aec6;--up:#2de2a3;--r:#ff5d7a;--card:rgba(255,255,255,.07);background:radial-gradient(1200px 700px at 12% -10%,#3b2c08 0%,transparent 60%),radial-gradient(900px 700px at 100% 110%,#0b3b33 0%,transparent 60%),linear-gradient(160deg,#07101f,#05070f 60%,#0a1020) fixed!important}
+body.dg .orbs{display:block}
+body.dg .orbs i{box-shadow:none;border:0;filter:blur(70px);opacity:.5}
+body.dg .o1{background:#b98a1a;left:-6%;top:-14%}body.dg .o2{background:#10806a;left:50%;top:62%}body.dg .o3{background:#2a4fb0;opacity:.35}body.dg .o4{background:#0f8a70;right:-8%;bottom:-16%}body.dg .o5{display:none}
+body.dg .box,body.dg header,body.dg .mb,body.dg #dtools,body.dg #dsty{background:linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.16);-webkit-backdrop-filter:blur(26px) saturate(1.5);backdrop-filter:blur(26px) saturate(1.5);box-shadow:0 20px 50px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.22)}
+body.dg .box{border-radius:24px}body.dg header{margin:8px 8px 0;border-radius:20px}
+body.dg .edu{background:rgba(245,194,66,.12);color:#f5c242}
+body.dg h1{color:#f5c242;text-shadow:0 0 14px rgba(245,194,66,.45)}body.dg .sub{color:var(--m)}
+body.dg input,body.dg select,body.dg button,body.dg textarea{background:rgba(255,255,255,.08);color:var(--t);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+body.dg select option{background:#10172a;color:#eef2fb}
+body.dg .tb button.on,body.dg .ib,body.dg #dtools button.on,body.dg .tabs button.on,body.dg .cat.on{background:linear-gradient(135deg,#f5c242,#c9931a);color:#171000;border-color:#ffe08a}
+body.dg #dtools button,body.dg .lr button,body.dg .chip button{background:transparent;border-color:transparent;box-shadow:none;color:var(--t)}
+body.dg #news,body.dg .chip,body.dg .lr{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14);color:var(--t)}
+body.dg #chwrap{border-radius:16px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.1)}
+body.dg .ag,body.dg .it:hover,body.dg .drrow,body.dg .btk{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)}
+body.dg .meter{background:rgba(255,255,255,.1)}body.dg .swt{background:rgba(255,255,255,.2)}body.dg .swt:checked{background:#d9a21e}
+body.dg .md{background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+body.dg #price{color:#fff}body.dg .out{color:#f5c242}
+/* ===== Midnight Noir skin (charcoal + silver/teal, no gold) ===== */
+body.dg.ctn{--g:#dfe6ee;--y:#dfe6ee;--up:#8fe3d6;--r:#e5627a;--bg:#080b10;background:radial-gradient(1100px 700px at 10% -10%,#1b2431 0%,transparent 60%),radial-gradient(900px 700px at 100% 110%,#10202a 0%,transparent 60%),linear-gradient(160deg,#0a0e14,#06080c 60%,#0b1017) fixed!important}
+body.dg.ctn .edu{background:rgba(223,230,238,.08);color:#c4ceda}
+body.dg.ctn h1{color:#f2f5f9;text-shadow:0 0 14px rgba(143,227,214,.35)}
+body.dg.ctn .tb button.on,body.dg.ctn .ib,body.dg.ctn #dtools button.on,body.dg.ctn .tabs button.on,body.dg.ctn .cat.on{background:linear-gradient(135deg,#e8edf3,#9aa7b6);color:#0b0f14;border-color:#ffffff}
+body.dg.ctn .swt:checked{background:#8fe3d6}body.dg.ctn .out{color:#8fe3d6}
+body.dg.ctn #chwrap{box-shadow:inset 0 0 40px rgba(143,227,214,.04)}
+body.dg.ctn #wmk .wmt b{background:linear-gradient(180deg,#fff,#8b97a8);-webkit-background-clip:text;background-clip:text}
+body.dg.ctn #wmk .wmt i,body.dg.ctn #wmk .wmc{color:#c4ceda}
+body.dg.ctn #cts{border-color:#8fe3d6!important;color:#8fe3d6!important}
+body.dg.ctn .o1{background:#5b6b80}body.dg.ctn .o2{background:#1f6f66}body.dg.ctn .o3{background:#2b3a52}body.dg.ctn .o4{background:#1b5a55}
+body.dg.ctn .sh{background:rgba(143,227,214,.12)}
+/* ===== MOBILE ===== */
+@media(max-width:900px){
+ body{overflow:auto;height:auto;min-height:100%}
+ header{flex-wrap:wrap;padding:6px 8px;gap:6px}h1{font-size:15px;letter-spacing:1px}.sub{display:none}
+ #news{order:9;flex:1 1 100%}header select{max-width:44vw;font-size:12px;padding:3px}#price{font-size:16px;min-width:auto}#lvd{font-size:11px}
+ main{display:flex;flex-direction:column;padding:6px;gap:8px}
+ #cw{height:78vh;min-height:500px;order:-1}.side{overflow:visible}
+ .tb{gap:3px}.tb button,.tb select{padding:3px 6px;font-size:11px}.tb .sep{display:none}
+ #chips{flex-wrap:nowrap;overflow-x:auto;max-height:none}.chip{flex:none}
+ #dtools{flex-direction:row;left:4px;right:auto;top:4px;max-width:calc(100% - 8px);overflow-x:auto}#dtools button{flex:none;width:34px;height:30px}#dtools hr{display:none}
+ #lg{left:8px;top:46px;max-width:92%}.lrs{left:8px!important}#dsty{top:46px}
+ .mb{max-height:92vh}#ind .mb{height:88vh}.cats{width:104px}.cat{font-size:11px;padding:6px}.it{flex-wrap:wrap}.it b{min-width:0;flex:1 1 100%}
+ .call{font-size:44px}.btg{grid-template-columns:repeat(2,1fr)}
+ .o1{width:60vw;height:60vw}.o2{width:44vw;height:44vw}.o3{width:28vw;height:28vw}.o4{width:50vw;height:50vw}.o5{display:none}
+}
+</style></head><body class="rtl dg">
+<a id="ytb" target="_blank" rel="noopener" style="display:none;position:fixed;right:12px;bottom:12px;z-index:60;background:#ff0033;color:#fff;font:700 13px Arial;padding:8px 14px;border-radius:20px;text-decoration:none;box-shadow:0 2px 10px #0008">▶ YouTube</a>
+<div class="orbs"><i class="o1"></i><i class="o2"></i><i class="o3"></i><i class="o4"></i><i class="o5"></i></div>
+<div class="edu" data-t="edu"></div>
+<header>
+<div><h1>NAWAZ TECH QUANT</h1><div class="sub" data-t="sub"></div></div>
+<div id="news"><span class="nb">NEWS</span><button id="nvb" onclick="toggleNewsVoice()" title="Read news aloud in the selected language">🗞🔇</button><div class="nw"><div id="nt">…</div></div></div>
+<select id="sym" onchange="S.sym=this.value;sv();reload();news()">
+<option value="f:XAUUSDT">🥇 GOLD · XAU/USD</option><option value="f:XAGUSDT">🥈 SILVER · XAG/USD</option><option value="b:BTCUSDT">₿ BITCOIN · BTC/USDT</option><option value="f:CLUSDT">🛢 OIL · WTI Crude</option><option value="f:BZUSDT">🛢 OIL · Brent</option><option value="b:EURUSDT">€ EUR/USD ≈</option></select>
+<select id="lang" onchange="S.lang=this.value;sv();applyLang()"><option value="ur">اردو</option><option value="en">English</option><option value="hi">हिन्दी</option></select>
+<div id="lvd"><span id="lvdot" style="color:#777">●</span> <span id="hcd"></span></div><button id="thb" title="Theme" onclick="toggleTheme()" style="width:38px;padding:4px">🌙</button><div id="price">--</div>
+</header>
+<main>
+<div class="box" id="cw">
+ <div class="tb">
+  <select id="cts" title="Chart style / چارٹ اسٹائل" onchange="setCT(this.value)" style="width:auto;padding:4px 6px"></select><button id="ctb" title="Custom colours / اپنے رنگ" onclick="toggleCtp()" style="padding:4px 8px">✎</button><button id="undob" title="Undo / واپس (Ctrl+Z)" onclick="hundo()" style="padding:4px 8px">↶</button><button id="redob" title="Redo / دوبارہ (Ctrl+Y)" onclick="hredo()" style="padding:4px 8px">↷</button>
+  <span class="sep"></span>
+  <button class="ib" onclick="openInd()" data-t="indicators"></button>
+  <span class="sep"></span>
+  <span id="tfb"></span>
+  <span class="sep"></span>
+  <button onclick="zoom(.7)" title="Zoom in">＋</button><button onclick="zoom(1.4)" title="Zoom out">－</button><button onclick="fit()" data-t="fit"></button><button onclick="ch.timeScale().scrollToRealTime()" data-t="live"></button>
+  <span class="sep"></span>
+  <select id="ccs" title="Candles" hidden onchange="S.cc=this.value;sv();applyTheme()" style="width:auto;padding:3px"><option value="auto">🎨 Auto</option><option value="classic">🟢🔴 Classic</option><option value="blue">🔵 Blue</option></select>
+  <button onclick="openBt()" data-t="bt"></button>
+  <button onclick="clearAll()" data-t="clear"></button>
+  <button onclick="openDrm()">✏🗑 <span data-t="drawings"></span> (<span id="drc">0</span>)</button>
+ </div>
+ <div id="ctp" style="display:none;position:absolute;z-index:40;left:8px;margin-top:4px;background:#0b0f14f2;border:1px solid #f5c242;border-radius:12px;padding:10px 12px;font:12px Arial;color:#dfe6f2;box-shadow:0 6px 24px #000a"><b style="color:#f5c242">🎨 اپنے رنگ / Your colours</b><div style="display:grid;grid-template-columns:auto auto;gap:6px 10px;margin-top:8px;align-items:center"><span>Background / بیک گراؤنڈ</span><input type="color" id="ctc_bg"><span>Candle up / اوپر کینڈل</span><input type="color" id="ctc_up"><span>Candle down / نیچے کینڈل</span><input type="color" id="ctc_dn"><span>Grid / جالی</span><input type="color" id="ctc_gr"></div><button onclick="toggleCtp()" style="margin-top:8px;width:100%">OK</button></div>
+ <div id="chips"></div>
+ <div id="chwrap"><div id="chart"></div><div id="tzl" style="position:absolute;left:8px;bottom:30px;z-index:6;pointer-events:none;font:11px 'Share Tech Mono',monospace;color:#9ec5ffcc;background:#0008;padding:2px 7px;border-radius:8px">🕒 </div><div id="wmk"><div class="wmt"><b>NAWAZTECH QUANT</b><i>Gold · Silver · BTC · Oil · EUR/USD — Educational Desk</i></div><div class="wmc">NAWAZTECH QUANT · nawaztech</div></div><canvas id="dc"></canvas><div id="dtools"></div><div id="dsty"></div><input id="txin" placeholder="Text ⏎"><div id="cd"></div><div id="lg"><div class="sym" id="lsym"></div><div id="lmain"></div></div><div id="lsubs"></div></div>
+ <div id="msg"></div>
+</div>
+<div class="side">
+ <div class="box"><div class="bot" id="bot"><svg viewBox="0 0 120 130"><line x1="60" y1="4" x2="60" y2="22" stroke="#3da5ff" stroke-width="3"/><circle class="ant" cx="60" cy="6" r="5" fill="#3da5ff"/>
+ <rect x="18" y="22" width="84" height="64" rx="16" fill="#0a2250" stroke="#3da5ff" stroke-width="3"/><circle class="eye" cx="42" cy="50" r="9"/><circle class="eye" cx="78" cy="50" r="9"/>
+ <rect x="40" y="68" width="40" height="6" rx="3" fill="#3da5ff"/><rect x="30" y="92" width="60" height="32" rx="8" fill="#0a2250" stroke="#3da5ff" stroke-width="3"/><circle cx="60" cy="108" r="6" fill="#3da5ff"/></svg>
+ <div><div class="cl" data-t="callfrom"></div><div id="call" class="call WAIT">WAIT</div></div></div>
+ <div id="why" class="tiny" style="text-align:center"></div>
+ <div class="meter"><i id="mt"></i></div>
+ <button onclick="toggleVoice()" id="vb" style="margin-top:8px"></button></div>
+
+ <div class="box"><h2 data-t="plan"></h2><div class="out" id="out">…</div></div>
+
+ <div class="box"><h2 data-t="agents"></h2><div id="agents"></div>
+  <label class="ck"><input id="au" type="checkbox" class="swt" onchange="S.au=this.checked;sv();draw()"><span data-t="auto"></span></label>
+  <div class="tiny" data-t="agnote"></div></div>
+
+ <div class="box"><h2 data-t="rules"></h2>
+  <div class="row"><div><label data-t="minA"></label><select id="minA" onchange="S.minA=+this.value;sv();draw()"><option>4</option><option>5</option><option>6</option><option>7</option></select></div>
+  <div><label>R:R</label><input id="rr" type="number" step="0.1" min="0.5" oninput="S.rr=+this.value||2;sv();draw()"></div></div>
+  <label data-t="mode"></label><select id="mode" onchange="S.mode=this.value;sv();draw()"><option value="gann">Gann GN9 (BUY/SELL)</option><option value="agents">Agents only</option></select>
+  <label class="ck"><input id="c2" type="checkbox" class="swt" onchange="S.c2=this.checked;sv();draw()"><span data-t="c2"></span></label>
+  <label class="ck"><input id="c3" type="checkbox" class="swt" onchange="S.c3=this.checked;sv();draw()"><span data-t="c3"></span></label>
+  <label class="ck"><input id="c4" type="checkbox" class="swt" onchange="S.c4=this.checked;sv();draw()"><span data-t="c4"></span></label>
+  <label>🕒 Time zone / ٹائم زون</label><select id="tzs" onchange="setTz(this.value)"></select>
+  <label class="ck"><input id="iim" type="checkbox" class="swt" onchange="S.iim=this.checked;sv();draw()"><span>EMA لائن چارٹ پر / EMA line on chart</span></label>
+  <label class="ck"><input id="emx" type="checkbox" class="swt" onchange="S.emx=this.checked;sv();draw()"><span>EMA کراس سگنل (●) / EMA cross signals</span></label>
+  <div class="row"><div><label data-t="maT"></label><select id="mt2" onchange="S.mt=this.value;sv();draw()"><option>EMA</option><option>SMA</option><option>SMMA</option><option>WMA</option></select></div><div><label data-t="maP"></label><input id="mp" type="number" min="2" oninput="S.mp=Math.max(2,+this.value||20);sv();draw()"></div></div>
+  <label>Twelve Data Key <span data-t="optional"></span></label><input id="key" oninput="S.key=this.value;sv()"></div>
+</div>
+</main>
+
+<!-- Indicators picker -->
+<div class="md" id="ind" onclick="if(event.target===this)closeInd()"><div class="mb">
+ <div class="mh"><h3 data-t="indicators"></h3><input id="isr" oninput="listInd()" data-p="search"><button class="x" onclick="closeInd()">✕</button></div>
+ <div class="mbody"><div class="cats" id="cats"></div><div class="lst" id="ilist"></div></div>
+</div></div>
+<div class="md" id="drm" onclick="if(event.target===this)closeDrm()"><div class="mb" style="width:min(430px,94vw);padding:14px;overflow:auto"><h3 style="margin:0 0 8px;color:var(--g);font-family:'Share Tech Mono',monospace" data-t="drawings"></h3><div id="drl"></div>
+ <div class="row" style="margin-top:12px"><button onclick="DR=[];sel=null;showSty();saveDr();renderDrm()" data-t="delall"></button><button onclick="closeDrm()" data-t="done"></button></div></div></div>
+<div class="md" id="btm" onclick="if(event.target===this)closeBt()"><div class="mb" style="width:min(800px,96vw);padding:16px;overflow:auto"><h3 id="btt" style="margin:0 0 10px;color:var(--g);font-family:'Share Tech Mono',monospace"></h3>
+ <div class="row" style="grid-template-columns:1fr 1fr 1fr;align-items:end"><div><label id="btl1"></label><select id="btn"><option>1000</option><option>3000</option><option>5000</option><option>10000</option><option>20000</option></select></div><div><label id="btl2"></label><input id="btc" type="number" step="0.05" value="0"></div><div><button onclick="runBt()" id="btgo"></button></div></div>
+ <div style="margin-top:10px"><label id="btl5"></label><div id="bts" class="btsel"></div></div>
+ <div class="row" style="grid-template-columns:1fr 1fr;margin-top:6px"><div><label id="btl3"></label><select id="btmo"><option value="any"></option><option value="all"></option></select></div><div><label id="btl4"></label><input id="btsl" type="number" step=".1" min=".2" value="1.5"></div></div>
+ <div id="btp" class="tiny" style="margin:8px 0"></div><div id="btr"></div><button style="margin-top:10px" onclick="closeBt()" data-t="done"></button></div></div>
+<!-- Settings -->
+<div class="md" id="set" onclick="if(event.target===this)closeSet()"><div class="mb"><h3 id="sett" style="margin:0 0 8px;color:var(--g);font-family:'Share Tech Mono',monospace"></h3>
+ <div class="tabs"><button id="tb1" onclick="setTab(1)" data-t="inputs"></button><button id="tb2" onclick="setTab(2)" data-t="style"></button></div>
+ <div id="setb"></div>
+ <div class="row" style="margin-top:12px"><button onclick="resetSet()" data-t="reset"></button><button onclick="closeSet()" data-t="done"></button></div>
+</div></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const NAN=NaN;
+/* ================= language ================= */
+const L={
+edu:{ur:'صرف تعلیمی مقصد کے لیے · EDUCATIONAL PURPOSE ONLY · مالی مشورہ نہیں',en:'EDUCATIONAL PURPOSE ONLY · NOT FINANCIAL ADVICE',hi:'केवल शैक्षिक उद्देश्य के लिए · वित्तीय सलाह नहीं'},
+sub:{ur:'بیس ڈیسک · آٹو سگنل',en:'BASE DESK · AUTO SIGNAL',hi:'बेस डेस्क · ऑटो सिग्नल'},
+indicators:{ur:'📊 انڈیکیٹرز',en:'📊 Indicators',hi:'📊 इंडिकेटर'},
+fit:{ur:'فٹ',en:'Fit',hi:'फ़िट'},live:{ur:'لائیو ▶',en:'Live ▶',hi:'लाइव ▶'},clear:{ur:'🗑 سب ہٹائیں',en:'🗑 Remove all',hi:'🗑 सब हटाएँ'},
+callfrom:{ur:'نواز صاحب کی طرف سے کال',en:'Call from Nawaz Sahab',hi:'नवाज़ साहब की तरफ़ से कॉल'},
+plan:{ur:'ٹریڈ پلان',en:'TRADE PLAN',hi:'ट्रेड प्लान'},agents:{ur:'آٹھ ایجنٹ',en:'EIGHT AGENTS',hi:'आठ एजेंट'},
+auto:{ur:'آٹو (بند کریں تو ٹیپ سے بدلیں)',en:'Auto (turn off to tap-edit)',hi:'ऑटो (बंद करें तो टैप से बदलें)'},
+agnote:{ur:'رجحان ایجنٹ 2 سے طے ہوتا ہے، باقی ایجنٹ اسی سمت کو جانچتے ہیں۔',en:'Agent 2 sets the direction; the others confirm it.',hi:'दिशा एजेंट 2 तय करता है, बाकी एजेंट उसी को जाँचते हैं।'},
+rules:{ur:'سگنل کے اصول',en:'SIGNAL RULES',hi:'सिग्नल के नियम'},minA:{ur:'کم از کم ✓ (7 میں سے)',en:'Min ✓ (out of 7)',hi:'न्यूनतम ✓ (7 में से)'},optional:{ur:'(اختیاری)',en:'(optional)',hi:'(वैकल्पिक)'},
+voiceOn:{ur:'🔊 آواز آن ہے (بند کریں)',en:'🔊 Voice ON (tap to mute)',hi:'🔊 आवाज़ चालू (बंद करें)'},voiceOff:{ur:'🔇 آواز آن کریں',en:'🔇 Turn voice on',hi:'🔇 आवाज़ चालू करें'},
+ready:{ur:'شرائط پوری — سگنل',en:'Conditions met — signal',hi:'शर्तें पूरी — सिग्नल'},notready:{ur:'شرائط ابھی پوری نہیں',en:'Conditions not met yet',hi:'शर्तें अभी पूरी नहीं'},
+loading:{ur:'ڈیٹا لوڈ ہو رہا ہے…',en:'Loading data…',hi:'डेटा लोड हो रहा है…'},source:{ur:'ماخذ',en:'Source',hi:'स्रोत'},
+nokey:{ur:'⚠ اس جوڑی کا ڈیٹا بغیر Key نہیں ملا — Twelve Data Key ڈالیں',en:'⚠ No keyless data for this pair — add a Twelve Data key',hi:'⚠ इस जोड़ी का डेटा बिना Key नहीं मिला — Twelve Data Key डालें'},
+nonews:{ur:'خبریں دستیاب نہیں',en:'News unavailable',hi:'समाचार उपलब्ध नहीं'},
+inputs:{ur:'اِن پٹس',en:'Inputs',hi:'इनपुट'},style:{ur:'اسٹائل',en:'Style',hi:'स्टाइल'},reset:{ur:'ڈیفالٹ',en:'Defaults',hi:'डिफ़ॉल्ट'},done:{ur:'✔ بند کریں',en:'✔ Done',hi:'✔ बंद करें'},
+search:{ur:'انڈیکیٹر تلاش کریں…',en:'Search indicators…',hi:'इंडिकेटर खोजें…'},
+visible:{ur:'چارٹ پر دکھائیں',en:'Show on chart',hi:'चार्ट पर दिखाएँ'},width:{ur:'موٹائی',en:'Width',hi:'मोटाई'},color:{ur:'رنگ',en:'Color',hi:'रंग'},
+c_all:{ur:'تمام',en:'All',hi:'सभी'},c_ov:{ur:'ٹرینڈ / اوورلے',en:'Trend / Overlays',hi:'ट्रेंड / ओवरले'},c_osc:{ur:'آسیلیٹرز',en:'Oscillators',hi:'ऑसिलेटर'},
+c_hf:{ur:'⚡ ہائی فریکوئنسی',en:'⚡ High-Frequency',hi:'⚡ हाई-फ़्रीक्वेंसी'},c_lv:{ur:'لیولز اور پیٹرن',en:'Levels & Patterns',hi:'लेवल और पैटर्न'},c_nq:{ur:'⭐ Nawaz Tech Quant',en:'⭐ Nawaz Tech Quant',hi:'⭐ Nawaz Tech Quant'},c_act:{ur:'چارٹ پر فعال',en:'Active on chart',hi:'चार्ट पर चालू'},
+nqempty_old:{ur:'یہ آپ کا اپنا خانہ ہے۔ Gann Square، SMC، SMMA پیکج وغیرہ یہاں جڑیں گے۔<br>ہر انڈیکیٹر اسی فہرست میں سیٹنگ ⚙ اور آن/آف سوئچ کے ساتھ آئے گا۔',en:'This is your own shelf. Gann Square, SMC, the SMMA package etc. will plug in here.<br>Each one will appear with ⚙ settings and an on/off switch.',hi:'यह आपका अपना खाना है। Gann Square, SMC, SMMA पैकेज वगैरह यहाँ जुड़ेंगे।<br>हर इंडिकेटर ⚙ सेटिंग और ऑन/ऑफ़ स्विच के साथ आएगा।'},
+soon:{ur:'جلد',en:'Soon',hi:'जल्द'},
+none:{ur:'کوئی انڈیکیٹر نہیں ملا',en:'No indicators found',hi:'कोई इंडिकेटर नहीं मिला'},
+bt:{ur:'📈 بیک ٹیسٹ',en:'📈 Backtest',hi:'📈 बैकटेस्ट'},nqempty:{ur:'یہاں Gann Square اور Nawaz SMC ہیں۔ باقی انڈیکیٹر آپ کی اسکرپٹس سے ایک ایک کر کے جُڑتے رہیں گے۔',en:'Gann Square and Nawaz SMC are here. More indicators will be added one by one from your scripts.',hi:'यहाँ Gann Square और Nawaz SMC हैं। बाकी इंडिकेटर आपकी स्क्रिप्ट से एक-एक करके जुड़ेंगे।'},
+drawings:{ur:'ڈرائنگز',en:'Drawings',hi:'ड्रॉइंग'},delall:{ur:'🗑 سب مٹائیں',en:'🗑 Delete all',hi:'🗑 सब हटाएँ'},mode:{ur:'کال کا طریقہ',en:'Call mode',hi:'कॉल का तरीका'},
+c2:{ur:'کینڈل کی باڈی پچھلی 20 کے اوسط سے بڑی ہو',en:'Candle body larger than last-20 average',hi:'कैंडल की बॉडी पिछली 20 के औसत से बड़ी हो'},c3:{ur:'MA کی سمت میں ہو',en:'In the direction of the MA',hi:'MA की दिशा में हो'},c4:{ur:'ایجنٹ 1 سے 7 سب ✓ ہوں',en:'Agents 1-7 all ✓',hi:'एजेंट 1-7 सब ✓ हों'},maT:{ur:'MA قسم',en:'MA type',hi:'MA प्रकार'},maP:{ur:'MA پیریڈ',en:'MA period',hi:'MA पीरियड'},
+pkg:{ur:'ایک کلک میں: Gann Square + SMC + SMMA ربن + پیٹرن + پیوٹ',en:'One click: Gann Square + SMC + SMMA ribbon + patterns + pivots',hi:'एक क्लिक में: Gann Square + SMC + SMMA रिबन + पैटर्न + पिवट'},
+ag:[
+ {ur:'ہفتہ وار پروفائل',en:'Weekly profile',hi:'साप्ताहिक प्रोफ़ाइल'},{ur:'روزانہ رجحان',en:'Daily trend',hi:'दैनिक ट्रेंड'},{ur:'15m ساخت',en:'15m structure',hi:'15m स्ट्रक्चर'},{ur:'15m MSS',en:'15m MSS',hi:'15m MSS'},
+ {ur:'4H CRT',en:'4H CRT',hi:'4H CRT'},{ur:'4H کلیدی سطح',en:'4H key level',hi:'4H की-लेवल'},{ur:'15m انٹری ماڈل',en:'15m entry model',hi:'15m एंट्री मॉडल'},{ur:'رسک',en:'Risk',hi:'रिस्क'}]
+};
+function t(k){const e=L[k];return e?(e[S.lang]||e.en):k}
+/* ================= state ================= */
+let S=Object.assign({sym:'f:XAUUSDT',tf:5,key:'',rr:2,minA:6,au:true,lang:'ur',a:Array(8).fill(0),ind:[],uid:1,theme:'dark',cc:'auto',mode:'gann',c2:true,c3:true,c4:false,mt:'EMA',mp:20,ct:'gold',tz:'auto',iim:true,emx:true},(()=>{try{return JSON.parse(localStorage.getItem('ntq16')||'{}')}catch(e){return{}}})());
+function sv(){try{localStorage.setItem('ntq16',JSON.stringify(S))}catch(e){}if(HREADY&&!HBUSY)hpush()}
+['sym','key','rr','lang','minA'].forEach(k=>$(k).value=S[k]);if(!$('sym').value){S.sym='f:XAUUSDT';$('sym').value=S.sym}$('au').checked=S.au;$('mode').value=S.mode;['c2','c3','c4'].forEach(k=>$(k).checked=S[k]);$('mt2').value=S.mt;$('iim').checked=S.iim!==false;$('emx').checked=S.emx!==false;$('mp').value=S.mp;
+/* ================= chart ================= */
+/* وقت: ہر کمپیوٹر/موبائل کا اپنا ٹائم زون خود بخود (Auto)؛ چاہیں تو سیٹنگ سے ہاتھ سے چن سکتے ہیں */
+const TZS_UI=['auto','Asia/Karachi','Asia/Kolkata','Asia/Dubai','Asia/Riyadh','Europe/London','Europe/Berlin','Europe/Istanbul','America/New_York','America/Chicago','America/Los_Angeles','Asia/Singapore','Asia/Tokyo','Australia/Sydney','UTC'];
+const devTz=()=>{try{return Intl.DateTimeFormat().resolvedOptions().timeZone||''}catch(e){return''}};
+const TZF={};
+function tzf(){const z=(S.tz&&S.tz!=='auto')?S.tz:undefined,k=z||'auto';if(!TZF[k]){try{TZF[k]=new Intl.DateTimeFormat('en-GB',{timeZone:z,year:'numeric',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',hourCycle:'h23'})}catch(e){TZF[k]=new Intl.DateTimeFormat('en-GB',{year:'numeric',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',hourCycle:'h23'})}}return TZF[k]}
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function tp(t){const o={};tzf().formatToParts(new Date(t*1000)).forEach(p=>o[p.type]=p.value);return{y:+o.year,mo:+o.month,d:+o.day,h:o.hour,mi:o.minute}}
+function tLoc(t){if(typeof t!=='number')return'';const q=tp(t);return q.d+' '+MON[q.mo-1]+' '+q.h+':'+q.mi}
+function tTick(t,type){const q=tp(t);if(type===0)return''+q.y;if(type===1)return MON[q.mo-1];if(type===2)return''+q.d;return q.h+':'+q.mi}
+function tzOff(){const z=tzf(),n=Date.now(),q=tp(n/1000);const a=Date.UTC(q.y,q.mo-1,q.d,+q.h,+q.mi);return Math.round((a-Math.floor(n/60000)*60000)/60000)}
+function tzName(){const o=tzOff(),h=Math.trunc(o/60),m=Math.abs(o%60),nm=(S.tz&&S.tz!=='auto')?S.tz:devTz();return (nm?nm+' · ':'')+'UTC'+(o>=0?'+':'-')+Math.abs(h)+(m?':'+String(m).padStart(2,'0'):'')}
+function btDt(t){const q=tp(t);return q.y+'-'+String(q.mo).padStart(2,'0')+'-'+String(q.d).padStart(2,'0')+' '+q.h+':'+q.mi}
+function setTz(v){S.tz=v;sv();$('tzl').textContent='🕒 '+tzName();try{ch.applyOptions({localization:{timeFormatter:tLoc},timeScale:{tickMarkFormatter:tTick}})}catch(e){}dirty=true}
+const ch=LightweightCharts.createChart($('chart'),{autoSize:true,layout:{background:{color:'#030a1a'},textColor:'#9ec5ff'},grid:{vertLines:{color:'#0d2a5a'},horzLines:{color:'#0d2a5a'}},localization:{timeFormatter:tLoc},timeScale:{timeVisible:true,borderColor:'#15407a',rightOffset:8,tickMarkFormatter:tTick},rightPriceScale:{borderColor:'#15407a'},crosshair:{mode:0}});
+const maS=ch.addLineSeries({priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false,lineWidth:2,color:'#ffd600'});
+const cs=ch.addCandlestickSeries({upColor:'#4cc3ff',borderUpColor:'#9fe1ff',wickUpColor:'#9fe1ff',downColor:'#2f55ff',borderDownColor:'#8fa6ff',wickDownColor:'#8fa6ff'});
+const YT_URL='https://www.youtube.com/@TradingwithNawaztechQuant';/* ← اپنے YouTube چینل کا لنک یہاں لکھیں */
+let dirty=true,fsig='',SIGM=[],lastWs=0,lastAny=0,D=[],M15=[],H4=[],D1=[],G=0,ws=null,full=true,first=true,voice=false,lastCall=null,A=Array(8).fill(0),used='',noY=false,tmr=null,plines=[],CALL={};
+function zoom(f){const r=ch.timeScale().getVisibleLogicalRange();if(!r)return;ch.timeScale().setVisibleLogicalRange({from:r.to-(r.to-r.from)*f,to:r.to})}
+function fit(){if(D.length)ch.timeScale().setVisibleLogicalRange({from:D.length-110,to:D.length+8})}
+const TFS=[[1,'1m'],[5,'5m'],[15,'15m'],[30,'30m'],[60,'1h'],[240,'4h']];
+function tfBtns(){$('tfb').innerHTML=TFS.map(([m,n])=>`<button class="${S.tf===m?'on':''}" onclick="S.tf=${m};sv();reload();tfBtns()">${n}</button>`).join('')}
+/* ================= data ================= */
+const PROXY={'EUR/USD':'EURUSDT','GBP/USD':'GBPUSDT','AUD/USD':'AUDUSDT','XAU/USD':'XAUUSDT'};
+const YF={XAUUSDT:'GC=F',XAGUSDT:'SI=F',CLUSDT:'CL=F',BZUSDT:'BZ=F'};
+const YS={'EUR/USD':'EURUSD=X','GBP/USD':'GBPUSD=X','USD/JPY':'USDJPY=X','AUD/USD':'AUDUSD=X','USD/CAD':'USDCAD=X','XAU/USD':'XAUUSD=X'};
+const SRC={b:'Binance live',f:'Binance Futures XAUUSDT (24h live)',y:'Yahoo Finance',p:'Binance proxy (≈ forex)',t:'Twelve Data'};
+const IVB={1:'1m',5:'5m',15:'15m',30:'30m',60:'1h',240:'4h',1440:'1d'};
+async function bin(s,m,n,fut){
+ const r=await (await fetch(`${fut?'https://fapi.binance.com/fapi/v1/klines':'https://api.binance.com/api/v3/klines'}?symbol=${s}&interval=${IVB[m]}&limit=${n}`)).json();
+ if(!Array.isArray(r))throw 'binance';return r.map(k=>({time:k[0]/1000,open:+k[1],high:+k[2],low:+k[3],close:+k[4],v:+k[5],tb:+k[9]}))}
+async function td(s,m,n){const iv={1:'1min',5:'5min',15:'15min',30:'30min',60:'1h',240:'4h',1440:'1day'}[m];
+ const r=await (await fetch(`https://api.twelvedata.com/time_series?symbol=${s}&interval=${iv}&outputsize=${n}&timezone=UTC&apikey=${S.key}`)).json();
+ if(!r.values)throw (r.message||'no data');
+ return r.values.reverse().map(v=>({time:Date.parse(v.datetime.replace(' ','T')+'Z')/1000,open:+v.open,high:+v.high,low:+v.low,close:+v.close,v:+(v.volume||0)}))}
+async function yh(s,m,n){
+ const tk=YS[s]||YF[s]||s,agg=m===240,iv=agg?'60m':({1:'1m',5:'5m',15:'15m',30:'30m',60:'60m',1440:'1d'})[m],rg=m===1?'5d':(m===5||m===15||m===30)?'1mo':m===1440?'6mo':'3mo';
+ const r=await (await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(tk)}?interval=${iv}&range=${rg}`)).json();
+ const x=r.chart.result[0],q=x.indicators.quote[0];let a=[];
+ x.timestamp.forEach((tt,i)=>{if(q.close[i]!=null&&q.open[i]!=null)a.push({time:tt,open:q.open[i],high:q.high[i],low:q.low[i],close:q.close[i],v:q.volume?+q.volume[i]||0:0})});
+ if(agg){const g={};a.forEach(c=>{const b=Math.floor(c.time/14400)*14400,o=g[b];if(!o)g[b]=Object.assign({},c,{time:b});else{o.high=Math.max(o.high,c.high);o.low=Math.min(o.low,c.low);o.close=c.close;o.v+=c.v}});a=Object.values(g)}
+ if(!a.length)throw 'empty';return a.slice(-n)}
+async function fetchC(m,n){
+ const src=S.sym[0],s=S.sym.slice(2),main=(m===S.tf);
+ if(src==='b'){const r=await bin(s,m,n);if(main)used='b';return r}
+ if(src==='f'){try{const r=await bin(s,m,n,true);if(main)used='f';return r}catch(e){if(YF[s]){const r=await yh(s,m,n);if(main)used='y';return r}throw e}}
+ if(S.key){const r=await td(s,m,n);if(main)used='t';return r}
+ if(s==='XAU/USD'){try{const r=await bin('XAUUSDT',m,n,true);if(main)used='p';return r}catch(e){}}
+ if(!noY){try{const r=await yh(s,m,n);if(main)used='y';return r}catch(e){noY=true}}
+ if(PROXY[s]){const r=await bin(PROXY[s],m,n,PROXY[s]==='XAUUSDT');if(main)used='p';return r}
+ throw 'key'}
+function setMsg(m){$('msg').textContent=m}
+async function load(){const my=G;
+ try{const d=await fetchC(S.tf,1000);if(my!==G)return;D=d;full=true;setMsg(t('source')+': '+SRC[used]);draw()}
+ catch(e){if(my!==G)return;$('price').textContent='--';setMsg(e==='key'?t('nokey'):'Data error: '+e)}}
+async function loadMTF(){const my=G;try{const r=await Promise.all([fetchC(15,1000),fetchC(240,200),fetchC(1440,120)]);if(my!==G)return;[M15,H4,D1]=r;draw()}catch(e){}}
+function tick(c){if(!D.length)return;lastAny=Date.now();const l=D[D.length-1];let nw=false;
+ if(c.time===l.time)D[D.length-1]=Object.assign({},l,c);else if(c.time>l.time){D.push(Object.assign({},c));nw=true}else return;
+ const L2=D[D.length-1];cs.update(L2);$('price').textContent=L2.close.toFixed(dpf(L2.close));dirty=true;
+ if(!tmr)tmr=setTimeout(()=>{tmr=null;draw()},nw?150:1000)}
+function aggTick(p,T){const l=D[D.length-1];if(!l||T/1000>=l.time+S.tf*60)return;tick({time:l.time,open:l.open,high:Math.max(l.high,p),low:Math.min(l.low,p),close:p})}
+function startWS(){const my=G,s=S.sym.slice(2);let bs=null;
+ if((S.sym[0]==='b'||S.sym[0]==='f')&&used!=='y')bs=s;else if(used==='p')bs=PROXY[s];
+ try{
+  if(bs){const iv=IVB[S.tf],fut=S.sym[0]==='f'||bs==='XAUUSDT',lb=bs.toLowerCase();
+   ws=new WebSocket(`${fut?'wss://fstream.binance.com':'wss://stream.binance.com:9443'}/stream?streams=${lb}@kline_${iv}/${lb}@aggTrade`);
+   ws.onmessage=e=>{if(my!==G)return;lastWs=Date.now();const m=JSON.parse(e.data),d=m.data||m;
+    if(d.e==='kline'){const k=d.k;tick({time:k.t/1000,open:+k.o,high:+k.h,low:+k.l,close:+k.c,v:+k.v,tb:+k.V})}else if(d.e==='aggTrade')aggTick(+d.p,d.T)};
+   ws.onclose=()=>{if(my===G)setTimeout(()=>{if(my===G)startWS()},2000)};ws.onerror=()=>{try{ws.close()}catch(e){}}}
+  else if(used==='y'){const run=async()=>{if(my!==G)return;try{const c=await yh(s,S.tf,3);if(my===G)tick(c[c.length-1])}catch(e){}if(my===G)setTimeout(run,3000)};setTimeout(run,3000)}
+  else if(S.key){ws=new WebSocket('wss://ws.twelvedata.com/v1/quotes/price?apikey='+S.key);
+   ws.onopen=()=>ws.send(JSON.stringify({action:'subscribe',params:{symbols:s}}));
+   ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.event==='price'&&my===G&&D.length){const p=+m.price,b=Math.floor(m.timestamp/(S.tf*60))*S.tf*60,l=D[D.length-1];
+    tick(l.time===b?{time:b,open:l.open,high:Math.max(l.high,p),low:Math.min(l.low,p),close:p}:{time:b,open:p,high:p,low:p,close:p})}};
+   ws.onclose=()=>{if(my===G)setTimeout(()=>{if(my===G)startWS()},5000)}}
+ }catch(e){}}
+function reload(){G++;if(ws){ws.onclose=null;try{ws.close()}catch(e){}ws=null}
+ noY=false;used='';first=true;lastWs=lastAny=0;draft=null;loadDr();D=[];M15=[];H4=[];D1=[];lastCall=null;cs.setData([]);maS.setData([]);cs.setMarkers([]);clearPlan();
+ $('call').textContent='WAIT';$('call').className='call WAIT';$('price').textContent='...';setMsg(t('loading'));
+ INS.forEach(i=>{i.dirty=true});rebuildInd();load().then(startWS);loadMTF()}
+/* ===== live backup: REST polling when websocket is silent, watchdog, countdown ===== */
+setInterval(async()=>{const my=G;if(!D.length)return;const k=S.sym[0],sy=S.sym.slice(2);
+ if(ws&&Date.now()-lastWs>15000&&lastWs){try{ws.close()}catch(e){}}
+ if(!(k==='b'||k==='f'||used==='p')||used==='y')return;if(Date.now()-lastWs<4000)return;
+ const bs=(k==='b'||k==='f')?sy:PROXY[sy];if(!bs)return;
+ try{const r=await bin(bs,S.tf,2,k==='f'||bs==='XAUUSDT');if(my!==G)return;r.forEach(tick)}catch(e){}},1500);
+function cdTxt(){if(!D.length)return '';const rem=Math.max(0,D[D.length-1].time+S.tf*60-Date.now()/1000),h=Math.floor(rem/3600),m=Math.floor(rem%3600/60),sc=Math.floor(rem%60),p=n=>String(n).padStart(2,'0');return (h?h+':':'')+p(m)+':'+p(sc)}
+const setTx=(id,t)=>{const e=$(id);if(e&&e._t!==t){e._t=t;e.textContent=t}};
+function updCd(){const e=$('cd');if(!D.length){e.style.display='none';return}
+ const l=D[D.length-1],y=cs.priceToCoordinate(l.close),tx=cdTxt(),age=Date.now()-lastAny;
+ setTx('hcd','⏱ '+tx);const dc=age<6000?'#00c37a':age<20000?'#ffb400':'#ff3b5c';if($('lvdot')._c!==dc){$('lvdot')._c=dc;$('lvdot').style.color=dc}
+ if(y==null||y<0||y>$('chart').clientHeight-40){if(e._d!=='none'){e._d='none';e.style.display='none'}return}
+ if(e._d!=='block'){e._d='block';e.style.display='block'}setTx('cd',tx);const tp=(y+11)+'px';if(e._tp!==tp){e._tp=tp;e.style.top=tp}const bg=l.close>=l.open?'#10b981':'#ef476f';if(e._bg!==bg){e._bg=bg;e.style.background=bg}}
+/* ================= maths ================= */
+function atr(a,n=14){const s=a.slice(-n-1);let r=0;for(let i=1;i<s.length;i++)r+=Math.max(s[i].high-s[i].low,Math.abs(s[i].high-s[i-1].close),Math.abs(s[i].low-s[i-1].close));return r/Math.max(1,s.length-1)}
+function swings(a){const H=[],Lw=[];for(let i=2;i<a.length-2;i++){if(a[i].high>Math.max(a[i-1].high,a[i-2].high,a[i+1].high,a[i+2].high))H.push(i);if(a[i].low<Math.min(a[i-1].low,a[i-2].low,a[i+1].low,a[i+2].low))Lw.push(i)}return{H,L:Lw}}
+/* ================= 8 agents ================= */
+function agentsW(price,D1,H4,M15){
+ const st=Array(8).fill(0);if(D1.length<5||H4.length<5||M15.length<30)return{st,dir:null};
+ const pd=D1[D1.length-2],mid=(pd.high+pd.low)/2,bull=price>mid;
+ st[1]=((pd.close>pd.open)===bull)?2:1;
+ let wo=D1[0].open;for(let i=D1.length-1;i>=0;i--){if(new Date(D1[i].time*1000).getUTCDay()===1){wo=D1[i].open;break}}
+ st[0]=((price>wo)===bull)?2:(Math.abs(price-wo)<atr(D1)*.2?1:0);
+ const sw=swings(M15),h=sw.H.slice(-2),l=sw.L.slice(-2);
+ if(h.length==2&&l.length==2){const HH=M15[h[1]].high>M15[h[0]].high,HL=M15[l[1]].low>M15[l[0]].low;
+  st[2]=bull?(HH&&HL?2:(HH||HL)?1:0):(!HH&&!HL?2:(!HH||!HL)?1:0)}
+ const n=M15.length,rec=M15.slice(-12);
+ if(bull){const i=sw.H.filter(x=>x<n-12).pop();if(i!=null){const lv=M15[i].high;st[3]=rec.some(c=>c.close>lv)?2:rec.some(c=>c.high>lv)?1:0}}
+ else{const i=sw.L.filter(x=>x<n-12).pop();if(i!=null){const lv=M15[i].low;st[3]=rec.some(c=>c.close<lv)?2:rec.some(c=>c.low<lv)?1:0}}
+ const pv=H4[H4.length-2],cu=H4[H4.length-1];
+ st[4]=bull?(cu.low<pv.low?(cu.close>pv.low?2:1):0):(cu.high>pv.high?(cu.close<pv.high?2:1):0);
+ const a4=atr(H4),kl=[pv.high,pv.low,pd.high,pd.low],dist=Math.min(...kl.map(x=>Math.abs(price-x)));
+ st[5]=dist<a4*.5?2:dist<a4*1.2?1:0;
+ for(let i=M15.length-1;i>=M15.length-16;i--){const c=M15[i],b=M15[i-2];let z=null;
+  if(bull&&b.high<c.low)z=[b.high,c.low];if(!bull&&b.low>c.high)z=[c.high,b.low];
+  if(z){st[6]=(price>=z[0]&&price<=z[1])?2:1;break}}
+ // risk agent + plan: SL beyond latest opposite 15m swing
+ const a15=atr(M15),pool=bull?sw.L:sw.H;let sl=null;
+ for(let k=pool.length-1;k>=0;k--){const v=bull?M15[pool[k]].low:M15[pool[k]].high;if(bull?v<price:v>price){sl=v;break}}
+ if(sl==null)sl=bull?price-a15*1.5:price+a15*1.5;
+ sl=bull?sl-a15*.1:sl+a15*.1;
+ const sd=Math.abs(price-sl);st[7]=sd<=2*a15?2:sd<=3.5*a15?1:0;
+ return{st,dir:bull?'BUY':'SELL',plan:{en:price,sl,tp:price+(bull?1:-1)*sd*S.rr}}}
+function agents(price){return agentsW(price,D1,H4,M15)}
+/* ================= signal / draw ================= */
+function clearPlan(){plines.forEach(l=>cs.removePriceLine(l));plines=[];$('out').textContent='…'}
+function draw(){
+ if(!D.length)return;
+ if(full){cs.setData(D);full=false}
+ const last=D[D.length-1].close,dp=dpf(last);$('price').textContent=last.toFixed(dp);
+ if(first){fit()}
+ const ag=agents(last);let call='WAIT',plan=null;SIGM=[];
+ try{const M=MAF[S.mt](srcA(D,'close'),S.mp);
+  if(S.iim){const pts=[];for(let j=0;j<D.length;j++)if(M[j]===M[j])pts.push({time:D[j].time,value:M[j]});maS.setData(pts)}else maS.setData([]);
+  maS.applyOptions({title:S.iim?(S.mt+' '+S.mp):''});
+  if(S.emx)SIGM=emaCross(D,M)}catch(e){console.warn('ema',e)}
+ if(S.mode==='gann'){const g=gannCached(ag);SIGM=SIGM.concat(g.marks);const sg=g.sig,fresh=sg&&sg.i>=D.length-3;
+  if(fresh){ag.st[7]=Math.abs(sg.en-sg.sl)<=2*atr(D)?2:1;call=sg.d;plan={en:sg.en,sl:sg.sl,tp:sg.tp}}else ag.st[7]=0}
+ A=S.au?ag.st:S.a;
+ const sc=A.slice(0,7).filter(x=>x===2).length;
+ if(S.mode!=='gann'){if(ag.dir&&sc>=S.minA&&A[7]>=1){call=ag.dir;plan=ag.plan}}
+ const ok=call!=='WAIT';
+ $('call').textContent=call;$('call').className='call '+call;$('bot').className='bot'+(ok?' alert':'');
+ $('why').textContent=(ok?t('ready'):t('notready'))+` · ${sc}/7 ✓`;$('mt').style.width=(sc/7*100)+'%';
+ plines.forEach(l=>cs.removePriceLine(l));plines=[];
+ if(ok&&plan){const f=v=>v.toFixed(dp);CALL=plan;
+  $('out').innerHTML=`${call} @ ${f(plan.en)}<br>SL ${f(plan.sl)}<br>TP ${f(plan.tp)} (1:${S.rr})`;
+  plines.push(cs.createPriceLine({price:plan.en,color:'#ffffff',lineWidth:1,lineStyle:2,title:'Entry'}),cs.createPriceLine({price:plan.sl,color:'#ff5d7a',lineWidth:1,lineStyle:2,title:'SL'}),cs.createPriceLine({price:plan.tp,color:'#4cc3ff',lineWidth:1,lineStyle:2,title:'TP'}))}
+ else $('out').textContent=ts_wait();
+ agList();
+ refreshInd();
+ if(first){lastCall=call;first=false}
+ else if(call!==lastCall){lastCall=call;if(call!=='WAIT')announce(call)}
+}
+/* EMA-line cross signal (confirmed close, real break, EMA slope agrees, min gap) */
+function emaCross(arr,M){const o=[],n=arr.length;let last=-99;
+ for(let i=Math.max(25,S.mp)+1;i<n-1;i++){const c=arr[i],pv=arr[i-1];if(M[i]!==M[i]||M[i-3]!==M[i-3])continue;
+  let a=0;for(let k=i-14;k<i;k++)a+=arr[k].high-arr[k].low;a/=14;const body=Math.abs(c.close-c.open),sl=M[i]-M[i-3];
+  const up=pv.close<=M[i-1]&&c.close>M[i]&&c.close>c.open&&c.close-M[i]>.1*a&&sl>=0&&body>=.4*a;
+  const dn=pv.close>=M[i-1]&&c.close<M[i]&&c.close<c.open&&M[i]-c.close>.1*a&&sl<=0&&body>=.4*a;
+  if((up||dn)&&i-last>=5){last=i;o.push({time:c.time,position:up?'belowBar':'aboveBar',color:up?'#ffd600':'#ff9100',shape:'circle',text:up?'EMA↑':'EMA↓'})}}
+ return o}
+function ts_wait(){return {ur:'انتظار… سگنل نہیں',en:'Waiting… no signal',hi:'इंतज़ार… कोई सिग्नल नहीं'}[S.lang]}
+function say(x){try{speechSynthesis.cancel();const m=new SpeechSynthesisUtterance(x);m.lang='en-US';m.rate=.95;speechSynthesis.speak(m)}catch(e){}}
+function announce(d){if(voice)say(d==='BUY'?'Buy is ready':'Sell is ready')}
+function toggleVoice(){voice=!voice;$('vb').textContent=t(voice?'voiceOn':'voiceOff');if(voice)say('Voice is on')}
+function agList(){$('agents').innerHTML=L.ag.map((n,i)=>`<div class="ag s${A[i]}" ${S.au?'':`style="cursor:pointer" onclick="S.a[${i}]=(S.a[${i}]+1)%3;sv();draw()"`}><span class="ic">${['✗','◐','✓'][A[i]]}</span><b>${i+1}. ${n[S.lang]}</b></div>`).join('')}
+
+/* ================= indicator maths ================= */
+const SRCF={close:c=>c.close,open:c=>c.open,high:c=>c.high,low:c=>c.low,hl2:c=>(c.high+c.low)/2,hlc3:c=>(c.high+c.low+c.close)/3,ohlc4:c=>(c.open+c.high+c.low+c.close)/4};
+const srcA=(d,s)=>d.map(SRCF[s||'close']);
+const nanA=n=>new Array(n).fill(NAN);
+function sma(a,n){n=Math.max(1,n|0);const o=nanA(a.length);for(let i=n-1;i<a.length;i++){let s=0,ok=1;for(let j=i-n+1;j<=i;j++){const v=a[j];if(v!==v){ok=0;break}s+=v}if(ok)o[i]=s/n}return o}
+function stdev(a,n){n=Math.max(1,n|0);const o=nanA(a.length);for(let i=n-1;i<a.length;i++){let s=0,q=0,ok=1;for(let j=i-n+1;j<=i;j++){const v=a[j];if(v!==v){ok=0;break}s+=v;q+=v*v}if(ok)o[i]=Math.sqrt(Math.max(0,q/n-(s/n)*(s/n)))}return o}
+function ema(a,n,k){n=Math.max(1,n|0);k=k||2/(n+1);const o=nanA(a.length);let p=NAN,c=0,s=0;for(let i=0;i<a.length;i++){const v=a[i];if(v!==v)continue;if(p!==p){s+=v;c++;if(c===n){p=s/n;o[i]=p}}else{p=v*k+p*(1-k);o[i]=p}}return o}
+function rma(a,n){return ema(a,n,1/Math.max(1,n))}
+function wma(a,n){n=Math.max(1,n|0);const o=nanA(a.length),den=n*(n+1)/2;for(let i=n-1;i<a.length;i++){let s=0,ok=1;for(let j=0;j<n;j++){const v=a[i-n+1+j];if(v!==v){ok=0;break}s+=v*(j+1)}if(ok)o[i]=s/den}return o}
+const MAF={SMA:sma,EMA:ema,SMMA:rma,WMA:wma};
+function trA(d){return d.map((c,i)=>i?Math.max(c.high-c.low,Math.abs(c.high-d[i-1].close),Math.abs(c.low-d[i-1].close)):c.high-c.low)}
+function atrA(d,n){return rma(trA(d),n)}
+function hh(d,n,f){const o=nanA(d.length);for(let i=n-1;i<d.length;i++){let m=-Infinity;for(let j=i-n+1;j<=i;j++)m=Math.max(m,d[j][f]);o[i]=m}return o}
+function ll(d,n,f){const o=nanA(d.length);for(let i=n-1;i<d.length;i++){let m=Infinity;for(let j=i-n+1;j<=i;j++)m=Math.min(m,d[j][f]);o[i]=m}return o}
+const dayKey=c=>Math.floor(c.time/86400);
+function delta(c){if(c.tb!=null&&c.v)return 2*c.tb-c.v;const r=c.high-c.low||1;return (c.v||1)*((2*c.close-c.high-c.low)/r)}
+const SRCO=['close','open','high','low','hl2','hlc3','ohlc4'];
+const MAT=['SMMA','SMA','EMA','WMA'];
+
+/* ================= indicator registry =================
+   registerIndicator({id,name,cat,sub,d:[ur,en,hi],inputs,sty,calc(D,p,ctx)})
+   calc returns {s:[{d:[...],t:'l'|'h',pc:[colors per point optional]}], lv:[{p,c,t}], mk:[markers], hl:[{p,c}]}
+   NEW INDICATORS (Gann, SMC, ...) are added only by calling registerIndicator(...) */
+const REG=[];
+function registerIndicator(x){const i=REG.findIndex(r=>r.id===x.id);if(i>=0)REG[i]=x;else REG.push(x)}
+const lenIn=(d)=>({k:'len',l:'Length',t:'n',d,min:1,max:500}),srcIn={k:'src',l:'Source',t:'s',d:'close',o:SRCO};
+const pS=(c,w)=>({l:'Line',d:c,w:w||2});
+['SMA','EMA','SMMA','WMA'].forEach((n,ix)=>registerIndicator({id:n.toLowerCase(),name:n==='SMMA'?'SMMA (Smoothed MA)':n+' ('+{SMA:'Simple',EMA:'Exponential',WMA:'Weighted'}[n]+' MA)',cat:'ov',
+ d:['موونگ ایوریج — '+n,'Moving average — '+n,'मूविंग एवरेज — '+n],inputs:[lenIn(n==='SMMA'?21:20),srcIn],sty:[pS(['#f0a500','#00a8e8','#ff7a00','#8a5cf5'][ix])],
+ calc:(d,p)=>({s:[{d:MAF[n](srcA(d,p.src),p.len),t:'l'}]})}));
+registerIndicator({id:'ribbon',name:'MA Ribbon 21 / 50 / 200',cat:'ov',d:['تین موونگ ایوریج ایک ساتھ (ڈیفالٹ SMMA)','Three moving averages at once (default SMMA)','तीन मूविंग एवरेज एक साथ (डिफ़ॉल्ट SMMA)'],
+ inputs:[{k:'type',l:'MA type',t:'s',d:'SMMA',o:MAT},{k:'l1',l:'Length 1',t:'n',d:21,min:1,max:500},{k:'l2',l:'Length 2',t:'n',d:50,min:1,max:500},{k:'l3',l:'Length 3',t:'n',d:200,min:1,max:500},srcIn],
+ sty:[{l:'MA 1',d:'#00a8e8',w:2},{l:'MA 2',d:'#f0a500',w:2},{l:'MA 3',d:'#ff5d7a',w:2}],
+ calc:(d,p)=>{const a=srcA(d,p.src),f=MAF[p.type];return{s:[f(a,p.l1),f(a,p.l2),f(a,p.l3)].map(x=>({d:x,t:'l'}))}}});
+registerIndicator({id:'vwap',name:'VWAP (+ bands)',cat:'ov',d:['حجم سے وزنی اوسط قیمت، روز ری سیٹ','Volume-weighted average price, resets daily','वॉल्यूम-भारित औसत कीमत, रोज़ रीसेट'],
+ inputs:[{k:'rh',l:'Reset hour (UTC)',t:'n',d:0,min:0,max:23},{k:'bm',l:'Band multiplier (0 = off)',t:'n',d:1,min:0,max:5,step:.5}],sty:[pS('#ff7a00'),{l:'Upper',d:'#6bb8ff',w:1},{l:'Lower',d:'#6bb8ff',w:1}],
+ calc:(d,p)=>{const v=nanA(d.length),u=nanA(d.length),l=nanA(d.length);let sv_=0,sp=0,sq=0,key=null;
+  d.forEach((c,i)=>{const k=Math.floor((c.time-p.rh*3600)/86400);if(k!==key){key=k;sv_=sp=sq=0}const tp=(c.high+c.low+c.close)/3,w=c.v||1;sv_+=w;sp+=tp*w;sq+=tp*tp*w;const m=sp/sv_;v[i]=m;if(p.bm>0){const sd=Math.sqrt(Math.max(0,sq/sv_-m*m))*p.bm;u[i]=m+sd;l[i]=m-sd}});
+  return{s:p.bm>0?[v,u,l].map(x=>({d:x,t:'l'})):[{d:v,t:'l'},{d:nanA(d.length),t:'l'},{d:nanA(d.length),t:'l'}]}}});
+registerIndicator({id:'bb',name:'Bollinger Bands',cat:'ov',d:['بولنجر بینڈز','Bollinger Bands','बोलिंजर बैंड'],inputs:[lenIn(20),{k:'m',l:'StdDev',t:'n',d:2,min:.1,max:10,step:.1},srcIn],
+ sty:[{l:'Basis',d:'#ff7a00',w:1},{l:'Upper',d:'#4cc3ff',w:1},{l:'Lower',d:'#4cc3ff',w:1}],
+ calc:(d,p)=>{const a=srcA(d,p.src),b=sma(a,p.len),s=stdev(a,p.len);return{s:[b,b.map((x,i)=>x+p.m*s[i]),b.map((x,i)=>x-p.m*s[i])].map(x=>({d:x,t:'l'}))}}});
+registerIndicator({id:'kc',name:'Keltner Channels',cat:'ov',d:['کیلٹنر چینل (EMA ± ATR)','Keltner Channel (EMA ± ATR)','केल्टनर चैनल (EMA ± ATR)'],inputs:[lenIn(20),{k:'al',l:'ATR length',t:'n',d:10,min:1,max:200},{k:'m',l:'Multiplier',t:'n',d:2,min:.1,max:10,step:.1}],
+ sty:[{l:'Basis',d:'#f0a500',w:1},{l:'Upper',d:'#f0a500',w:1},{l:'Lower',d:'#f0a500',w:1}],
+ calc:(d,p)=>{const b=ema(srcA(d,'close'),p.len),a=atrA(d,p.al);return{s:[b,b.map((x,i)=>x+p.m*a[i]),b.map((x,i)=>x-p.m*a[i])].map(x=>({d:x,t:'l'}))}}});
+registerIndicator({id:'dc',name:'Donchian Channels',cat:'ov',d:['ڈونچیان چینل (اعلیٰ/ادنیٰ)','Donchian Channel (highest/lowest)','डोंचियन चैनल (उच्चतम/न्यूनतम)'],inputs:[lenIn(20)],
+ sty:[{l:'Upper',d:'#4cc3ff',w:1},{l:'Lower',d:'#4cc3ff',w:1},{l:'Mid',d:'#5b86c5',w:1}],
+ calc:(d,p)=>{const u=hh(d,p.len,'high'),l=ll(d,p.len,'low');return{s:[u,l,u.map((x,i)=>(x+l[i])/2)].map(x=>({d:x,t:'l'}))}}});
+registerIndicator({id:'st',name:'Supertrend',cat:'ov',d:['سپر ٹرینڈ — رجحان کی لائن','Supertrend — trend line','सुपरट्रेंड — ट्रेंड लाइन'],inputs:[{k:'al',l:'ATR length',t:'n',d:10,min:1,max:200},{k:'f',l:'Factor',t:'n',d:3,min:.5,max:10,step:.1}],
+ sty:[{l:'Up',d:'#00e676',w:2},{l:'Down',d:'#ff5d7a',w:2}],
+ calc:(d,p,x,c)=>{const a=atrA(d,p.al),o=nanA(d.length),pc=[];let fu=NAN,fl=NAN,dir=1;
+  for(let i=1;i<d.length;i++){if(a[i]!==a[i]){continue}const h2=(d[i].high+d[i].low)/2,bu=h2-p.f*a[i],bl=h2+p.f*a[i];
+   fu=(fu!==fu||bu>fu||d[i-1].close<fu)?bu:fu;fl=(fl!==fl||bl<fl||d[i-1].close>fl)?bl:fl;
+   if(dir===1&&d[i].close<fu)dir=-1;else if(dir===-1&&d[i].close>fl)dir=1;o[i]=dir===1?fu:fl;pc[i]=dir===1?c[0]:c[1]}
+  return{s:[{d:o,t:'l',pc}]}}});
+registerIndicator({id:'pp',name:'Pivot Points (Daily)',cat:'lv',d:['روزانہ پیوٹ پوائنٹس (P, R1-3, S1-3)','Daily pivot points (P, R1-3, S1-3)','दैनिक पिवट पॉइंट (P, R1-3, S1-3)'],
+ inputs:[{k:'type',l:'Type',t:'s',d:'Classic',o:['Classic','Fibonacci']}],sty:[{l:'Pivot',d:'#f0a500',w:1},{l:'Resistance',d:'#ff5d7a',w:1},{l:'Support',d:'#00e676',w:1}],
+ calc:(d,p,x,c)=>{const D1=x.D1;if(D1.length<2)return{s:[],lv:[]};const q=D1[D1.length-2],H=q.high,Lo=q.low,P=(H+Lo+q.close)/3,r=H-Lo,fb=p.type==='Fibonacci',lv=[{p:P,c:c[0],t:'P'}];
+  const R=fb?[P+.382*r,P+.618*r,P+r]:[2*P-Lo,P+r,H+2*(P-Lo)],Sx=fb?[P-.382*r,P-.618*r,P-r]:[2*P-H,P-r,Lo-2*(H-P)];
+  R.forEach((v,i)=>lv.push({p:v,c:c[1],t:'R'+(i+1)}));Sx.forEach((v,i)=>lv.push({p:v,c:c[2],t:'S'+(i+1)}));return{s:[],lv}}});
+registerIndicator({id:'phl',name:'Prev Day / Week High-Low',cat:'lv',d:['پچھلے دن/ہفتے کا ہائی اور لو','Previous day / week high & low','पिछले दिन/हफ़्ते का हाई और लो'],
+ inputs:[{k:'day',l:'Day',t:'b',d:true},{k:'wk',l:'Week',t:'b',d:true}],sty:[{l:'Day',d:'#f0a500',w:1},{l:'Week',d:'#b388ff',w:1}],
+ calc:(d,p,x,c)=>{const D1=x.D1,lv=[];if(D1.length<2)return{s:[],lv};
+  if(p.day){const q=D1[D1.length-2];lv.push({p:q.high,c:c[0],t:'PDH'},{p:q.low,c:c[0],t:'PDL'})}
+  if(p.wk){const wk=c2=>Math.floor((c2.time/86400+3)/7);const cur=wk(D1[D1.length-1]);const prev=D1.filter(z=>wk(z)===cur-1);
+   if(prev.length)lv.push({p:Math.max(...prev.map(z=>z.high)),c:c[1],t:'PWH'},{p:Math.min(...prev.map(z=>z.low)),c:c[1],t:'PWL'})}
+  return{s:[],lv}}});
+registerIndicator({id:'pat',name:'Candle Patterns (Engulfing, 3 soldiers/crows, Pin bar)',cat:'lv',d:['انگلفنگ، تین سپاہی/کوے، پن بار','Engulfing, three soldiers/crows, pin bar','एंगल्फिंग, थ्री सोल्जर/क्रो, पिन बार'],
+ inputs:[{k:'eng',l:'Engulfing',t:'b',d:true},{k:'tri',l:'3 Line Strike',t:'b',d:true},{k:'pin',l:'Pin bar',t:'b',d:false}],sty:[{l:'Bullish',d:'#00c853'},{l:'Bearish',d:'#ff1744'}],
+ calc:(d,p,x,c)=>{const mk=[];for(let i=3;i<d.length;i++){const k=d[i],q=d[i-1],a=d[i-3],b=d[i-2];
+  if(p.eng){if(q.close<q.open&&k.close>k.open&&k.open<=q.close&&k.close>=q.open)mk.push({time:k.time,position:'belowBar',color:c[0],shape:'arrowUp',text:'Eng'});
+   if(q.close>q.open&&k.close<k.open&&k.open>=q.close&&k.close<=q.open)mk.push({time:k.time,position:'aboveBar',color:c[1],shape:'arrowDown',text:'Eng'})}
+  if(p.tri){if(a.close<a.open&&b.close<b.open&&q.close<q.open&&k.close>k.open&&k.close>a.open)mk.push({time:k.time,position:'belowBar',color:c[0],shape:'square',text:'3LS↑'});
+   if(a.close>a.open&&b.close>b.open&&q.close>q.open&&k.close<q.open)mk.push({time:k.time,position:'aboveBar',color:c[1],shape:'square',text:'3LS↓'})}
+  if(p.pin){const bd=Math.abs(k.close-k.open)||1e-9,up=k.high-Math.max(k.open,k.close),lo=Math.min(k.open,k.close)-k.low;
+   if(lo>2*bd&&up<bd)mk.push({time:k.time,position:'belowBar',color:c[0],shape:'circle',text:'Pin'});if(up>2*bd&&lo<bd)mk.push({time:k.time,position:'aboveBar',color:c[1],shape:'circle',text:'Pin'})}}
+  return{s:[],mk}}});
+/* --- oscillators (own pane) --- */
+registerIndicator({id:'rsi',name:'RSI',cat:'osc',sub:1,d:['ریلیٹیو سٹرینتھ انڈیکس','Relative Strength Index','रिलेटिव स्ट्रेंथ इंडेक्स'],inputs:[lenIn(14),{k:'ob',l:'Overbought',t:'n',d:70},{k:'os',l:'Oversold',t:'n',d:30}],sty:[pS('#8a5cf5')],
+ calc:(d,p)=>{const a=srcA(d,'close'),up=a.map((v,i)=>i?Math.max(v-a[i-1],0):NAN),dn=a.map((v,i)=>i?Math.max(a[i-1]-v,0):NAN),u=rma(up,p.len),w=rma(dn,p.len);
+  return{s:[{d:u.map((x,i)=>w[i]===0?100:100-100/(1+x/w[i])),t:'l'}],hl:[{p:p.ob,c:'#ff5d7a'},{p:50,c:'#334'},{p:p.os,c:'#00e676'}]}}});
+registerIndicator({id:'macd',name:'MACD',cat:'osc',sub:1,d:['ایم اے سی ڈی','MACD','MACD'],inputs:[{k:'f',l:'Fast',t:'n',d:12},{k:'s',l:'Slow',t:'n',d:26},{k:'g',l:'Signal',t:'n',d:9}],sty:[{l:'MACD',d:'#4cc3ff',w:2},{l:'Signal',d:'#ff7a00',w:1},{l:'Hist +',d:'#00e676'},{l:'Hist −',d:'#ff5d7a'}],
+ calc:(d,p,x,c)=>{const a=srcA(d,'close'),e1=ema(a,p.f),e2=ema(a,p.s),mm=e1.map((v,i)=>v-e2[i]),sg=ema(mm,p.g),h=mm.map((v,i)=>v-sg[i]);
+  return{s:[{d:mm,t:'l'},{d:sg,t:'l'},{d:h,t:'h',pc:h.map(v=>v>=0?c[2]:c[3]),ci:2}],hl:[{p:0,c:'#334'}]}}});
+registerIndicator({id:'stoch',name:'Stochastic',cat:'osc',sub:1,d:['اسٹاکاسٹک','Stochastic oscillator','स्टोकास्टिक'],inputs:[{k:'k',l:'%K length',t:'n',d:14},{k:'sm',l:'Smooth K',t:'n',d:3},{k:'dl',l:'%D',t:'n',d:3}],sty:[{l:'%K',d:'#4cc3ff',w:2},{l:'%D',d:'#ff7a00',w:1}],
+ calc:(d,p)=>{const H=hh(d,p.k,'high'),Lo=ll(d,p.k,'low'),r=d.map((c,i)=>(H[i]-Lo[i])?(c.close-Lo[i])/(H[i]-Lo[i])*100:NAN),k=sma(r,p.sm);return{s:[{d:k,t:'l'},{d:sma(k,p.dl),t:'l'}],hl:[{p:80,c:'#ff5d7a'},{p:20,c:'#00e676'}]}}});
+registerIndicator({id:'cci',name:'CCI',cat:'osc',sub:1,d:['کموڈیٹی چینل انڈیکس','Commodity Channel Index','कमोडिटी चैनल इंडेक्स'],inputs:[lenIn(20)],sty:[pS('#f0a500')],
+ calc:(d,p)=>{const tp=srcA(d,'hlc3'),m=sma(tp,p.len),o=nanA(d.length);for(let i=p.len-1;i<d.length;i++){let s=0;for(let j=i-p.len+1;j<=i;j++)s+=Math.abs(tp[j]-m[i]);const md=s/p.len;o[i]=md?(tp[i]-m[i])/(.015*md):0}return{s:[{d:o,t:'l'}],hl:[{p:100,c:'#ff5d7a'},{p:-100,c:'#00e676'}]}}});
+registerIndicator({id:'atr',name:'ATR',cat:'osc',sub:1,d:['اوسط ٹرو رینج (اتار چڑھاؤ)','Average True Range (volatility)','औसत ट्रू रेंज (वोलैटिलिटी)'],inputs:[lenIn(14)],sty:[pS('#ff7a00')],calc:(d,p)=>({s:[{d:atrA(d,p.len),t:'l'}]})});
+registerIndicator({id:'vol',name:'Volume',cat:'osc',sub:1,d:['حجم (اوپر/نیچے رنگ)','Volume (up/down colours)','वॉल्यूम (अप/डाउन रंग)'],inputs:[{k:'ma',l:'MA length (0 = off)',t:'n',d:20,min:0,max:200}],sty:[{l:'Up',d:'#4cc3ff'},{l:'Down',d:'#2f55ff'},{l:'MA',d:'#f0a500',w:1}],
+ calc:(d,p,x,c)=>{const v=d.map(k=>k.v||0);return{s:[{d:v,t:'h',pc:d.map(k=>k.close>=k.open?c[0]:c[1])}].concat(p.ma>0?[{d:sma(v,p.ma),t:'l',ci:2}]:[])}}});
+/* --- high-frequency / scalping --- */
+registerIndicator({id:'delta',name:'Volume Delta (buy − sell)',cat:'hf',sub:1,d:['ہر کینڈل میں خرید − فروخت حجم','Per-bar buy − sell volume (taker flow)','हर कैंडल में खरीद − बिक्री वॉल्यूम'],inputs:[],sty:[{l:'Buy',d:'#4cc3ff'},{l:'Sell',d:'#ff5d7a'}],
+ calc:(d,p,x,c)=>{const v=d.map(delta);return{s:[{d:v,t:'h',pc:v.map(z=>z>=0?c[0]:c[1])}],hl:[{p:0,c:'#334'}]}}});
+registerIndicator({id:'cvd',name:'Cumulative Volume Delta (CVD)',cat:'hf',sub:1,d:['جمع شدہ ڈیلٹا — دباؤ کی سمت','Cumulative delta — pressure direction','संचयी डेल्टा — दबाव की दिशा'],inputs:[{k:'rh',l:'Reset daily at hour (UTC, -1 = never)',t:'n',d:0,min:-1,max:23}],sty:[pS('#00a8e8')],
+ calc:(d,p)=>{const o=[];let s=0,key=null;d.forEach((c,i)=>{if(p.rh>=0){const k=Math.floor((c.time-p.rh*3600)/86400);if(k!==key){key=k;s=0}}s+=delta(c);o[i]=s});return{s:[{d:o,t:'l'}]}}});
+registerIndicator({id:'rv',name:'Realized Volatility (per bar %)',cat:'hf',sub:1,d:['فی کینڈل حقیقی اتار چڑھاؤ','Realized volatility per bar','प्रति कैंडल वास्तविक वोलैटिलिटी'],inputs:[lenIn(30)],sty:[pS('#ff7a00')],
+ calc:(d,p)=>{const r=d.map((c,i)=>i?Math.log(c.close/d[i-1].close)*100:NAN);return{s:[{d:stdev(r,p.len),t:'l'}]}}});
+registerIndicator({id:'z',name:'Price Z-Score',cat:'hf',sub:1,d:['قیمت اوسط سے کتنے σ دور (ریورژن)','Price distance from mean in σ (mean reversion)','कीमत औसत से कितने σ दूर (रिवर्जन)'],inputs:[lenIn(20),{k:'th',l:'Threshold',t:'n',d:2,step:.1}],sty:[pS('#8a5cf5')],
+ calc:(d,p)=>{const a=srcA(d,'close'),m=sma(a,p.len),s=stdev(a,p.len);return{s:[{d:a.map((v,i)=>s[i]?(v-m[i])/s[i]:NAN),t:'l'}],hl:[{p:p.th,c:'#ff5d7a'},{p:0,c:'#334'},{p:-p.th,c:'#00e676'}]}}});
+registerIndicator({id:'roc',name:'Momentum Burst (ROC %)',cat:'hf',sub:1,d:['تیز رفتار حرکت کا پتہ (ROC)','Fast momentum burst detector (ROC)','तेज़ मोमेंटम बर्स्ट (ROC)'],inputs:[{k:'len',l:'Length',t:'n',d:5,min:1,max:100}],sty:[{l:'Up',d:'#00e676'},{l:'Down',d:'#ff5d7a'}],
+ calc:(d,p,x,c)=>{const o=d.map((k,i)=>i>=p.len?(k.close/d[i-p.len].close-1)*100:NAN);return{s:[{d:o,t:'h',pc:o.map(v=>v>=0?c[0]:c[1])}],hl:[{p:0,c:'#334'}]}}});
+registerIndicator({id:'rvol',name:'Relative Volume (spike)',cat:'hf',sub:1,d:['حجم اوسط سے کتنا زیادہ (اسپائک)','Volume vs average (spike detector)','वॉल्यूम औसत से कितना ज़्यादा (स्पाइक)'],inputs:[lenIn(20),{k:'th',l:'Spike level',t:'n',d:2,step:.1}],sty:[{l:'Normal',d:'#2f55ff'},{l:'Spike',d:'#f0a500'}],
+ calc:(d,p,x,c)=>{const v=d.map(k=>k.v||0),m=sma(v,p.len),r=v.map((z,i)=>m[i]?z/m[i]:NAN);return{s:[{d:r,t:'h',pc:r.map(z=>z>=p.th?c[1]:c[0])}],hl:[{p:p.th,c:'#ffd24d'}]}}});
+/* --- Nawaz Tech Quant shelf: placeholders (filled later with registerIndicator) --- */
+const SOON=[['Gann Square','نواز Gann Square — سیشن ری سیٹ','Gann Square — session reset','Gann Square — सेशन रीसेट'],['Nawaz Tech Quant SMC','SMC: سپلائی/ڈیمانڈ، BOS','SMC: supply/demand, BOS','SMC: सप्लाई/डिमांड, BOS'],['Sessions & Killzones','سیشنز اور کل زون','Sessions & killzones','सेशन और किल-ज़ोन'],['Range Zones','رینج زونز','Range zones','रेंज ज़ोन']];
+
+/* ================= indicator engine ================= */
+let INS=[];   // live instances {uid,id,p,c,w,vis,ser,pl,last,out}
+function def(id){return REG.find(r=>r.id===id)}
+function defaults(df){const p={};df.inputs.forEach(i=>p[i.k]=i.d);return p}
+function mkInst(r){const df=def(r.id);return Object.assign({ser:[],pl:[],last:[],dirty:true},r)}
+function loadInst(){INS=(S.ind||[]).filter(r=>def(r.id)).map(r=>{const df=def(r.id);r.p=Object.assign(defaults(df),r.p||{});r.c=df.sty.map((z,k)=>(r.c&&r.c[k])||z.d);r.w=df.sty.map((z,k)=>(r.w&&r.w[k])||z.w||2);return mkInst(r)})}
+function saveInst(){S.ind=INS.map(({uid,id,p,c,w,vis})=>({uid,id,p,c,w,vis}));sv()}
+function addInd(id){const df=def(id);if(!df)return;INS.push(mkInst({uid:S.uid++,id,p:defaults(df),c:df.sty.map(s=>s.d),w:df.sty.map(s=>s.w||2),vis:true}));saveInst();rebuildInd();closeInd()}
+function rmInd(uid){const i=INS.find(x=>x.uid===uid);if(i)clearSer(i);INS=INS.filter(x=>x.uid!==uid);saveInst();rebuildInd()}
+function clearAll(){INS.forEach(clearSer);INS=[];saveInst();rebuildInd()}
+function togInd(uid){const i=INS.find(x=>x.uid===uid);i.vis=!i.vis;saveInst();i.dirty=true;rebuildInd()}
+function clearSer(i){i.ser.forEach(s=>{try{ch.removeSeries(s)}catch(e){}});i.ser=[];i.pl.forEach(p=>{try{p.s.removePriceLine(p.l)}catch(e){}});i.pl=[]}
+function paneLayout(){try{
+ const subs=INS.filter(i=>def(i.id).sub&&i.vis),n=subs.length,tot=n?Math.min(.62,.17*n+.03):0;
+ ch.priceScale('right').applyOptions({scaleMargins:{top:.06,bottom:tot+.04}});
+ subs.forEach((i,k)=>{const a=1-tot+k*tot/n,b=1-tot+(k+1)*tot/n;i.zone=[a,b];if(i.ser.length)ch.priceScale('p'+i.uid).applyOptions({scaleMargins:{top:a+.012,bottom:1-b+.012},autoScale:true})});
+ }catch(e){console.warn('layout',e)}}
+function rebuildInd(){INS.forEach(i=>{clearSer(i);i.dirty=true});refreshInd();paneLayout();legend()}
+function refreshInd(){
+ const ctx={D1};const mk=SIGM.slice();let need=false;
+ INS.forEach(i=>{const df=def(i.id);
+  if(!i.vis||!D.length){clearSer(i);i.out=null;return}
+  let o;try{o=df.calc(D,Object.assign({},i.p),ctx,i.c)}catch(e){console.warn(df.id,e);return}
+  i.out=o;
+  if(i.ser.length!==o.s.length){clearSer(i);need=true;
+   o.s.forEach((s,k)=>{const base={priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false};if(df.sub)base.priceScaleId='p'+i.uid;const ci=s.ci!=null?s.ci:k;
+    i.ser.push(s.t==='h'?ch.addHistogramSeries(Object.assign(base,{color:i.c[ci]||'#4cc3ff'})):ch.addLineSeries(Object.assign(base,{color:i.c[ci]||'#4cc3ff',lineWidth:i.w[ci]||1})))})}
+  o.s.forEach((s,k)=>{const sr=i.ser[k],ci=s.ci!=null?s.ci:k;if(s.t!=='h')sr.applyOptions({color:i.c[ci],lineWidth:i.w[ci]||1});else sr.applyOptions({color:i.c[ci]});
+   const pts=[];for(let j=0;j<D.length;j++){const v=s.d[j];if(v==null||v!==v)continue;const q={time:D[j].time,value:v};if(s.pc&&s.pc[j])q.color=s.pc[j];pts.push(q)}sr.setData(pts)});
+  i.pl.forEach(p=>{try{p.s.removePriceLine(p.l)}catch(e){}});i.pl=[];
+  (o.lv||[]).forEach(z=>i.pl.push({s:cs,l:cs.createPriceLine({price:z.p,color:z.c,lineWidth:1,lineStyle:2,axisLabelVisible:true,title:z.t})}));
+  if(o.hl&&i.ser[0])o.hl.forEach(z=>i.pl.push({s:i.ser[0],l:i.ser[0].createPriceLine({price:z.p,color:z.c,lineWidth:1,lineStyle:2,axisLabelVisible:false,title:''})}));
+  i.last=o.s.slice(0,3).map(s=>{for(let j=s.d.length-1;j>=0;j--){const v=s.d[j];if(v===v&&v!=null)return v}return NAN});
+  if(o.mk)mk.push(...o.mk)});
+ mk.sort((a,b)=>a.time-b.time);try{cs.setMarkers(mk)}catch(e){}
+ dirty=true;if(need){paneLayout();legend()}else legendVals()}
+/* legend */
+const dpf=p=>p>=100?2:p>=10?3:5;
+function fm(v){return v!==v?'–':Math.abs(v)>=100?v.toFixed(2):Math.abs(v)>=1?v.toFixed(3):v.toFixed(5)}
+function paramTxt(i){const df=def(i.id);return df.inputs.length?' ('+df.inputs.filter(x=>x.t!=='h').slice(0,3).map(x=>i.p[x.k]).join(', ')+')':''}
+function lrow(i){const df=def(i.id);return `<div class="lr${i.vis?'':' off'}" id="lr${i.uid}"><span class="ln" style="color:${i.c[0]}">${df.name.split(' (')[0]}${paramTxt(i)}</span><span class="lv" id="lv${i.uid}"></span><button title="show/hide" onclick="togInd(${i.uid})">${i.vis?'👁':'🚫'}</button><button title="settings" onclick="openSet(${i.uid})">⚙</button><button title="remove" onclick="rmInd(${i.uid})">✕</button></div>`}
+function chips(){$('chips').innerHTML=INS.map(i=>{const df=def(i.id);return `<span class="chip${i.vis?'':' off'}"><i style="background:${i.c[0]}"></i><span>${df.name.split(' (')[0]}</span><span class="cv" id="cv${i.uid}"></span><button title="show / hide" onclick="togInd(${i.uid})">${i.vis?'👁':'🚫'}</button><button title="settings" onclick="openSet(${i.uid})">⚙</button><button title="remove" onclick="rmInd(${i.uid})">✕</button></span>`}).join('')}
+function legend(){chips();
+ 
+ const h=$('chart').clientHeight-28;$('lsubs').innerHTML=INS.filter(i=>def(i.id).sub).map(i=>{
+  const z=i.zone;if(!i.vis||!z)return `<div class="lrs" style="top:0;position:static;pointer-events:auto;margin-left:8px">${lrow(i)}</div>`;
+  return `<div class="pdiv" style="top:${z[0]*h}px"></div><div class="lrs" style="top:${z[0]*h+3}px;left:46px;pointer-events:auto">${lrow(i)}</div>`}).join('');
+ $('lsym').textContent=S.sym.slice(2)+' · '+(TFS.find(x=>x[0]===S.tf)||[0,''])[1];legendVals()}
+function legendVals(){INS.forEach(i=>{const h=i.last.filter(v=>v===v).map((v,k)=>`<span style="color:${i.c[k]||i.c[0]}">${fm(v)}</span>`).join(' ');['lv','cv'].forEach(p=>{const e=$(p+i.uid);if(e)e.innerHTML=h})})}
+ch.subscribeCrosshairMove(p=>{const e=$('lsym');if(!p||!p.seriesData){return}const c=p.seriesData.get(cs);if(c)e.innerHTML=S.sym.slice(2)+' · '+(TFS.find(x=>x[0]===S.tf)||[0,''])[1]+` <span class="ohlc">O ${fm(c.open)} H ${fm(c.high)} L ${fm(c.low)} C ${fm(c.close)}</span>`});
+new ResizeObserver(()=>{if(INS.length)legend()}).observe($('chart'));
+/* ================= picker dialog ================= */
+let cat='all';
+const CATS=['all','nq','ov','osc','hf','lv','act'];
+function openInd(){$('ind').classList.add('show');$('isr').value='';$('isr').focus();listInd()}
+function closeInd(){$('ind').classList.remove('show')}
+function listInd(){const q=$('isr').value.trim().toLowerCase();
+ const cnt=c=>c==='all'?REG.length:c==='act'?INS.length:REG.filter(r=>r.cat===c).length;
+ $('cats').innerHTML=CATS.map(c=>`<div class="cat ${c===cat?'on':''}" onclick="cat='${c}';listInd()"><span>${t('c_'+c)}</span><small>${cnt(c)}</small></div>`).join('');
+ let rows=REG.filter(r=>(cat==='all'||r.cat===cat)&&(!q||r.name.toLowerCase().includes(q)||r.id.includes(q)));
+ let h='';
+ if(cat==='act'){h=INS.map(i=>`<div class="it" onclick="closeInd();openSet(${i.uid})"><b>${def(i.id).name}</b><span>${paramTxt(i)}</span><span class="tag">⚙</span></div>`).join('')||`<div class="empty">${t('none')}</div>`}
+ else{
+  if(cat==='nq')h+=`<div class="empty">${t('nqempty')}</div>`;
+  h+=rows.map(r=>`<div class="it" onclick="addInd('${r.id}')"><b>${r.name}</b><span>${r.d[{ur:0,en:1,hi:2}[S.lang]]}</span><span class="tag">${r.cat==='nq'?'⭐ ':''}${r.sub?'PANE':'OVERLAY'}</span></div>`).join('')||`<div class="empty">${t('none')}</div>`
+ }
+ $('ilist').innerHTML=h}
+/* ================= ⭐ Nawaz Tech Quant shelf (Gann Square, SMC, Sessions, Range Zones…) =================
+   SMC engine ported from FluidTrades - SMC Lite © Pmgjiv (Mozilla Public License 2.0). Gann Square & Sessions: © Nawaztech Quant. */
+const TZS=['UTC','Asia/Tokyo','Europe/London','America/New_York','America/Chicago','Asia/Dubai','Asia/Karachi','Europe/Berlin'];
+const rgba=(h,a)=>{const v=parseInt(h.slice(1),16);return `rgba(${v>>16},${v>>8&255},${v&255},${a})`};
+const ca=(h,t)=>rgba(h,(100-t)/100);
+const FM={},LC={};
+function loc(t,tz){const k=tz+t;if(LC[k])return LC[k];let f=FM[tz];if(!f)f=FM[tz]=new Intl.DateTimeFormat('en-GB',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',weekday:'short',hourCycle:'h23'});
+ const o={};f.formatToParts(new Date(t*1000)).forEach(p=>o[p.type]=p.value);return LC[k]={h:+o.hour,m:+o.minute,d:o.year+o.month+o.day,w:o.weekday}}
+const nIn=(k,l,d,o)=>Object.assign({k,l,t:'n',d},o||{}),bIn=(k,l,d)=>({k,l,t:'b',d}),sIn=(k,l,d,o)=>({k,l,t:'s',d,o});
+/* ---------- Gann Square ---------- */
+const GDEG=[[45,'g45'],[90,'g90'],[135,'g135'],[180,'g180'],[225,'g225'],[270,'g270'],[360,'g360'],[720,'g720']];
+const GST={45:['#e6394b','#2fbf71',1,2],90:['#ff1a1a','#00c853',1,0],135:['#e040fb','#009688',1,1],180:['#ff9800','#ff9800',2,0],225:['#e91e63','#009688',1,2],270:['#ff8c00','#ff8c00',2,0],360:['#ff0000','#00c853',2,0],720:['#9c27b0','#9c27b0',2,0]};
+const DNOTE={135:' (Midpoint)',180:' (Reversal)',225:' (Midpoint)',720:' (Major)'};
+const GDEF={gb:'High+Low (prev session)',gm:1,sc:0,rh:21,gh:1500,go:25,g45:true,g90:true,g135:true,g180:true,g225:true,g270:true,g360:true,g720:true};
+function gannCfg(){const i=INS.find(x=>x.id==='gann');return i?i.p:GDEF}
+const gScale=(p,c)=>c.sc>0?c.sc:(p<10?10000:p<500?100:1);
+const gSS=(t,c)=>{const r=c.rh*3600;return Math.floor((t-r)/86400)*86400+r};
+function gHL(ss,ca_){if(ss in ca_.hl)return ca_.hl[ss];const A_=ca_.arr,ps=ss-86400,src=(A_.length&&A_[0].time<=ps)||!M15.length?A_:M15;let h=-1e18,l=1e18,c=null,t0=0;
+ src.forEach(x=>{if(x.time>=ps&&x.time<ss){h=Math.max(h,x.high);l=Math.min(l,x.low);if(x.time>=t0){t0=x.time;c=x.close}}});return ca_.hl[ss]=c===null?null:{h,l,c}}
+function gSets(t,c,ca_){const ss=gSS(t,c),bs=[];
+ if(c.gb==='High+Low (prev session)'){const r=gHL(ss,ca_);if(r){bs.push(['H',r.h]);bs.push(['L',r.l])}else{const x=ca_.arr.find(z=>z.time>=ss);bs.push(['B',x?x.open:ca_.arr[0].open])}}
+ else{if(!ca_.oh){ca_.oh={};ca_.arr.forEach(x=>{const s=gSS(x.time,c),r=ca_.oh[s];if(!r)ca_.oh[s]={o:x.open,h:x.high,l:x.low};else{r.h=Math.max(r.h,x.high);r.l=Math.min(r.l,x.low)}})}
+  const o=ca_.oh[ss]||{o:ca_.arr[0].open,h:ca_.arr[0].high,l:ca_.arr[0].low};bs.push(['B',c.gb==='Day Open'?o.o:c.gb==='Day Low'?o.l:o.h])}
+ return bs.map(([nm,b])=>{const sc=gScale(b,c),rt=Math.sqrt(b*sc),lv=[{p:b,deg:0,side:0}];
+  GDEG.forEach(([d,k])=>{if(!c[k])return;const kk=d/360*c.gm;lv.push({p:(rt+kk)**2/sc,deg:d,side:1});if(rt-kk>0)lv.push({p:(rt-kk)**2/sc,deg:d,side:-1})});
+  return{nm,b,lv}})}
+const gLevelsAt=(t,c,ca_)=>{const ss=gSS(t,c);return ca_.lv[ss]||(ca_.lv[ss]=gSets(t,c,ca_).flatMap(x=>x.lv.map(l=>l.p)).sort((a,b)=>a-b))};
+function ovGann(g,E,p,c,out){const{X,Y,pw,ph}=E,n=D.length;g.font='11px "Share Tech Mono",monospace';g.textBaseline='middle';
+ const xs=X(Math.max(0,n-1-p.gh)),xe0=X(n-1+p.go),edge={up:[],dn:[]};if(xs==null||xe0==null)return;
+ out.sets.forEach(set=>set.lv.forEach(l=>{const st=l.deg?GST[l.deg]:null,col=l.deg?(l.side>0?st[0]:st[1]):c[0],y=Y(l.p);if(y==null)return;
+  const tx=(set.nm==='B'?'':set.nm+' ')+(l.deg?(l.side>0?'Res ':'Sup ')+l.deg+'°'+(DNOTE[l.deg]||''):'Base Price');
+  if(y<0||y>ph){(y<0?edge.up:edge.dn).push({y,col,tx,p:l.p});return}
+  const inside=xe0<=pw-4,xe=inside?xe0:pw,w=g.measureText(tx).width+10,lx=inside?xe:pw-w-2;
+  g.strokeStyle=col;g.lineWidth=l.deg?st[2]:2;g.setLineDash(l.deg&&st[3]===2?[6,4]:l.deg&&st[3]===1?[2,3]:[]);g.beginPath();g.moveTo(Math.max(xs,0),y);g.lineTo(inside?xe:pw,y);g.stroke();g.setLineDash([]);g.lineWidth=1;
+  g.fillStyle=col;g.fillRect(lx,y-8,w,16);g.fillStyle=l.deg===180?'#000':'#fff';g.textAlign='left';g.fillText(tx,lx+5,y)}));
+ ['up','dn'].forEach(sd=>{const a=edge[sd];a.sort((p1,p2)=>sd==='up'?p2.y-p1.y:p1.y-p2.y);a.slice(0,4).forEach((e,i)=>{const yy=sd==='up'?10+i*17:ph-10-i*17,t=(sd==='up'?'▲ ':'▼ ')+e.tx+'  '+e.p.toFixed(e.p>100?2:5),w=g.measureText(t).width+10;g.fillStyle=e.col;g.fillRect(pw-w-2,yy-8,w,16);g.fillStyle='#fff';g.textAlign='left';g.fillText(t,pw-w+3,yy)})})}
+registerIndicator({id:'gann',name:'Gann Square Levels',cat:'nq',d:['گین اسکوائر لیولز — ہر سیشن پر ری سیٹ (Res/Sup 45°–720°)','Gann Square levels — reset each session (Res/Sup 45°–720°)','गैन स्क्वायर लेवल — हर सेशन पर रीसेट (Res/Sup 45°–720°)'],
+ inputs:[sIn('gb','Base price','High+Low (prev session)',['High+Low (prev session)','Day Open','Day Low','Day High']),nIn('gm','Calculation multiplier',1,{step:.5}),nIn('sc','Scale (0 = auto)',0),nIn('rh','Session reset (UTC hour)',21,{min:0,max:23}),nIn('gh','Lines history (bars)',1500),nIn('go','Labels offset forward (bars)',25),
+  ...GDEG.map(([d,k])=>bIn(k,d+'° level',true))],sty:[{l:'Base line',d:'#2962ff',w:2}],
+ calc:(d,p)=>({s:[],ov:{sets:gSets(d[d.length-1].time,p,{hl:{},oh:null,lv:{},arr:d})}}),ovl:ovGann});
+/* ---------- SMC (supply / demand / BOS) ---------- */
+function smcCalc(D,L0,HS0,W0){
+ const n=D.length,L=Math.max(1,L0|0),HS=HS0,W=W0,R={sup:[],dem:[],bs:[],bd:[],piv:[],zz:[]},at=[];let a=0;
+ for(let i=0;i<n;i++){const tr=i?Math.max(D[i].high-D[i].low,Math.abs(D[i].high-D[i-1].close),Math.abs(D[i].low-D[i-1].close)):D[i].high-D[i].low;a=i<50?(a*i+tr)/(i+1):(a*49+tr)/50;at.push(a)}
+ const ph=[],pl=[];
+ const add=(arr,z,A)=>{const poi=(z.top+z.bot)/2;if(arr.some(e=>Math.abs(poi-(e.top+e.bot)/2)<=2*A))return;arr.unshift(z);if(arr.length>HS)arr.pop()};const live=a=>a.filter(z=>!z.dead);
+ for(let i=2*L;i<n;i++){
+  const j=i-L;let isH=true,isL=true;
+  for(let k=j-L;k<=j+L;k++){if(k===j)continue;
+   if(k<j){if(D[k].high>=D[j].high)isH=false;if(D[k].low<=D[j].low)isL=false}
+   else{if(D[k].high>D[j].high)isH=false;if(D[k].low<D[j].low)isL=false}}
+  const buf=at[i]*(W/10);
+  if(isH){ph.unshift(D[j].high);R.piv.push({i:j,p:D[j].high,t:'H',lab:ph.length>1&&ph[0]<ph[1]?'LH':'HH'});add(R.sup,{i0:j,top:D[j].high,bot:D[j].high-buf},at[i])}
+  else if(isL){pl.unshift(D[j].low);R.piv.push({i:j,p:D[j].low,t:'L',lab:pl.length>1&&pl[0]<pl[1]?'LL':'HL'});add(R.dem,{i0:j,bot:D[j].low,top:D[j].low+buf},at[i])}
+  const c=D[i].close;
+  R.sup.forEach(z=>{if(!z.dead&&c>=z.top){R.bs.push({i0:z.i0,i1:i,y:(z.top+z.bot)/2});z.dead=true}});
+  R.dem.forEach(z=>{if(!z.dead&&c<=z.bot){R.bd.push({i0:z.i0,i1:i,y:(z.top+z.bot)/2});z.dead=true}});
+ }
+ R.allBs=R.bs;R.allBd=R.bd;R.bs=R.bs.slice(-5);R.bd=R.bd.slice(-5);R.sup=live(R.sup);R.dem=live(R.dem);
+ R.piv.forEach(p=>{const l=R.zz[R.zz.length-1];if(l&&l.t===p.t){if((p.t==='H'&&p.p>l.p)||(p.t==='L'&&p.p<l.p))R.zz[R.zz.length-1]=p}else R.zz.push(p)});
+ return R}
+function ovSmc(g,E,p,c,R){const{X,Y,pw,ph}=E;g.font='11px "Share Tech Mono",monospace';g.textBaseline='middle';
+ const cSF=ca(c[0],70),cSO=ca('#ffffff',75),cDF=ca(c[1],70),cDO=ca('#ffffff',75);
+ const box=(z,fill,line,txt)=>{const xx=X(z.i0),x=Math.max(0,xx==null?0:xx),y1=Y(z.top),y2=Y(z.bot);if(y1==null||y2==null)return;
+  g.fillStyle=fill;g.fillRect(x,y1,pw-x,y2-y1);g.strokeStyle=line;g.lineWidth=1;g.strokeRect(x,y1,pw-x,y2-y1);
+  g.fillStyle=c[3];g.strokeStyle=c[3];g.textAlign='center';g.fillText(txt,x+(pw-x)/2,(Math.max(Math.min(y1,y2),0)+Math.min(Math.max(y1,y2),ph))/2);
+  const ym=Y((z.top+z.bot)/2);g.setLineDash([4,4]);g.beginPath();g.moveTo(x,ym);g.lineTo(pw,ym);g.stroke();g.setLineDash([]);g.textAlign='left';g.fillText('POI',x+4,ym-8)};
+ R.sup.forEach(z=>box(z,cSF,cSO,'SUPPLY'));R.dem.forEach(z=>box(z,cDF,cDO,'DEMAND'));
+ [...R.bs,...R.bd].forEach(b=>{const x0=X(b.i0),x1=X(b.i1),y=Y(b.y);if(x0==null||x1==null||y==null)return;g.strokeStyle=c[2];g.beginPath();g.moveTo(x0,y);g.lineTo(x1,y);g.stroke();g.fillStyle=c[2];g.textAlign='center';g.fillText('BOS',Math.min(Math.max((x0+x1)/2,20),pw-20),Math.min(Math.max(y-7,10),ph-4))});
+ if(p.zz&&R.zz.length>1){g.strokeStyle=c[3];g.lineWidth=1.5;g.beginPath();let st=false;R.zz.forEach(q=>{const x=X(q.i),y=Y(q.p);if(x==null||y==null)return;st?g.lineTo(x,y):g.moveTo(x,y);st=true});g.stroke();g.lineWidth=1}
+ if(p.pa)R.piv.forEach(q=>{const x=X(q.i),y=Y(q.p);if(x==null||y==null)return;g.fillStyle=c[3];g.textAlign='center';g.fillText(q.lab,x,y+(q.t==='H'?-9:9))})}
+registerIndicator({id:'smc',name:'Nawaz SMC',cat:'nq',d:['سپلائی/ڈیمانڈ زونز، POI، BOS (FluidTrades SMC Lite سے)','Supply/demand zones, POI, BOS (from FluidTrades SMC Lite)','सप्लाई/डिमांड ज़ोन, POI, BOS (FluidTrades SMC Lite से)'],
+ inputs:[nIn('L','Swing length',10,{min:2,max:50}),nIn('H','Zones to keep',20,{min:1,max:100}),nIn('W','Box width',2.5,{step:.5}),bIn('zz','Zig-zag',false),bIn('pa','Price-action labels (HH/LH/HL/LL)',false)],
+ sty:[{l:'Supply',d:'#ededed'},{l:'Demand',d:'#00ffff'},{l:'BOS line',d:'#ffffff'},{l:'Text',d:'#bfe0ff'}],
+ calc:(d,p)=>({s:[],ov:smcCalc(d,p.L,p.H,p.W)}),ovl:ovSmc});
+
+/* ================= ⭐ Nawaztech Quant (all-in-one, from the combined Pine script) =================
+   Credits: Supply/Demand engine from FluidTrades SMC Lite © Pmgjiv (MPL 2.0); Gann Square & Session Boxes © Nawaztech Quant (CC BY-NC-SA 4.0);
+   MA overlay / patterns / trade-session based on "TMA Overlay"; Round zones: "Gold Round Zones". */
+/* ---------- Sessions & Asia zone ---------- */
+const SESSD=[['as','Asia','Asia/Tokyo',9,18],['ld','London','Europe/London',8,17],['na','NY AM','America/New_York',8,13],['np','NY PM','America/New_York',13,19]];
+const NQP_sess=({id:'sess',name:'Sessions & Asia Zone',cat:'nq',d:['ایشیا/لندن/نیویارک سیشن باکس اور ایشیا اوپننگ زون','Asia/London/New York session boxes and Asia opening zone','एशिया/लंदन/न्यूयॉर्क सेशन बॉक्स और एशिया ओपनिंग ज़ोन'],
+ inputs:[...SESSD.flatMap(([k,nm,tz,a,b])=>[bIn(k,'Show '+nm,true),nIn(k+'a',nm+' start hour',a,{min:0,max:24}),nIn(k+'b',nm+' end hour',b,{min:0,max:24}),sIn(k+'z',nm+' timezone',tz,TZS)]),
+  bIn('az','Asia opening zone',true),nIn('azm','Opening range (minutes)',5),sIn('azu','Zone lasts until','End of Day',['End of Day','Next Asia Open']),sIn('azt','End-of-day timezone','UTC',TZS),nIn('azk','Days to keep',10),nIn('sft','Box fill transparency (0-100)',90)],
+ sty:[{l:'Asia',d:'#ffd600'},{l:'London',d:'#2196f3'},{l:'NY AM',d:'#ff9800'},{l:'NY PM',d:'#f44336'},{l:'Asia zone',d:'#ffeb3b'}],
+ calc:(d,p,x,c)=>{const n=d.length,R={ses:[],az:[]},runs={};
+  SESSD.forEach(([k,nm],si)=>{const tz=p[k+'z'],a=p[k+'a']*60,b=p[k+'b']*60;let cur=null;
+   for(let i=0;i<n;i++){const Lc=loc(d[i].time,tz),m=Lc.h*60+Lc.m,inn=a<=b?(m>=a&&m<b):(m>=a||m<b);
+    if(inn){if(!cur){cur={nm,col:c[si],i0:i,i1:i,hi:d[i].high,lo:d[i].low,t0:d[i].time};(runs[k]=runs[k]||[]).push(cur)}else{cur.i1=i;cur.hi=Math.max(cur.hi,d[i].high);cur.lo=Math.min(cur.lo,d[i].low)}}else cur=null}});
+  SESSD.forEach(([k])=>{if(p[k]&&runs[k])R.ses.push(...runs[k])});
+  if(p.az&&runs.as){const lim=Math.max(p.azm,S.tf)*60,zs=[];
+   runs.as.forEach((r,k)=>{let hi=-1e18,lo=1e18;for(let i=r.i0;i<=r.i1&&d[i].time<r.t0+lim;i++){hi=Math.max(hi,d[i].high);lo=Math.min(lo,d[i].low)}
+    let e=n-1;if(p.azu==='Next Asia Open'){if(runs.as[k+1])e=runs.as[k+1].i0}else{const d0=loc(r.t0,p.azt).d;e=r.i0;while(e+1<n&&loc(d[e+1].time,p.azt).d===d0)e++}
+    zs.push({i0:r.i0,i1:e,hi,lo})});R.az=zs.slice(-Math.max(1,p.azk))}
+  return{s:[],ov:R}},
+ ovl:(g,E,p,c,R)=>{const{X,Y,pw,ph}=E;g.font='11px "Share Tech Mono",monospace';g.textBaseline='middle';const bw=Math.abs(X(1)-X(0))/2||2;
+  R.ses.forEach(b=>{const x0=X(b.i0),x1=X(b.i1),y1=Y(b.hi),y2=Y(b.lo);if([x0,x1,y1,y2].some(v=>v==null))return;
+   g.fillStyle=ca(b.col,p.sft);g.fillRect(x0-bw,y1,x1-x0+2*bw,y2-y1);g.strokeStyle=b.col;g.lineWidth=1;g.strokeRect(x0-bw,y1,x1-x0+2*bw,y2-y1);g.fillStyle=b.col;g.textAlign='center';g.fillText(b.nm,Math.min(Math.max((x0+x1)/2,30),pw-30),Math.max(Math.min(y1,y2)-8,10))});
+  R.az.forEach(z=>{const x0=X(z.i0),x1=X(z.i1),y1=Y(z.hi),y2=Y(z.lo);if([x0,x1,y1,y2].some(v=>v==null))return;
+   g.fillStyle=ca(c[4],80);g.fillRect(x0-bw,y1,x1-x0+2*bw,y2-y1);g.strokeStyle=ca(c[4],20);g.strokeRect(x0-bw,y1,x1-x0+2*bw,y2-y1);g.fillStyle=c[4];g.textAlign='left';g.fillText('Asia Zone',Math.max(x0+2,4),Math.max(Math.min(y1,y2)-8,10))})}});
+/* ---------- Trade session (killzone shading) ---------- */
+const NQP_ts=({id:'tsess',name:'Trade Session (Killzone shading)',cat:'nq',d:['تجزیہ اور ٹریڈ ونڈو کی شیڈنگ','Shading for analysis & trade window','एनालिसिस और ट्रेड विंडो की शेडिंग'],
+ inputs:[sIn('tz','Timezone','America/Chicago',TZS),nIn('th1','Analysis start hour',7),nIn('tm1','Analysis start minute',0),nIn('th2','Session start hour',8),nIn('tm2','Session start minute',30),nIn('te','Session end hour',12),nIn('tem','Session end minute',0),
+  ...['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((x,i)=>bIn('d'+(i+1),x,i<5))],sty:[{l:'Shading',d:'#1976d2'}],
+ calc:(d,p)=>{const dm={Mon:'d1',Tue:'d2',Wed:'d3',Thu:'d4',Fri:'d5',Sat:'d6',Sun:'d7'},a1=p.th1*60+p.tm1,a2=p.th2*60+p.tm2,e=p.te*60+p.tem,tr=[];let c1=null,c2=null;
+  for(let i=0;i<d.length;i++){const Lc=loc(d[i].time,p.tz),m=Lc.h*60+Lc.m,ok=p[dm[Lc.w]],i1=ok&&m>=a1&&m<=e,i2=ok&&m>=a2&&m<=e;
+   if(i1){if(c1)c1.i1=i;else tr.push(c1={i0:i,i1:i})}else c1=null;if(i2){if(c2)c2.i1=i;else tr.push(c2={i0:i,i1:i})}else c2=null}
+  return{s:[],ov:{tr}}},
+ ovl:(g,E,p,c,R)=>{const{X,ph}=E,bw=Math.abs(X(1)-X(0))/2||2;R.tr.forEach(b=>{const x0=X(b.i0),x1=X(b.i1);if(x0==null||x1==null)return;g.fillStyle=ca(c[0],88);g.fillRect(x0-bw,0,x1-x0+2*bw,ph)})}});
+/* ---------- Round-number range zones ---------- */
+const NQP_rz=({id:'rz',name:'Round-Number Zones',cat:'nq',d:['راؤنڈ نمبر (جیسے 100 کے لیول) کے بائے/سیل/مڈ زون','Buy / sell / mid zones around round numbers (e.g. every 100)','राउंड नंबर (जैसे हर 100) के बाय/सेल/मिड ज़ोन'],
+ inputs:[nIn('i','Round number interval',100),nIn('r','Zone range (points)',20),nIn('m','Mid zone range (± points)',1.5,{step:.5}),nIn('n','Line length (bars each side)',50),bIn('b','Buy zone',true),bIn('s','Sell zone',true),bIn('mm','Mid (50) zone',true),bIn('l','Round lines',true)],
+ sty:[{l:'Buy zone',d:'#00c853'},{l:'Sell zone',d:'#ff1744'},{l:'Mid zone',d:'#2196f3'},{l:'Round line',d:'#9e9e9e'},{l:'Mid line',d:'#ff9800'}],
+ calc:()=>({s:[],ov:1}),
+ ovl:(g,E,p,c)=>{const{X,Y,pw}=E,last=D[D.length-1].close,I=Math.max(1,p.i),base=Math.floor(last/I)*I,nx=base+I,mid=base+I/2,n=D.length,lx0=Math.max(0,X(n-1-p.n)??0),lx1=Math.min(pw,X(n-1+p.n)??pw);
+  g.font='11px "Share Tech Mono",monospace';g.textBaseline='middle';
+  const band=(lo,hi,col)=>{const y1=Y(hi),y2=Y(lo);if(y1==null||y2==null)return;g.fillStyle=col;g.fillRect(0,y1,pw,y2-y1)};
+  if(p.b)band(base,base+p.r,ca(c[0],80));if(p.s)band(nx-p.r,nx,ca(c[1],80));if(p.mm)band(mid-p.m,mid+p.m,ca(c[2],85));
+  if(p.l)[[base,c[3],1],[nx,c[3],1],[mid,c[4],0]].forEach(([pr,col,t])=>{const y=Y(pr);if(y==null)return;g.strokeStyle=col;g.lineWidth=t?2:1;g.setLineDash(t?[]:[5,4]);g.beginPath();g.moveTo(lx0,y);g.lineTo(lx1,y);g.stroke();g.setLineDash([]);g.lineWidth=1;g.fillStyle=col;g.textAlign='left';g.fillText(pr,lx0+4,y-6)})}});
+const NQGDEG=[45,90,135,180,225,270,360,720],NQGCOL={45:['#f2364570','#4caf50e6'],90:['#f23645','#4caf50'],135:['#e040fb','#009688'],180:['#ff9800','#ff9800'],225:['#e91e63','#009688'],270:['#ff8c00','#ff8c00'],360:['#f23645','#4caf50'],720:['#9c27b0','#9c27b0']},GNOTE2={135:' (Midpoint)',180:' (Reversal)',225:' (Midpoint)',720:' (Major)'},NQGDASH={45:[5,4],135:[2,3],225:[5,4]};
+const NQP_g=({id:'g',inputs:[bIn('show','Show Gann Levels',true),sIn('base','Base Price Source','Day Open',['Day Open','Day Low','Day High']),nIn('mult','Calculation Multiplier',1,{step:.1}),nIn('hist','Past History Bars to Show Lines',1500),nIn('off','Labels Offset Forward',25),nIn('rh','Day start hour (UTC)',21,{min:0,max:23}),
+  ...NQGDEG.map(d=>bIn('s'+d,'Show '+d+'° levels',true))],sty:[],
+ calc:(d,p)=>{const n=d.length,rh=p.rh*3600,key=t=>Math.floor((t-rh)/86400),kk=key(d[n-1].time);let st=n-1;while(st>0&&key(d[st-1].time)===kk)st--;
+  let lo=1e18,hi=-1e18;for(let i=st;i<n;i++){lo=Math.min(lo,d[i].low);hi=Math.max(hi,d[i].high)}
+  const bp=p.base==='Day Low'?lo:p.base==='Day High'?hi:d[st].open,lv=[];
+  if(bp>0){const f=dg=>Math.pow(Math.sqrt(bp)+dg/360*p.mult,2);NQGDEG.forEach(dg=>{if(p['s'+dg]){lv.push({deg:dg,side:1,p:f(dg)},{deg:dg,side:-1,p:f(-dg)})}})}
+  return{s:[],ov:{n,bp,lv}}},
+ ovl:(g,E,p,c,R)=>{if(!p.show||!R||!(R.bp>0))return;const{X,Y,pw,ph}=E;g.font='11px "Share Tech Mono",monospace';g.textBaseline='middle';
+  const xs=Math.max(0,X(Math.max(0,R.n-1-p.hist))??0),lb=R.n-1+p.off,xe=X(lb)??pw;
+  const row=(y0,col,txt,tc,w,dash)=>{const y=Y(y0);if(y==null)return;g.strokeStyle=col;g.lineWidth=w;g.setLineDash(dash||[]);g.beginPath();g.moveTo(xs,y);g.lineTo(xe,y);g.stroke();g.setLineDash([]);
+   const tw=g.measureText(txt).width+10;g.fillStyle=col;g.fillRect(xe-tw,y-8,tw,16);g.fillStyle=tc;g.textAlign='left';g.fillText(txt,xe-tw+5,y)};
+  row(R.bp,'#2962ff','Base Price','#fff',2);
+  R.lv.forEach(l=>{const cc=NQGCOL[l.deg][l.side>0?0:1],tx=(l.side>0?'Res ':'Sup ')+l.deg+'°'+(GNOTE2[l.deg]||'');row(l.p,cc,tx,l.deg===180?'#000':'#fff',[180,270,360,720].includes(l.deg)?2:1,NQGDASH[l.deg])})}});
+const BULL='#4caf50',BEAR='#f23645';
+const NQP_ma=({id:'ma',inputs:[...[1,2,3,4].flatMap(k=>[bIn('m'+k+'s','Show MA '+k,true),sIn('m'+k+'t','MA '+k+' type','SMMA',MAT),nIn('m'+k+'l','MA '+k+' length',[21,50,100,200][k-1],{min:1,max:500}),sIn('m'+k+'r','MA '+k+' source','close',SRCO)]),
+  bIn('tf','Show Trend Fill',true),nIn('tl','Fast EMA length',2,{min:1}),nIn('tt','Fill transparency (0-100)',85,{min:0,max:100}),bIn('cm','Show MA cross markers',false),
+  bIn('bs','Show Bearish 3 Line Strike',true),bIn('bu','Show Bullish 3 Line Strike',true),bIn('be','Show Bearish Engulfing',true),bIn('bg','Show Bullish Engulfing',true)],
+ sty:[{l:'MA 1',d:'#ffffff',w:2},{l:'MA 2',d:'#6aff00',w:2},{l:'MA 3',d:'#ffeb3b',w:2},{l:'MA 4',d:'#ff0500',w:2},{l:'Trend fill bullish',d:BULL},{l:'Trend fill bearish',d:BEAR},{l:'Pattern bullish',d:BULL},{l:'Pattern bearish',d:BEAR}],
+ calc:(d,p,x,c)=>{const n=d.length,M=[1,2,3,4].map(k=>MAF[p['m'+k+'t']](srcA(d,p['m'+k+'r']),p['m'+k+'l'])),cl=srcA(d,'close'),fast=ema(cl,p.tl),mk=[];
+  const sr=M.map((a,k)=>({d:p['m'+(k+1)+'s']?a:nanA(n),t:'l'}));
+  const up=(a,b,i)=>a[i]>b[i]&&a[i-1]<=b[i-1],dn=(a,b,i)=>a[i]<b[i]&&a[i-1]>=b[i-1];
+  for(let i=3;i<n;i++){const k=d[i],q=d[i-1],t=k.time;
+   if(p.cm){[[0,1],[1,2],[2,3]].forEach(([a,b])=>{if(p['m'+(a+1)+'s']&&p['m'+(b+1)+'s']){if(up(M[a],M[b],i))mk.push({time:t,position:'inBar',color:BULL,shape:'circle'});else if(dn(M[a],M[b],i))mk.push({time:t,position:'inBar',color:BEAR,shape:'circle'})}})}
+   if(p.bu&&d[i-3].close<d[i-3].open&&d[i-2].close<d[i-2].open&&q.close<q.open&&k.close>k.open&&k.close>d[i-3].open)mk.push({time:t,position:'belowBar',color:c[6],shape:'arrowUp',text:'3s-Bull'});
+   if(p.bs&&d[i-3].close>d[i-3].open&&d[i-2].close>d[i-2].open&&q.close>q.open&&k.close<k.open&&k.close<d[i-3].open)mk.push({time:t,position:'aboveBar',color:c[7],shape:'arrowDown',text:'3s-Bear'});
+   if(p.bg&&q.close<q.open&&k.close>k.open&&k.open<=q.close&&k.close>=q.open&&Math.abs(k.close-k.open)>Math.abs(q.close-q.open))mk.push({time:t,position:'belowBar',color:c[6],shape:'arrowUp'});
+   if(p.be&&q.close>q.open&&k.close<k.open&&k.open>=q.close&&k.close<=q.open&&Math.abs(k.close-k.open)>Math.abs(q.close-q.open))mk.push({time:t,position:'aboveBar',color:c[7],shape:'arrowDown'})}
+  return{s:sr,mk,ov:{f:fast,m:M[3]}}},
+ ovl:(g,E,p,c,R)=>{if(!p.tf||!R)return;const{X,Y}=E,rg=ch.timeScale().getVisibleLogicalRange();if(!rg)return;const a=Math.max(1,Math.floor(rg.from)),b=Math.min(R.f.length-1,Math.ceil(rg.to));
+  for(let i=a;i<=b;i++){const f0=R.f[i-1],f1=R.f[i],m0=R.m[i-1],m1=R.m[i];if(f0!==f0||f1!==f1||m0!==m0||m1!==m1)continue;const x0=X(i-1),x1=X(i),y=[Y(f0),Y(f1),Y(m1),Y(m0)];if(x0==null||x1==null||y.some(v=>v==null))continue;
+   const col=f1>m1?c[4]:f1<m1?c[5]:null;if(!col)continue;g.fillStyle=ca(col,p.tt);g.beginPath();g.moveTo(x0,y[0]);g.lineTo(x1,y[1]);g.lineTo(x1,y[2]);g.lineTo(x0,y[3]);g.closePath();g.fill()}}});
+/* compose all parts into one indicator with group headers */
+const NQ_PARTS=[['d_','Display',{inputs:[bIn('tbl','Show Info Table',true)],sty:[]}],
+ ['z_','1) Supply & Demand Zones (FluidTrades SMC Lite)',Object.assign({},def('smc'),{inputs:[bIn('on','Show Supply/Demand Zones',true),...def('smc').inputs]})],
+ ['g_','2) Gann Square Levels',NQP_g],['s_','2) Session Boxes & Asia Opening Zone',NQP_sess],['m_','3) Moving Averages, Trend Fill, Candle Patterns',NQP_ma],['t_','5) Trade Session Shading',NQP_ts],['r_','6) Round-Number Zones',NQP_rz]];
+(()=>{let off=0;const inputs=[],sty=[];NQ_PARTS.forEach(([pf,title,df],ix)=>{inputs.push({k:'_h'+ix,l:'━━ '+title+' ━━',t:'h',d:0});df.inputs.forEach(x=>inputs.push(Object.assign({},x,{k:pf+x.k})));df._off=off;off+=df.sty.length;df.sty.forEach(z=>sty.push(Object.assign({},z,{l:title.split(')')[0].split(' ')[0]+' '+z.l})))});
+ const sub=(p,pf)=>{const o={};Object.keys(p).forEach(k=>{if(k.startsWith(pf))o[k.slice(pf.length)]=p[k]});return o},cs=(c,df)=>c.slice(df._off,df._off+df.sty.length);
+ registerIndicator({id:'nqall',name:'Nawaztech Quant',cat:'nq',d:['نواز ٹیک کوانٹ — سب ایک میں (زونز، Gann، سیشن باکس، MA، پیٹرن، راؤنڈ زونز) اپنی سیٹنگز کے ساتھ','Nawaztech Quant — all in one (zones, Gann, session boxes, MAs, patterns, round zones) with its own settings','नवाज़टेक क्वांट — सब एक में (ज़ोन, Gann, सेशन बॉक्स, MA, पैटर्न, राउंड ज़ोन) अपनी सेटिंग के साथ'],
+  inputs,sty,calc:(d,p,x,c)=>{const R={s:[],mk:[],ov:{}};
+   NQ_PARTS.forEach(([pf,,df])=>{if(!df.calc)return;if(pf==='z_'&&!p.z_on)return;const q=sub(p,pf);let o;try{o=df.calc(d,q,x,cs(c,df))}catch(e){console.warn('nqall',pf,e);return}
+    if(pf==='m_')R.s=o.s;if(o.mk)R.mk.push(...o.mk);R.ov[pf]=o.ov});return R},
+  ovl:(g,E,p,c,R)=>{const{pw,ph}=E;NQ_PARTS.forEach(([pf,,df])=>{if(!df.ovl||R[pf]===undefined)return;g.save();try{df.ovl(g,E,sub(p,pf),cs(c,df),R[pf])}catch(e){}g.restore()});
+   g.font='bold 12px "Share Tech Mono",monospace';
+   if(0){g.fillStyle='rgba(150,150,150,.28)';g.font='bold 44px "Share Tech Mono",monospace';g.textAlign='center';g.textBaseline='middle';g.fillText('NAWAZTECH QUANT',pw/2,ph/2)}
+   if(p.d_tbl){const L=['• Gann Square Levels','• Session Boxes & Asia Opening Zone','• Supply & Demand Zones','• Moving Averages & Alerts','• Round-Number Zones'],w=250,x0=pw-w-8,y0=8;g.fillStyle='rgba(0,0,0,.82)';g.fillRect(x0,y0,w,26+L.length*16+8);g.strokeStyle='#ffd600';g.lineWidth=2;g.strokeRect(x0,y0,w,26+L.length*16+8);
+    g.fillStyle='#ffd600';g.textAlign='left';g.textBaseline='middle';g.font='bold 13px "Share Tech Mono",monospace';g.fillText('NAWAZTECH QUANT',x0+10,y0+15);g.fillStyle='#fff';g.font='11px "Share Tech Mono",monospace';L.forEach((t_,i)=>g.fillText(t_,x0+10,y0+36+i*16))}}})})();
+
+
+/* ---- 1-day candle boxes (shared) ---- */
+function dayCands(arr,d1,n){const out=(d1||[]).slice(-Math.max(n,1)-1).map(c=>Object.assign({},c));
+ if(arr&&arr.length&&out.length){const l=out[out.length-1],st=l.time;if(arr[arr.length-1].time>=st&&arr[0].time<=st+S.tf*60){let hi=l.high,lo=l.low;for(let i=arr.length-1;i>=0&&arr[i].time>=st;i--){hi=Math.max(hi,arr[i].high);lo=Math.min(lo,arr[i].low)}l.high=hi;l.low=lo;l.close=arr[arr.length-1].close}}
+ else if(arr&&arr.length&&!out.length){const k=Math.floor(arr[arr.length-1].time/86400)*86400,b=arr.filter(c=>c.time>=k);if(b.length)out.push({time:k,open:b[0].open,high:Math.max(...b.map(c=>c.high)),low:Math.min(...b.map(c=>c.low)),close:b[b.length-1].close})}
+ return out.slice(-n)}
+function drawDayCands(g,E,cands,colUp,colDn,dp){const{X,Y,pw}=E;cands.forEach(cd=>{const x0=X(t2i(cd.time)),x1=X(t2i(cd.time+86400));if(x0==null||x1==null)return;const a=Math.max(0,x0),b=Math.min(pw,x1),yh=Y(cd.high),yl=Y(cd.low),yo=Y(cd.open),yc=Y(cd.close);if([yh,yl,yo,yc].some(v=>v==null)||b<=a)return;const col=cd.close>=cd.open?colUp:colDn;
+ g.fillStyle=ca(col,92);g.fillRect(a,yh,b-a,yl-yh);g.strokeStyle=ca(col,35);g.lineWidth=1;g.setLineDash([3,3]);g.strokeRect(a,yh,b-a,yl-yh);g.setLineDash([]);
+ g.fillStyle=ca(col,78);g.fillRect(a,Math.min(yo,yc),b-a,Math.max(2,Math.abs(yc-yo)));g.fillStyle=col;g.textAlign='left';g.textBaseline='middle';g.font='bold 11px "Share Tech Mono",monospace';g.fillText('1D '+(cd.close>=cd.open?'▲':'▼')+'  O '+dp(cd.open)+'  H '+dp(cd.high)+'  L '+dp(cd.low)+'  C '+dp(cd.close),a+6,Math.max(yh+10,10))})}
+/* ================= ⭐ Gann Square of 9 (fixed lattice, fan, time cycles, signals) ================= */
+const GS9R=[[1,8],[1,4],[1,2],[1,1],[2,1],[4,1],[8,1]];
+registerIndicator({id:'gsq9',name:'Gann Sq9 — Levels, Targets & Signals',cat:'nq',d:['گین اسکوائر آف 9 — فکسڈ لیولز، فین، ٹائم سائیکل، BUY/SELL سگنل (TP1-4، SL)','Gann Square of 9 — fixed levels, fan, time cycles, BUY/SELL signals (TP1-4, SL)','गैन स्क्वायर ऑफ़ 9 — फ़िक्स्ड लेवल, फ़ैन, टाइम साइकल, BUY/SELL सिग्नल (TP1-4, SL)'],
+ inputs:[{k:'_h0',l:'━━ Square of 9 Levels ━━',t:'h',d:0},nIn('rings','Number of Rings (1 ring = 360°)',3,{min:1,max:6}),bIn('rnd','Round levels to whole number',true),bIn('card','Highlight cardinal angles (90/180/270/360)',true),bIn('half','Show half-angle (22.5°) lines',true),bIn('base','Show base price line (prev close)',true),nIn('rh','Day start hour (UTC)',21,{min:0,max:23}),
+  {k:'_h1',l:'━━ Style ━━',t:'h',d:0},nIn('lw','Line width',2,{min:1,max:4}),nIn('ext','Extend lines ahead (bars)',15,{min:5,max:200}),
+  {k:'_h2',l:'━━ Gann Fan ━━',t:'h',d:0},bIn('fl','Fan from swing low (bullish)',true),bIn('fh','Fan from swing high (bearish)',true),nIn('flb','Fan swing lookback (bars)',100,{min:10,max:500}),nIn('fu','Manual price-per-bar unit (0 = auto)',0,{min:0,step:.01}),
+  {k:'_h3',l:'━━ Gann Time Cycles ━━',t:'h',d:0},bIn('cy','Enable time cycles',true),{k:'cl',l:'Cycle counts (comma-separated)',t:'x',d:'30,45,60,90,120,144,180,270,360'},nIn('cb','Cycle anchor lookback (bars)',100,{min:10,max:500}),
+  {k:'_h4',l:'━━ Signals ━━',t:'h',d:0},bIn('sg','Show BUY / SELL labels',true),bIn('rt','Require breakout + retest',true),nIn('rb','Max bars to wait for retest',20,{min:1,max:200}),nIn('nl','Signal text boxes to show (latest)',4,{min:0,max:50})],
+ sty:[{l:'Resistance',d:'#f23645'},{l:'Support',d:'#00e676'},{l:'Base price',d:'#00bcd4'},{l:'Half-angle',d:'#ffeb3b'},{l:'Fan up',d:'#009688'},{l:'Fan down',d:'#e040fb'},{l:'Cycle',d:'#9c27b0'},{l:'BUY box',d:'#4caf50'},{l:'SELL box',d:'#f23645'}],
+ calc:(d,p,x,c)=>{const n=d.length,rh=p.rh*3600,key=t=>Math.floor((t-rh)/86400),lvl=(k,r)=>{const v=Math.pow(k/8,2);return r?Math.round(v):v},tot=p.rings*8;
+  const cyc=(p.cl||'').split(',').map(v=>parseInt(v.trim())).filter(v=>v>0);
+  let R=[],Sp=[],base=null,sq=null,day=null,aU=false,aD=false,bU=null,bD=null,bnU=0,bnD=0,nR=NaN,nS=NaN,pnR=NaN,pnS=NaN,anchor=null,fan=null,cycles=[],sigs=[],mk=[];
+  for(let i=0;i<n;i++){const cl=d[i].close,newDay=i>0&&key(d[i].time)!==key(d[i-1].time);
+   if(newDay){base=d[i-1].close;sq=Math.sqrt(base);const nb=sq*8,nu=Math.floor(nb)+1,nd=Math.ceil(nb)-1;R=[];Sp=[];
+    for(let k=1;k<=tot;k++){const a=nu+k-1;R.push({n:a,p:lvl(a,p.rnd)});const b=nd-k+1;if(b>=1)Sp.push({n:b,p:lvl(b,p.rnd)})}
+    aU=aD=false;bU=bD=null;day={start:i,base,sq,R,S:Sp};
+    if(i>=p.flb-1){let lo=1e18,hi=-1e18,li=i,hiI=i;for(let j=i-p.flb+1;j<=i;j++){if(d[j].low<=lo){lo=d[j].low;li=j}if(d[j].high>=hi){hi=d[j].high;hiI=j}}fan={lo,li,hi,hiI,unit:p.fu>0?p.fu:(hi-lo)/p.flb}}
+    if(p.cy&&i>=p.cb-1){let lo=1e18,li=i;for(let j=i-p.cb+1;j<=i;j++){if(d[j].low<=lo){lo=d[j].low;li=j}}anchor=li}}
+   if(R.length)nR=R[0].p;if(Sp.length)nS=Sp[0].p;
+   if(p.cy&&anchor!=null){const hit=cyc.filter(v=>i===anchor+v);if(hit.length)cycles.push({i,t:hit.join(' ')})}
+   if(i>0&&nR===nR&&nS===nS){const rawU=cl>nR&&d[i-1].close<=pnR,rawD=cl<nS&&d[i-1].close>=pnS;let buy=false,sell=false;
+    if(p.rt){if(rawU&&!aU){aU=true;bU=nR;bnU=i}if(rawD&&!aD){aD=true;bD=nS;bnD=i}
+     if(aU){if(i-bnU>p.rb)aU=false;else if(d[i].low<=bU&&cl>bU){buy=true;aU=false}else if(cl<bU)aU=false}
+     if(aD){if(i-bnD>p.rb)aD=false;else if(d[i].high>=bD&&cl<bD){sell=true;aD=false}else if(cl>bD)aD=false}}
+    else{buy=rawU;sell=rawD}
+    if((buy||sell)&&i<n-1&&day){const bu=buy,L=bu?day.R:day.S,O=bu?day.S:day.R,sl=O.length?O[0].p:null;
+     if(sl!=null&&Math.abs(cl-sl)>0){const k=bu?1:-1,tps=[1,2,3,4].map(q=>L[q]?L[q].p:null);
+      sigs.push({d:bu?'BUY':'SELL',en:cl,sl,tp:cl+k*S.rr*Math.abs(cl-sl),tps,time:d[i].time,i});
+      if(p.sg)mk.push({time:d[i].time,position:bu?'belowBar':'aboveBar',color:bu?c[7]:c[8],shape:bu?'arrowUp':'arrowDown',text:bu?'BUY':'SELL'})}}}
+   pnR=nR;pnS=nS}
+  const ov={n,day,fan,cycles,sigs,half:[]};
+  if(day){const t2=tot*2;for(let j=0;j<t2;j++){const mA=Math.floor(day.sq*16)+1+j;if(mA%2!==0)ov.half.push({a:(mA%16)*22.5,p:lvl(mA/2,p.rnd)});const mB=Math.ceil(day.sq*16)-1-j;if(mB%2!==0&&mB>=1)ov.half.push({a:(mB%16)*22.5,p:lvl(mB/2,p.rnd)})}}
+  return{s:[],mk,ov}},
+ ovl:(g,E,p,c,R)=>{if(!R)return;const{X,Y,pw,ph}=E;g.font='11px "Share Tech Mono",monospace';g.textBaseline='middle';const dp=v=>v.toFixed(dpf(v)===5?4:2),bwid=Math.abs(X(1)-X(0))||3;
+  if(0){g.fillStyle='rgba(150,150,150,.28)';g.font='bold 44px "Share Tech Mono",monospace';g.textAlign='center';g.fillText(p.wt,pw/2,ph/2);g.font='11px "Share Tech Mono",monospace'}
+  (R.cycles||[]).forEach(q=>{const x=X(q.i);if(x==null)return;g.fillStyle=ca(c[6],70);g.fillRect(x-bwid/2,0,bwid,ph);g.fillStyle=c[6];g.textAlign='center';g.fillText('⏱ Cycle: '+q.t+' bars',Math.min(Math.max(x,70),pw-70),14)});
+  const D0=R.day;if(D0){const xs=Math.max(0,X(D0.start)??0),xe=X(R.n-1+p.ext)??pw;
+   const row=(pr,col,txt,tc,w,dash,al)=>{const y=Y(pr);if(y==null)return;g.strokeStyle=al==null?col:ca(col,al);g.lineWidth=w;g.setLineDash(dash||[]);g.beginPath();g.moveTo(xs,y);g.lineTo(xe,y);g.stroke();g.setLineDash([]);const tw=g.measureText(txt).width+10;g.fillStyle=col;g.fillRect(xe-tw,y-8,tw,16);g.fillStyle=tc;g.textAlign='left';g.fillText(txt,xe-tw+5,y)};
+   (R.half||[]).forEach(h=>row(h.p,c[3],'≈'+h.a+'°  '+dp(h.p),'#000',2,[2,3]));
+   D0.R.forEach((l,k)=>{const cd=l.n%2===0,ag=l.n%8===0?360:(l.n%8)*45;row(l.p,c[0],'R'+(k+1)+' ('+ag+'°)  '+dp(l.p),'#fff',cd&&p.card?p.lw+2:p.lw,cd?[]:[6,4],cd&&p.card?0:20)});
+   D0.S.forEach((l,k)=>{const cd=l.n%2===0,ag=l.n%8===0?360:(l.n%8)*45;row(l.p,c[1],'S'+(k+1)+' ('+ag+'°)  '+dp(l.p),'#000',cd&&p.card?p.lw+2:p.lw,cd?[]:[6,4],cd&&p.card?0:20)});
+   if(p.base)row(D0.base,c[2],'BASE (Prev Close)  '+dp(D0.base),'#000',p.lw+1);
+   const fan=R.fan;if(fan){const far=R.n+300;
+    const draw=(P0,bar,sg,col,lab)=>{GS9R.forEach(([a,b])=>{const sl=fan.unit*a/b*sg,x0=X(bar),x1=X(far),y0=Y(P0),y1=Y(P0+sl*(far-bar));if([x0,x1,y0,y1].some(v=>v==null))return;g.strokeStyle=ca(col,a===b?0:40);g.lineWidth=a===b?p.lw+1:1;g.beginPath();g.moveTo(x0,y0);g.lineTo(x1,y1);g.stroke()});const x=X(bar),y=Y(P0);if(x!=null&&y!=null){g.fillStyle=col;g.fillRect(x-4,y+(sg>0?4:-20),150,16);g.fillStyle='#fff';g.textAlign='left';g.fillText(lab+' (unit='+dp(fan.unit)+')',x,y+(sg>0?12:-12))}};
+    if(p.fl)draw(fan.lo,fan.li,1,c[4],'Gann Fan ↑');if(p.fh)draw(fan.hi,fan.hiI,-1,c[5],'Gann Fan ↓')}}
+  (R.sigs||[]).slice(-p.nl).forEach(sg=>{if(!p.nl)return;const x=X(sg.i),y=Y(sg.d==='BUY'?D[sg.i]?D[sg.i].low:sg.en:D[sg.i]?D[sg.i].high:sg.en);if(x==null||y==null)return;const bu=sg.d==='BUY',col=bu?c[7]:c[8],ln=[sg.d,...sg.tps.map((v,k)=>v==null?null:'TP'+(k+1)+': '+dp(v)).filter(Boolean),'SL: '+dp(sg.sl)],h=ln.length*13+8,y0=bu?y+8:y-8-h;
+   g.fillStyle=col;g.fillRect(x-48,y0,96,h);g.fillStyle='#fff';g.textAlign='center';ln.forEach((t_,k)=>g.fillText(t_,x,y0+10+k*13))})}});
+/* ================= ⭐ 8 Agents — BUY / SELL signals on the chart (with daily candle levels) ================= */
+let AG_MTF=null,AG_C={k:'',v:null};
+function ag8Hist(arr,p,mtf){const n=arr.length,EF=ema(arr.map(c=>c.close),p.el||50),wf=S.tf*60,HT=[[mtf.M15,900,160],[mtf.H4,14400,14],[mtf.D1,86400,12]].map(x=>({H:x[0],P:x[1],W:x[2],j:0,idx:-1,o:0,h:0,l:0})),sigs=[];let prev='WAIT',lastI=-1e9;
+ for(let i=0;i<n-1;i++){const T=arr[i].time+wf,w=HT.map(h=>{while(h.j<h.H.length&&h.H[h.j].time+h.P<=T)h.j++;const a=h.H.slice(Math.max(0,h.j-h.W),h.j);
+   if(wf<h.P&&h.j<h.H.length&&h.H[h.j].time<=arr[i].time){const q=arr[i];if(h.idx!==h.j){h.idx=h.j;h.o=q.open;h.h=q.high;h.l=q.low}else{h.h=Math.max(h.h,q.high);h.l=Math.min(h.l,q.low)}a.push({time:h.H[h.j].time,open:h.o,high:h.h,low:h.l,close:q.close})}return a});
+  const ag=agentsW(arr[i].close,w[2],w[1],w[0]);let call='WAIT';
+  if(ag.dir){const sc=ag.st.slice(0,7).filter(v=>v===2).length;if(sc>=p.minA&&ag.st[7]>=(p.rk?1:0))call=ag.dir;
+   if(call!=='WAIT'&&p.ef&&EF[i]===EF[i]&&((call==='BUY'&&arr[i].close<EF[i])||(call==='SELL'&&arr[i].close>EF[i])))call='WAIT'}
+  if(call!=='WAIT'&&call!==prev&&i-lastI>=p.cool){lastI=i;const pl=ag.plan;sigs.push({d:call,en:pl.en,sl:pl.sl,tp:pl.tp,time:arr[i].time,i})}prev=call}
+ sigs.st={prev,lastI};return sigs}
+registerIndicator({id:'agents8',name:'8 Agents — BUY/SELL signals',cat:'nq',d:['آٹھ ایجنٹ — ہفتہ وار پروفائل، روزانہ رجحان/ڈے کینڈل، 15m ساخت/MSS، 4H CRT/لیول، انٹری، رسک — BUY/SELL چارٹ پر','Eight agents — weekly profile, daily trend / day candle, 15m structure/MSS, 4H CRT/level, entry, risk — BUY/SELL on chart','आठ एजेंट — वीकली प्रोफ़ाइल, डेली ट्रेंड/डे कैंडल, 15m स्ट्रक्चर/MSS, 4H CRT/लेवल, एंट्री, रिस्क — चार्ट पर BUY/SELL'],
+ inputs:[nIn('minA','Minimum agents ✓ (of first 7)',6,{min:3,max:7}),bIn('ef','Trend filter: BUY only above EMA, SELL only below',true),nIn('el','Trend filter EMA length',50,{min:5,max:400}),bIn('lv','Also show unconfirmed ●live arrow (may disappear)',false),bIn('rk','Risk agent must be ≥ half (◐)',true),nIn('cool','Min bars between signals',6,{min:1,max:200}),bIn('pl','Show Entry / SL / TP of latest signal',true),bIn('dl','Show daily candle levels (prev day O/H/L/C, today open)',true),bIn('dc','Show day-candle bias text',true),bIn('dcb','Show 1-day candle boxes',true),nIn('dcn','Day candles to draw',2,{min:1,max:3})],
+ sty:[{l:'BUY / bullish day',d:'#00c853'},{l:'SELL / bearish day',d:'#ff1744'},{l:'Daily candle levels',d:'#ffd600'},{l:'Entry',d:'#ffffff'},{l:'SL',d:'#ff5d7a'},{l:'TP',d:'#4cc3ff'}],
+ calc:(d,p,x,c)=>{const mtf=AG_MTF||{M15,H4,D1},n=d.length;let sg;const key=AG_MTF?'':[n,d[0].time,d[n-1].time,mtf.M15.length,mtf.H4.length,mtf.D1.length,p.minA,p.rk,p.cool,p.ef,p.el,S.rr,S.tf].join('|');
+  if(key&&AG_C.k===key)sg=AG_C.v;else{sg=mtf.D1.length>=5&&mtf.H4.length>=5&&mtf.M15.length>=30?ag8Hist(d,p,mtf):[];if(key)AG_C={k:key,v:sg}}
+  let live=null,all=sg;
+  if(!AG_MTF&&mtf.D1.length>=5&&mtf.H4.length>=5&&mtf.M15.length>=30&&n>1){const ag=agentsW(d[n-1].close,mtf.D1.slice(-12),mtf.H4.slice(-14),mtf.M15.slice(-160));
+   if(ag.dir){const sc=ag.st.slice(0,7).filter(v=>v===2).length,ok=sc>=p.minA&&ag.st[7]>=(p.rk?1:0),stt=sg.st||{prev:'WAIT',lastI:-1e9};live={d:ag.dir,sc,ok};
+    if(ok&&p.lv&&ag.dir!==stt.prev&&n-1-stt.lastI>=p.cool){live.fire=true;all=sg.concat([{d:ag.dir,en:ag.plan.en,sl:ag.plan.sl,tp:ag.plan.tp,time:d[n-1].time,i:n-1,live:true}])}}}
+  const mk=all.map(q=>({time:q.time,position:q.d==='BUY'?'belowBar':'aboveBar',color:q.d==='BUY'?c[0]:c[1],shape:q.d==='BUY'?'arrowUp':'arrowDown',text:'8A '+q.d+(q.live?' ●live':'')}));
+  return{s:[],mk,ov:{n,sigs:all,live,D1:mtf.D1.slice(-3),days:dayCands(d,mtf.D1,Math.max(p.dcn||2,1))}}},
+ ovl:(g,E,p,c,R)=>{if(!R)return;const{X,Y,pw,ph}=E;g.font='11px "Share Tech Mono",monospace';g.textBaseline='middle';const dp=v=>v.toFixed(dpf(v)===5?4:2);
+  const line=(pr,col,txt,x0,dash)=>{const y=Y(pr);if(y==null)return;g.strokeStyle=col;g.lineWidth=1;g.setLineDash(dash||[5,4]);g.beginPath();g.moveTo(Math.max(0,x0),y);g.lineTo(pw,y);g.stroke();g.setLineDash([]);g.fillStyle=col;g.textAlign='left';g.fillText(txt+' '+dp(pr),Math.max(0,x0)+4,y-7)};
+  if(p.dcb&&R.days)drawDayCands(g,E,R.days,c[0],c[1],dp);
+  if(R.live){g.font='bold 12px "Share Tech Mono",monospace';g.textAlign='left';g.fillStyle=R.live.ok?(R.live.d==='BUY'?c[0]:c[1]):'#a3aec6';g.fillText('8 Agents: '+(R.live.ok?R.live.d:'WAIT')+'  ('+R.live.sc+'/7 ✓)',64,ph-34)}
+  const dd=R.D1;if(dd.length>=2){const pd=dd[dd.length-2],td=dd[dd.length-1];
+   if(p.dl){line(pd.high,c[2],'PDH',0);line(pd.low,c[2],'PDL',0);line(pd.open,c[2],'PDO',0,[2,4]);line(pd.close,c[2],'PDC',0,[2,4]);line(td.open,c[2],'DO (today open)',0,[8,3])}
+   if(p.dc){const bull=pd.close>pd.open,tx='Prev day candle: '+(bull?'BULLISH ▲':'BEARISH ▼')+'  ·  Today: '+(td.close>=td.open?'▲':'▼');g.fillStyle=bull?c[0]:c[1];g.textAlign='left';g.font='bold 12px "Share Tech Mono",monospace';g.fillText(tx,64,ph-14)}}
+  const sg=R.sigs[R.sigs.length-1];if(p.pl&&sg){const x0=X(sg.i);if(x0!=null){[[sg.en,c[3],'Entry'],[sg.sl,c[4],'SL'],[sg.tp,c[5],'TP']].forEach(([pr,col,t_])=>{const y=Y(pr);if(y==null)return;g.strokeStyle=col;g.lineWidth=1;g.setLineDash([4,4]);g.beginPath();g.moveTo(Math.max(0,x0),y);g.lineTo(pw,y);g.stroke();g.setLineDash([]);g.fillStyle=col;g.textAlign='right';g.fillText('8A '+sg.d+' '+t_+' '+dp(pr),pw-4,y-7)})}}}});
+
+/* ================= ⭐ BB + EMA Cross Signals (Bollinger Bands with EMA crossing → BUY / SELL) ================= */
+const BBMODES=['EMA × BB basis','EMA × EMA 2','Price × EMA','EMA × Bands (breakout)'];
+registerIndicator({id:'bbema',name:'BB + EMA Cross Signals',cat:'nq',d:['بولنجر بینڈز کے ساتھ EMA — کراسنگ پر BUY/SELL سگنل (لمبائی، قسم، رنگ سب بدلے جا سکتے ہیں)','Bollinger Bands + EMA — BUY/SELL signal on crossing (length, type, colours all adjustable)','बोलिंजर बैंड + EMA — क्रॉसिंग पर BUY/SELL सिग्नल (लंबाई, टाइप, रंग सब बदल सकते हैं)'],
+ inputs:[{k:'_h0',l:'━━ Bollinger Bands ━━',t:'h',d:0},nIn('bl','BB length',20,{min:2,max:500}),nIn('bm','BB StdDev multiplier',2,{min:.1,max:10,step:.1}),sIn('bs','BB source','close',SRCO),bIn('bf','Fill between bands',true),nIn('bt','Fill transparency (0-100)',92,{min:0,max:100}),
+  {k:'_h1',l:'━━ EMA ━━',t:'h',d:0},nIn('e1','EMA length (change distance)',9,{min:1,max:500}),sIn('e1t','EMA type','EMA',['EMA','SMA','WMA','SMMA']),sIn('e1s','EMA source','close',SRCO),nIn('e2','EMA 2 length (used by "EMA × EMA 2")',21,{min:1,max:500}),bIn('e2s','Always show EMA 2',false),
+  {k:'_h2',l:'━━ Signals ━━',t:'h',d:0},sIn('mode','Crossing that gives the signal','EMA × BB basis',BBMODES),bIn('sg','Show BUY / SELL markers',true),nIn('gap','Min bars between signals',1,{min:1,max:200}),
+  {k:'_h3',l:'━━ 1-Day candle ━━',t:'h',d:0},bIn('dcb','Show 1-day candle boxes',true),nIn('dcn','Day candles to draw',2,{min:1,max:5})],
+ sty:[{l:'BB basis',d:'#ff9800',w:1},{l:'BB upper',d:'#2196f3',w:1},{l:'BB lower',d:'#2196f3',w:1},{l:'EMA',d:'#ffeb3b',w:2},{l:'EMA 2',d:'#e040fb',w:1},{l:'BB fill',d:'#2196f3'},{l:'BUY',d:'#00c853'},{l:'SELL',d:'#ff1744'},{l:'Day candle bullish',d:'#00c853'},{l:'Day candle bearish',d:'#ff1744'}],
+ calc:(d,p,x,c)=>{const n=d.length,a=srcA(d,p.bs),b=sma(a,p.bl),sd=stdev(a,p.bl),up=b.map((v,i)=>v+p.bm*sd[i]),lo=b.map((v,i)=>v-p.bm*sd[i]),
+   E1=MAF[p.e1t==='EMA'?'EMA':p.e1t](srcA(d,p.e1s),p.e1),E2=MAF.EMA(srcA(d,p.e1s),p.e2),cl=srcA(d,'close'),mk=[],ev=[];
+  const cu=(A,B,i)=>A[i]>B[i]&&A[i-1]<=B[i-1],cd=(A,B,i)=>A[i]<B[i]&&A[i-1]>=B[i-1];let lastI=-1e9;
+  for(let i=2;i<n-1;i++){let dir=null;
+   if(p.mode===BBMODES[0]){if(cu(E1,b,i))dir='BUY';else if(cd(E1,b,i))dir='SELL'}
+   else if(p.mode===BBMODES[1]){if(cu(E1,E2,i))dir='BUY';else if(cd(E1,E2,i))dir='SELL'}
+   else if(p.mode===BBMODES[2]){if(cu(cl,E1,i))dir='BUY';else if(cd(cl,E1,i))dir='SELL'}
+   else{if(cu(E1,up,i))dir='BUY';else if(cd(E1,lo,i))dir='SELL'}
+   if(dir&&i-lastI>=p.gap){lastI=i;ev.push({i,d:dir});if(p.sg)mk.push({time:d[i].time,position:dir==='BUY'?'belowBar':'aboveBar',color:dir==='BUY'?c[6]:c[7],shape:dir==='BUY'?'arrowUp':'arrowDown',text:dir})}}
+  const showE2=p.e2s||p.mode===BBMODES[1];
+  return{s:[b,up,lo,E1,showE2?E2:nanA(n)].map(v=>({d:v,t:'l'})),mk,ov:{up,lo,ev,days:dayCands(d,D1,Math.max(p.dcn||2,1))}}},
+ ovl:(g,E,p,c,R)=>{if(!R)return;if(p.dcb&&R.days)drawDayCands(g,E,R.days,c[8],c[9],v=>v.toFixed(dpf(v)===5?4:2));if(!p.bf)return;const{X,Y}=E,rg=ch.timeScale().getVisibleLogicalRange();if(!rg)return;const a=Math.max(1,Math.floor(rg.from)),z=Math.min(R.up.length-1,Math.ceil(rg.to));g.fillStyle=ca(c[5],p.bt);
+  g.beginPath();let st=false;for(let i=a;i<=z;i++){const x=X(i),y=Y(R.up[i]);if(x==null||y==null||R.up[i]!==R.up[i])continue;st?g.lineTo(x,y):g.moveTo(x,y);st=true}
+  for(let i=z;i>=a;i--){const x=X(i),y=Y(R.lo[i]);if(x==null||y==null||R.lo[i]!==R.lo[i])continue;g.lineTo(x,y)}g.closePath();g.fill()}});
+/* ================= ⭐ Nawaz EMA Cross Box (21/50) — cross candle H/L → break (light) → retest (strong) ================= */
+registerIndicator({id:'ecb',name:'Nawaz EMA Cross Box (21/50)',cat:'nq',d:['EMA 21/50 کراس والی کینڈل کا High/Low نشان — توڑنے پر ہلکا سگنل، ری ٹیسٹ پر مضبوط BUY/SELL','EMA 21/50 cross candle High/Low box — light signal on break, strong BUY/SELL on retest','EMA 21/50 क्रॉस वाली कैंडल का High/Low — ब्रेक पर हल्का, रीटेस्ट पर मज़बूत BUY/SELL'],
+ inputs:[{k:'_h0',l:'━━ EMAs ━━',t:'h',d:0},nIn('f','Fast EMA length',21,{min:2,max:500}),nIn('s','Slow EMA length',50,{min:2,max:500}),sIn('t','MA type','EMA',['EMA','SMA','WMA','SMMA']),
+  {k:'_h1',l:'━━ Signal rules ━━',t:'h',d:0},bIn('cb','Break needs a candle CLOSE beyond the level (off = wick is enough)',true),nIn('tol','Retest tolerance (x ATR)',0.1,{min:0,max:2,step:.05}),bIn('rc','Retest candle must close in signal direction',true),nIn('age','Setup expires after (bars)',100,{min:5,max:1000}),
+  bIn('ss','Show STRONG signals (break + retest)',true),bIn('sl_','Show LIGHT signals (break only)',true),bIn('xc','Mark the EMA cross candle',true),
+  {k:'_h2',l:'━━ Drawing ━━',t:'h',d:0},bIn('zb','Draw High/Low box of the cross candle',true),nIn('zt','Box transparency (0-100)',88,{min:0,max:100}),nIn('zn','Boxes to keep on chart',6,{min:1,max:30}),bIn('lv','Show Entry / SL / TP of last strong signal',true),nIn('bsl','SL buffer (x ATR beyond the box)',0.1,{min:0,max:2,step:.05}),
+  {k:'_h3',l:'━━ Back-test ━━',t:'h',d:0},bIn('btl','Back-test also takes LIGHT signals',false)],
+ sty:[{l:'Fast EMA',d:'#ffeb3b',w:2},{l:'Slow EMA',d:'#ff9800',w:2},{l:'Bullish cross box',d:'#00c853'},{l:'Bearish cross box',d:'#ff1744'},{l:'BUY (strong)',d:'#00e676'},{l:'SELL (strong)',d:'#ff5252'},{l:'BUY (light)',d:'#a5d6a7'},{l:'SELL (light)',d:'#ef9a9a'},{l:'SL',d:'#ff5d7a'},{l:'TP',d:'#4cc3ff'}],
+ calc:(d,p,x,c)=>{const n=d.length,cl=srcA(d,'close'),F=MAF[p.t](cl,p.f),Sl=MAF[p.t](cl,p.s),A=atrA(d,14),mk=[],sigs=[],set=[];let cur=null;
+  const fin=(i)=>{if(cur&&cur.end==null)cur.end=i;cur=null};
+  for(let i=Math.max(p.f,p.s)+1;i<n-1;i++){if(F[i]!==F[i]||Sl[i]!==Sl[i]||F[i-1]!==F[i-1]||Sl[i-1]!==Sl[i-1])continue;
+   const bx=F[i]>Sl[i]&&F[i-1]<=Sl[i-1],sx=F[i]<Sl[i]&&F[i-1]>=Sl[i-1];
+   if(bx||sx){fin(i);cur={i0:i,dir:bx?'BUY':'SELL',H:d[i].high,L:d[i].low,brk:null,ret:null,end:null};set.push(cur);
+    if(p.xc)mk.push({time:d[i].time,position:bx?'belowBar':'aboveBar',color:bx?c[4]:c[5],shape:'circle',text:bx?'21↑50':'21↓50'});continue}
+   if(!cur||cur.ret!=null)continue;
+   const q=d[i],buy=cur.dir==='BUY',tol=(p.tol||0)*(A[i]||0);
+   if(i-cur.i0>p.age){fin(i);continue}
+   if(buy?q.close<cur.L:q.close>cur.H){fin(i);continue}
+   if(cur.brk==null){const hit=buy?(p.cb?q.close>cur.H:q.high>cur.H):(p.cb?q.close<cur.L:q.low<cur.L);
+    if(hit){cur.brk=i;if(p.sl_)mk.push({time:q.time,position:buy?'belowBar':'aboveBar',color:buy?c[6]:c[7],shape:buy?'arrowUp':'arrowDown',text:buy?'brk↑':'brk↓'});
+     if(p.btl){const en=q.close,sl=buy?cur.L-p.bsl*A[i]:cur.H+p.bsl*A[i],r=Math.abs(en-sl);if(r>0)cur.lsig={d:cur.dir,en,sl,tp:en+(buy?1:-1)*S.rr*r,time:q.time,i,light:true}}}}
+   else if(i>cur.brk){const lvl=buy?cur.H:cur.L,touch=buy?q.low<=lvl+tol:q.high>=lvl-tol,hold=buy?q.close>lvl:q.close<lvl,dirOk=!p.rc||(buy?q.close>q.open:q.close<q.open);
+    if(touch&&hold&&dirOk){cur.ret=i;cur.end=i;const en=q.close,sl=buy?cur.L-p.bsl*A[i]:cur.H+p.bsl*A[i],r=Math.abs(en-sl);
+     if(r>0){const sg={d:cur.dir,en,sl,tp:en+(buy?1:-1)*S.rr*r,time:q.time,i};cur.sig=sg;sigs.push(sg);
+      if(p.ss)mk.push({time:q.time,position:buy?'belowBar':'aboveBar',color:buy?c[4]:c[5],shape:buy?'arrowUp':'arrowDown',text:buy?'EMA BUY':'EMA SELL'})}}}}
+  const all=sigs.slice();if(p.btl)set.forEach(z=>{if(z.lsig&&!z.sig)all.push(z.lsig)});all.sort((a,b)=>a.i-b.i);
+  const ds=set.map(z=>({i0:z.i0,end:z.end,dir:z.dir,H:z.H,L:z.L,brk:z.brk,ret:z.ret}));
+  return{s:[F,Sl].map(v=>({d:v,t:'l'})),mk,ov:{sigs:all,strong:sigs,set:ds,n}}},
+ ovl:(g,E,p,c,R)=>{if(!R)return;const{X,Y,pw}=E,rg=ch.timeScale().getVisibleLogicalRange();if(!rg)return;const dp=v=>v.toFixed(dpf(v)===5?4:2);
+  g.font='11px "Share Tech Mono",monospace';g.textBaseline='middle';
+  if(p.zb)R.set.slice(-p.zn).forEach(z=>{const e=z.end!=null?z.end:R.n-1+8;if(e<rg.from||z.i0>rg.to)return;const x1=X(z.i0),x2=z.end!=null?X(z.end):pw,yH=Y(z.H),yL=Y(z.L);if(x1==null||yH==null||yL==null)return;
+   const col=z.dir==='BUY'?c[2]:c[3],xx2=x2==null?pw:x2;g.fillStyle=ca(col,p.zt);g.fillRect(x1,yH,Math.max(2,xx2-x1),yL-yH);g.strokeStyle=col;g.lineWidth=1;g.setLineDash([]);
+   g.beginPath();g.moveTo(x1,yH);g.lineTo(xx2,yH);g.moveTo(x1,yL);g.lineTo(xx2,yL);g.stroke();g.fillStyle=col;g.textAlign='left';g.fillText((z.dir==='BUY'?'H ':'H ')+dp(z.H),x1+3,yH-7);g.fillText('L '+dp(z.L),x1+3,yL+8);
+   if(z.brk!=null){const xb=X(z.brk);if(xb!=null){g.fillStyle=col;g.fillText(z.ret!=null?'break → retest ✓':'break…',xb+4,z.dir==='BUY'?yH-18:yL+20)}}});
+  const sg=R.strong[R.strong.length-1];if(p.lv&&sg){const x0=X(sg.i);if(x0!=null)[[sg.en,'#ffffff','Entry'],[sg.sl,c[8],'SL'],[sg.tp,c[9],'TP']].forEach(([pr,col,t_])=>{const y=Y(pr);if(y==null)return;g.strokeStyle=col;g.lineWidth=1;g.setLineDash([4,4]);g.beginPath();g.moveTo(Math.max(0,x0),y);g.lineTo(pw,y);g.stroke();g.setLineDash([]);g.fillStyle=col;g.textAlign='right';g.fillText('EMA '+sg.d+' '+t_+' '+dp(pr),pw-4,y-7)})}}});
+/* ================= ⭐ Nawaz EMA × VWAP Signals — fully adjustable ================= */
+const EVWM=['EMA × VWAP','Price × VWAP','EMA × VWAP band (breakout)'];
+registerIndicator({id:'evw',name:'Nawaz EMA × VWAP Signals',cat:'nq',d:['EMA اور VWAP کی کراسنگ پر BUY/SELL سگنل — لمبائی، قسم، ری سیٹ، بینڈ، فلٹر اور رنگ سب بدلے جا سکتے ہیں','BUY/SELL signals on EMA × VWAP crossing — length, type, anchor, bands, filters and colours all adjustable','EMA और VWAP क्रॉसिंग पर BUY/SELL सिग्नल — लंबाई, टाइप, रीसेट, बैंड, फ़िल्टर और रंग सब बदल सकते हैं'],
+ inputs:[{k:'_h0',l:'━━ EMA ━━',t:'h',d:0},nIn('e','EMA length',9,{min:1,max:500}),sIn('et','MA type','EMA',['EMA','SMA','WMA','SMMA']),sIn('es','EMA source','close',SRCO),
+  {k:'_h1',l:'━━ VWAP ━━',t:'h',d:0},sIn('an','VWAP resets every','Day',['Day','Week','Month']),nIn('rh','Reset hour (UTC)',0,{min:0,max:23}),sIn('vs','VWAP source','hlc3',SRCO),nIn('bm','Band multiplier (0 = no bands)',1,{min:0,max:5,step:.5}),bIn('vb','Show VWAP bands',true),
+  {k:'_h2',l:'━━ Signals ━━',t:'h',d:0},sIn('mode','Crossing that gives the signal','EMA × VWAP',EVWM),sIn('side','Signal side','Both',['Both','BUY only','SELL only']),nIn('gap','Min bars between signals',3,{min:1,max:200}),nIn('skip','Ignore first N bars after a VWAP reset',3,{min:0,max:100}),
+  bIn('pc','Price must close on the same side of VWAP',true),bIn('sf','VWAP slope must agree (3-bar)',false),bIn('sg','Show BUY / SELL markers',true),
+  {k:'_h3',l:'━━ Day candle ━━',t:'h',d:0},bIn('dcb','Show 1-day candle boxes',false),nIn('dcn','Day candles to draw',2,{min:1,max:5})],
+ sty:[{l:'EMA',d:'#ffeb3b',w:2},{l:'VWAP',d:'#ff7a00',w:2},{l:'VWAP upper',d:'#6bb8ff',w:1},{l:'VWAP lower',d:'#6bb8ff',w:1},{l:'BUY',d:'#00c853'},{l:'SELL',d:'#ff1744'},{l:'Day candle bullish',d:'#00c853'},{l:'Day candle bearish',d:'#ff1744'}],
+ calc:(d,p,x,c)=>{const n=d.length,E=MAF[p.et](srcA(d,p.es),p.e),vsrc=srcA(d,p.vs),V=nanA(n),U=nanA(n),L=nanA(n),since=new Array(n).fill(0),cl=srcA(d,'close');
+  let sv_=0,sp=0,sq=0,key=null,cnt=0;const rs=p.rh*3600;
+  for(let i=0;i<n;i++){const t=d[i].time-rs,dt=new Date(t*1000),k=p.an==='Week'?Math.floor((t/86400+3)/7):p.an==='Month'?dt.getUTCFullYear()*12+dt.getUTCMonth():Math.floor(t/86400);
+   if(k!==key){key=k;sv_=sp=sq=0;cnt=0}cnt++;since[i]=cnt;const tp=vsrc[i],w=d[i].v||1;sv_+=w;sp+=tp*w;sq+=tp*tp*w;const m=sp/sv_;V[i]=m;
+   if(p.bm>0){const sd=Math.sqrt(Math.max(0,sq/sv_-m*m))*p.bm;U[i]=m+sd;L[i]=m-sd}}
+  const mk=[],ev=[],cu=(A,B,i)=>A[i]>B[i]&&A[i-1]<=B[i-1],cd=(A,B,i)=>A[i]<B[i]&&A[i-1]>=B[i-1];let lastI=-1e9;
+  for(let i=4;i<n-1;i++){if(E[i]!==E[i]||V[i]!==V[i]||E[i-1]!==E[i-1]||V[i-1]!==V[i-1])continue;let dir=null;
+   if(p.mode===EVWM[0]){if(cu(E,V,i))dir='BUY';else if(cd(E,V,i))dir='SELL'}
+   else if(p.mode===EVWM[1]){if(cu(cl,V,i))dir='BUY';else if(cd(cl,V,i))dir='SELL'}
+   else{if(p.bm>0&&U[i]===U[i]&&U[i-1]===U[i-1]){if(cu(E,U,i))dir='BUY';else if(cd(E,L,i))dir='SELL'}}
+   if(!dir)continue;
+   if(since[i]<=p.skip)continue;
+   if(p.side==='BUY only'&&dir!=='BUY')continue;if(p.side==='SELL only'&&dir!=='SELL')continue;
+   if(p.pc&&p.mode!==EVWM[2]&&((dir==='BUY'&&cl[i]<=V[i])||(dir==='SELL'&&cl[i]>=V[i])))continue;
+   if(p.sf&&V[i-3]===V[i-3]&&((dir==='BUY'&&V[i]<V[i-3])||(dir==='SELL'&&V[i]>V[i-3])))continue;
+   if(i-lastI<p.gap)continue;lastI=i;ev.push({i,d:dir});
+   if(p.sg)mk.push({time:d[i].time,position:dir==='BUY'?'belowBar':'aboveBar',color:dir==='BUY'?c[4]:c[5],shape:dir==='BUY'?'arrowUp':'arrowDown',text:'E×V '+dir})}
+  const showB=p.vb&&p.bm>0;
+  return{s:[E,V,showB?U:nanA(n),showB?L:nanA(n)].map(v=>({d:v,t:'l'})),mk,ov:{ev,days:dayCands(d,D1,Math.max(p.dcn||2,1))}}},
+ ovl:(g,E,p,c,R)=>{if(!R)return;if(p.dcb&&R.days)drawDayCands(g,E,R.days,c[6],c[7],v=>v.toFixed(dpf(v)===5?4:2))}});
+/* ---------- BUY / SELL signal engine (original Gann GN9 rule) ----------
+   candle closes through a Gann level → body bigger than avg of last 20 → in MA direction → (optional) agents 1-7 all ✓.
+   SL = next Gann level on the other side, TP = SL distance × R:R */
+function gannSignals(ag,arr){arr=arr||D;
+ const cfg=gannCfg(),cache={hl:{},oh:null,lv:{},arr},M=MAF[S.mt](srcA(arr,'close'),S.mp),marks=[],sigs=[];let sig=null;
+ for(let i=Math.max(21,S.mp);i<arr.length-1;i++){const c=arr[i],pv=arr[i-1],Lv=gLevelsAt(c.time,cfg,cache);
+  let avg=0;for(let k=i-20;k<i;k++)avg+=Math.abs(arr[k].close-arr[k].open);avg/=20;
+  for(const lv of Lv){let d=null;
+   if(pv.close<lv&&c.close>lv)d='BUY';else if(pv.close>lv&&c.close<lv)d='SELL';
+   if(!d)continue;
+   if(sig&&i-sig.i<8)continue;
+   if(S.c2&&Math.abs(c.close-c.open)<avg)continue;
+   if(S.c3&&M[i]===M[i]&&((d==='BUY'&&c.close<M[i])||(d==='SELL'&&c.close>M[i])))continue;
+   if(ag&&S.c4&&i>=arr.length-3&&(ag.dir!==d||ag.st.slice(0,7).some(x=>x!==2)))continue;
+   if(ag&&S.c4&&i<arr.length-3)continue;
+   let below=null,above=null;for(const x of Lv){if(x<lv)below=x;else if(x>lv&&above==null)above=x}
+   const sl=d==='BUY'?below:above;if(sl==null)continue;
+   const en=c.close,tp=en+(d==='BUY'?1:-1)*Math.abs(en-sl)*S.rr;
+   marks.push({time:c.time,position:d==='BUY'?'belowBar':'aboveBar',color:d==='BUY'?'#10b981':'#ef476f',shape:d==='BUY'?'arrowUp':'arrowDown',text:d});
+   sig={d,en,sl,tp,time:c.time,i};sigs.push(sig);break}}
+ return{marks,sig,sigs}}
+let GC={key:'',val:null};
+function gannCached(ag){if(S.c4)return gannSignals(ag);const key=[D.length,D[0].time,M15.length,JSON.stringify(gannCfg()),S.mt,S.mp,S.c2,S.c3,S.rr].join('|');if(GC.key===key)return GC.val;const v=gannSignals(null,D);GC={key,val:v};return v}
+/* ================= back-test ================= */
+const BTL={sg:{ur:'انڈیکیٹر چنیں (ایک یا زیادہ)',en:'Choose indicators (one or more)',hi:'इंडिकेटर चुनें (एक या ज़्यादा)'},mo:{ur:'ملانے کا طریقہ',en:'How to combine',hi:'मिलाने का तरीका'},m1:{ur:'کوئی بھی سگنل',en:'Any signal',hi:'कोई भी सिग्नल'},m2:{ur:'سب متفق (3 کینڈل کے اندر)',en:'All agree (within 3 candles)',hi:'सब सहमत (3 कैंडल के अंदर)'},slm:{ur:'SL = ATR × (Gann کے سوا)',en:'SL = ATR × (non-Gann)',hi:'SL = ATR × (Gann के अलावा)'},pick:{ur:'کم از کم ایک انڈیکیٹر چنیں',en:'Pick at least one indicator',hi:'कम से कम एक इंडिकेटर चुनें'},t:{ur:'📈 بیک ٹیسٹ — اپنی مرضی کے انڈیکیٹر کا ماضی میں امتحان',en:'📈 Back-test — your chosen indicators on past data',hi:'📈 बैक-टेस्ट — अपनी पसंद के इंडिकेटर का पुराना डेटा पर परीक्षण'},
+ n:{ur:'کتنی کینڈلز',en:'Candles',hi:'कितनी कैंडल'},c:{ur:'فی ٹریڈ لاگت (R میں)',en:'Cost per trade (R)',hi:'प्रति ट्रेड लागत (R में)'},go:{ur:'▶ ٹیسٹ چلائیں',en:'▶ Run test',hi:'▶ टेस्ट चलाएँ'},
+ ld:{ur:'تاریخی ڈیٹا لوڈ ہو رہا ہے…',en:'Loading history…',hi:'पुराना डेटा लोड हो रहा है…'},
+ k:{tr:{ur:'ٹریڈز',en:'Trades',hi:'ट्रेड'},w:{ur:'جیت کی شرح',en:'Win rate',hi:'जीत दर'},e:{ur:'اوسط R (توقع)',en:'Expectancy (R)',hi:'औसत R'},tot:{ur:'کل نتیجہ (R)',en:'Total (R)',hi:'कुल (R)'},pf:{ur:'پرافٹ فیکٹر',en:'Profit factor',hi:'प्रॉफ़िट फ़ैक्टर'},dd:{ur:'سب سے بڑی گراوٹ (R)',en:'Max drawdown (R)',hi:'सबसे बड़ी गिरावट (R)'},ls:{ur:'مسلسل ہار',en:'Worst losing streak',hi:'लगातार हार'},bs:{ur:'BUY / SELL',en:'BUY / SELL',hi:'BUY / SELL'}},
+ warn:{ur:'⚠ ماضی کا نتیجہ مستقبل کی ضمانت نہیں۔ ایک ہی کینڈل میں SL اور TP دونوں لگیں تو اسے ہار گنا جاتا ہے۔ ایجنٹ والی شرط اس ٹیسٹ میں شامل نہیں۔ صرف تعلیمی مقصد۔',en:'⚠ Past results are no guarantee. If SL and TP are both hit in one candle it counts as a loss. The agents condition is not part of this test. Educational only.',hi:'⚠ पुराना नतीजा भविष्य की गारंटी नहीं। एक ही कैंडल में SL और TP दोनों लगें तो उसे हार गिना जाता है। एजेंट वाली शर्त इस टेस्ट में शामिल नहीं। केवल शैक्षिक।'},
+ none:{ur:'اس عرصے میں کوئی مکمل ٹریڈ نہیں ملی۔',en:'No completed trades in this period.',hi:'इस अवधि में कोई पूरा ट्रेड नहीं मिला।'}};
+let BT=null;
+const bl=k=>BTL[k][S.lang]||BTL[k].en;
+const BTIDS=['gann','gsq9','agents8','ecb','evw','bbema','smc','nqall','sma','ema','smma','wma','ribbon','bb','dc','st','rsi','macd','stoch','cci','pat'],BTW=3;
+function btEvents(id,arr){const df=def(id),inst=INS.find(i=>i.id===id),p=Object.assign(defaults(df),inst?inst.p:{}),col=inst?inst.c:df.sty.map(z=>z.d),ev=[],n=arr.length,cl=arr.map(c=>c.close);
+ const o=df.calc(arr,p,{D1},col),sr=o.s||[],v=k=>sr[k]&&sr[k].d,val=(x,i)=>typeof x==='number'?x:x[i];
+ const up=(a,b,i)=>val(a,i)>val(b,i)&&val(a,i-1)<=val(b,i-1),dn=(a,b,i)=>val(a,i)<val(b,i)&&val(a,i-1)>=val(b,i-1),E=(i,d)=>ev.push({i,d});
+ for(let i=2;i<n-1;i++){
+  if(['sma','ema','smma','wma'].includes(id)){if(up(cl,v(0),i))E(i,'BUY');else if(dn(cl,v(0),i))E(i,'SELL')}
+  else if(id==='ribbon'){if(up(v(0),v(1),i))E(i,'BUY');else if(dn(v(0),v(1),i))E(i,'SELL')}
+  else if(id==='bb'){const lo=v(2),hi=v(1);if(cl[i-1]<lo[i-1]&&cl[i]>=lo[i])E(i,'BUY');else if(cl[i-1]>hi[i-1]&&cl[i]<=hi[i])E(i,'SELL')}
+  else if(id==='dc'){if(cl[i]>v(0)[i-1])E(i,'BUY');else if(cl[i]<v(1)[i-1])E(i,'SELL')}
+  else if(id==='st'){const t=v(0);if(t[i]===t[i]&&t[i-1]===t[i-1]){const u1=cl[i]>t[i],u0=cl[i-1]>t[i-1];if(u1&&!u0)E(i,'BUY');else if(!u1&&u0)E(i,'SELL')}}
+  else if(id==='rsi'){if(up(v(0),p.os,i))E(i,'BUY');else if(dn(v(0),p.ob,i))E(i,'SELL')}
+  else if(id==='macd'){if(up(v(0),v(1),i))E(i,'BUY');else if(dn(v(0),v(1),i))E(i,'SELL')}
+  else if(id==='stoch'){if(up(v(0),v(1),i)&&v(0)[i]<25)E(i,'BUY');else if(dn(v(0),v(1),i)&&v(0)[i]>75)E(i,'SELL')}
+  else if(id==='cci'){if(up(v(0),-100,i))E(i,'BUY');else if(dn(v(0),100,i))E(i,'SELL')}}
+ if(id==='pat'&&o.mk){const ix=new Map(arr.map((c,i)=>[c.time,i]));o.mk.forEach(m=>{const i=ix.get(m.time);if(i!=null&&i<n-1)E(i,m.position==='belowBar'?'BUY':'SELL')});ev.sort((a,b)=>a.i-b.i)}
+ if((id==='bbema'||id==='evw')&&o.ov)o.ov.ev.forEach(e=>E(e.i,e.d));
+ if(id==='nqall'&&o.ov&&o.ov['m_']){const f=o.ov['m_'].f,m=o.ov['m_'].m;for(let i=2;i<n-1;i++){if(f[i]>m[i]&&f[i-1]<=m[i-1])E(i,'BUY');else if(f[i]<m[i]&&f[i-1]>=m[i-1])E(i,'SELL')}}
+ if(id==='smc'&&o.ov){(o.ov.allBs||[]).forEach(z=>{if(z.i1<n-1)E(z.i1,'BUY')});(o.ov.allBd||[]).forEach(z=>{if(z.i1<n-1)E(z.i1,'SELL')});ev.sort((a,b)=>a.i-b.i)}
+ return ev}
+function btOwn(id,arr){const df=def(id),inst=INS.find(i=>i.id===id),p=Object.assign(defaults(df),inst?inst.p:{}),col=inst?inst.c:df.sty.map(z=>z.d);return df.calc(arr,p,{D1},col).ov.sigs||[]}
+function btStrategy(ids,mode,arr,slm){const A=atrA(arr,14),mk=(i,d)=>{const dist=A[i]*slm;if(!(dist>0))return null;const en=arr[i].close,k=d==='BUY'?1:-1;return{d,en,sl:en-k*dist,tp:en+k*S.rr*dist,time:arr[i].time,i}};
+ const evs={},own={};let gs=null;
+ ids.forEach(id=>{if(id==='gann'){gs=gannSignals(null,arr).sigs;evs[id]=gs.map(g=>({i:g.i,d:g.d}))}else if(id==='gsq9'||id==='agents8'||id==='ecb'){const q=btOwn(id,arr);own[id]=q;evs[id]=q.map(g=>({i:g.i,d:g.d}))}else evs[id]=btEvents(id,arr)});
+ let out=[];
+ if(mode==='all'&&ids.length>1){const seen=new Set();
+  for(const d of['BUY','SELL'])for(let i=0;i<arr.length-1;i++){
+   if(!ids.every(id=>evs[id].some(e=>e.d===d&&e.i<=i&&e.i>i-BTW)))continue;
+   if(!ids.some(id=>evs[id].some(e=>e.d===d&&e.i===i)))continue;
+   const sg=mk(i,d);if(sg)out.push(sg)}}
+ else{ids.forEach(id=>{if(id==='gann')out.push(...gs);else if(own[id])out.push(...own[id]);else evs[id].forEach(e=>{const sg=mk(e.i,e.d);if(sg)out.push(sg)})})}
+ out.sort((a,b)=>a.i-b.i);return out.filter((x,k)=>!k||x.i!==out[k-1].i)}
+function btFill(){const sel=S.btSel&&S.btSel.length?S.btSel:(INS.filter(i=>BTIDS.includes(i.id)).map(i=>i.id).slice(0,3));const ch_=sel.length?sel:['gann'];
+ $('bts').innerHTML=BTIDS.map(id=>`<label class="${ch_.includes(id)?'on':''}"><input type="checkbox" value="${id}" ${ch_.includes(id)?'checked':''} onchange="this.parentNode.classList.toggle('on',this.checked)">${def(id).name.replace(/ \(.*\)/,'')}</label>`).join('');
+ $('btmo').options[0].textContent=bl('m1');$('btmo').options[1].textContent=bl('m2');$('btmo').value=S.btMo||'any';$('btsl').value=S.btSl||1.5;
+ $('btl3').textContent=bl('mo');$('btl4').textContent=bl('slm');$('btl5').textContent=bl('sg')}
+function openBt(){$('btt').textContent=bl('t');$('btl1').textContent=bl('n');$('btl2').textContent=bl('c');$('btgo').textContent=bl('go');btFill();$('btm').classList.add('show');if(BT)showBt()}
+function closeBt(){$('btm').classList.remove('show')}
+async function btHistory(n){const k=S.sym[0],s_=S.sym.slice(2);let arr=D.slice();
+ if(!(k==='b'||k==='f')||used==='y'||n<=arr.length)return arr;
+ const fut=k==='f';
+ while(arr.length<n){$('btp').textContent=bl('ld')+' '+arr.length+' / '+n;
+  const r=await (await fetch(`${fut?'https://fapi.binance.com/fapi/v1/klines':'https://api.binance.com/api/v3/klines'}?symbol=${s_}&interval=${IVB[S.tf]}&limit=1000&endTime=${arr[0].time*1000-1}`)).json();
+  if(!Array.isArray(r)||!r.length)break;arr=r.map(x=>({time:x[0]/1000,open:+x[1],high:+x[2],low:+x[3],close:+x[4],v:+x[5]})).concat(arr)}
+ return arr}
+function simBt(arr,sigs,cost){const tr=[];let busy=-1;
+ sigs.forEach(sg=>{if(sg.i<=busy)return;let res=null,jj=0;
+  for(let j=sg.i+1;j<arr.length;j++){const c=arr[j];
+   if(sg.d==='BUY'){if(c.low<=sg.sl)res='L';else if(c.high>=sg.tp)res='W'}else{if(c.high>=sg.sl)res='L';else if(c.low<=sg.tp)res='W'}
+   if(res){jj=j;break}}
+  if(!res){busy=arr.length;return}
+  busy=jj;tr.push(Object.assign({},sg,{j:jj,res,r:(res==='W'?S.rr:-1)-cost}))});
+ const n=tr.length,w=tr.filter(x=>x.res==='W').length,tot=tr.reduce((a,x)=>a+x.r,0),gp=tr.filter(x=>x.r>0).reduce((a,x)=>a+x.r,0),gl=-tr.filter(x=>x.r<0).reduce((a,x)=>a+x.r,0);
+ let eq=0,pk=0,dd=0,st=0,mx=0;const curve=[0];tr.forEach(x=>{eq+=x.r;curve.push(eq);pk=Math.max(pk,eq);dd=Math.max(dd,pk-eq);if(x.res==='L'){st++;mx=Math.max(mx,st)}else st=0});
+ return{tr,n,w,wr:n?w/n*100:0,tot,exp:n?tot/n:0,pf:gl?gp/gl:(gp?99:0),dd,mx,curve,b:tr.filter(x=>x.d==='BUY').length,s:tr.filter(x=>x.d==='SELL').length,t0:arr[0].time,t1:arr[arr.length-1].time,cnt:arr.length,cost}}
+async function btMtf(arr){const k=S.sym[0],s_=S.sym.slice(2);if(!(k==='b'||k==='f')||used==='y')return{M15,H4,D1};const fut=k==='f',t0=arr[0].time-86400*12,out={};
+ for(const [key,tf] of [['M15',15],['H4',240],['D1',1440]]){let a=({M15,H4,D1})[key].slice(),guard=0;
+  while(a.length&&a[0].time>t0&&guard++<40){$('btp').textContent=bl('ld')+' '+key+' '+a.length;const r=await (await fetch(`${fut?'https://fapi.binance.com/fapi/v1/klines':'https://api.binance.com/api/v3/klines'}?symbol=${s_}&interval=${IVB[tf]}&limit=1000&endTime=${a[0].time*1000-1}`)).json();if(!Array.isArray(r)||!r.length)break;a=r.map(x=>({time:x[0]/1000,open:+x[1],high:+x[2],low:+x[3],close:+x[4],v:+x[5]})).concat(a)}
+  out[key]=a}return out}
+async function runBt(){const n=+$('btn').value,cost=+$('btc').value||0;$('btr').innerHTML='';$('btp').textContent=bl('ld');let arr;
+ try{arr=await btHistory(n)}catch(e){arr=D.slice()}
+ $('btp').textContent='…';await new Promise(r=>setTimeout(r,30));
+ const ids=[...document.querySelectorAll('#bts input:checked')].map(x=>x.value);if(!ids.length){$('btp').textContent=bl('pick');return}
+ const mode=$('btmo').value,slm=+$('btsl').value||1.5;S.btSel=ids;S.btMo=mode;S.btSl=slm;sv();
+ let sg;try{if(ids.includes('agents8')){try{AG_MTF=await btMtf(arr)}catch(e){AG_MTF=null}}sg=btStrategy(ids,mode,arr,slm)}catch(e){console.warn(e);AG_MTF=null;$('btp').textContent='Error: '+e.message;return}AG_MTF=null;
+ BT=simBt(arr,sg,cost);BT.name=ids.map(id=>def(id).name.replace(/ \(.*\)/,'')).join(ids.length>1?(mode==='all'?' ∧ ':' + '):'');showBt()}
+function showBt(){const r=BT;if(!r)return;const f=(v,d=2)=>v.toFixed(d),dt=btDt;
+ $('btp').textContent=`${r.name||''} · ${S.sym.slice(2)} · ${(TFS.find(x=>x[0]===S.tf)||[0,''])[1]} · ${r.cnt} candles · ${dt(r.t0)} → ${dt(r.t1)} · R:R 1:${S.rr}`;
+ if(!r.n){$('btr').innerHTML=`<div class="empty">${bl('none')}</div><div class="tiny">${bl('warn')}</div>`;return}
+ const k=BTL.k,K=(key,v,cl)=>`<div class="btk"><div class="tiny">${k[key][S.lang]||k[key].en}</div><b class="${cl||''}">${v}</b></div>`;
+ const W=720,H=150,mn=Math.min(...r.curve),mxv=Math.max(...r.curve),sp=(mxv-mn)||1,pts=r.curve.map((v,i)=>`${(i/(r.curve.length-1||1)*W).toFixed(1)},${(H-8-(v-mn)/sp*(H-16)).toFixed(1)}`).join(' ');
+ const z=H-8-(0-mn)/sp*(H-16);
+ const rows=r.tr.slice(-15).reverse().map(x=>`<tr><td>${dt(x.time)}</td><td class="${x.d==='BUY'?'up':'dn'}">${x.d}</td><td>${f(x.en,x.en>100?2:5)}</td><td>${f(x.sl,x.sl>100?2:5)}</td><td>${f(x.tp,x.tp>100?2:5)}</td><td class="${x.res==='W'?'up':'dn'}">${x.res==='W'?'WIN':'LOSS'} ${x.r>0?'+':''}${f(x.r)}R</td></tr>`).join('');
+ $('btr').innerHTML=`<div class="btg">${K('tr',r.n)}${K('w',f(r.wr,1)+'%')}${K('e',(r.exp>=0?'+':'')+f(r.exp),r.exp>=0?'up':'dn')}${K('tot',(r.tot>=0?'+':'')+f(r.tot,1),r.tot>=0?'up':'dn')}${K('pf',f(r.pf))}${K('dd',f(r.dd,1))}${K('ls',r.mx)}${K('bs',r.b+' / '+r.s)}</div>
+ <svg viewBox="0 0 ${W} ${H}" width="100%" style="margin-top:10px;background:rgba(255,255,255,.18);border-radius:12px"><line x1="0" x2="${W}" y1="${z.toFixed(1)}" y2="${z.toFixed(1)}" stroke="#8aa" stroke-dasharray="4 4"/><polyline points="${pts}" fill="none" stroke="#2f6fe0" stroke-width="2.5"/></svg>
+ <div style="overflow-x:auto;margin-top:8px"><table class="bttb"><tr><th>Time</th><th>Side</th><th>Entry</th><th>SL</th><th>TP</th><th>Result</th></tr>${rows}</table></div>
+ <button style="margin-top:8px" onclick="btCsv()">⬇ CSV</button><div class="tiny" style="margin-top:8px">${bl('warn')}</div>`}
+function btCsv(){if(!BT)return;const csv='time,side,entry,sl,tp,result,R\n'+BT.tr.map(x=>[new Date(x.time*1000).toISOString(),x.d,x.en,x.sl,x.tp,x.res,x.r].join(',')).join('\n'),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='nawaz_backtest.csv';a.click()}
+/* ================= drawing tools ================= */
+const DT=[['cur','↖'],['trend','╱'],['ray','⟋'],['hline','─'],['vline','│'],['rect','▭'],['fib','Fib'],['arrow','➚'],['brush','✎'],['text','T'],['meas','↔']];
+const DN={cur:['کرسر','Cursor','कर्सर'],trend:['ٹرینڈ لائن','Trend line','ट्रेंड लाइन'],ray:['ری (آگے بڑھتی لائن)','Ray','रे (आगे बढ़ती लाइन)'],hline:['افقی لائن','Horizontal line','हॉरिज़ॉन्टल लाइन'],vline:['عمودی لائن','Vertical line','वर्टिकल लाइन'],rect:['مستطیل','Rectangle','आयत'],fib:['فبوناچی ریٹریسمنٹ','Fib retracement','फिबोनाची रिट्रेसमेंट'],arrow:['تیر','Arrow','तीर'],brush:['برش (ہاتھ سے)','Brush','ब्रश (हाथ से)'],text:['ٹیکسٹ','Text','टेक्स्ट'],meas:['ناپ (قیمت/وقت)','Measure','माप (कीमत/समय)']};
+let DR=[],tool='cur',draft=null,sel=null,keep=false,hideAll=false,dcol='#e69500',dw=2,drag=null,swallow=false;
+const dcv=$('dc'),dx=dcv.getContext('2d'),cw=$('chwrap');
+const drKey=()=>'ntq16d:'+S.sym;
+function loadDr(){try{DR=JSON.parse(localStorage.getItem(drKey())||'[]')}catch(e){DR=[]}sel=null;showSty();cntDr();if(HREADY)hreset()}
+function cntDr(){setTx('drc',String(DR.filter(d=>!d.tmp).length))}
+function saveDr(){dirty=true;cntDr();if(HREADY&&!HBUSY)hpush();try{localStorage.setItem(drKey(),JSON.stringify(DR.filter(d=>!d.tmp)))}catch(e){}}
+const LI={ur:0,en:1,hi:2};
+function toolBar(){$('dtools').innerHTML=DT.map(([k,g])=>`<button class="${tool===k?'on':''}" title="${DN[k][LI[S.lang]]}" onclick="setTool('${k}')">${g}</button>`).join('')+
+ `<hr><button class="${keep?'on':''}" title="${{ur:'ٹول لگاتار رکھیں',en:'Keep tool active',hi:'टूल लगातार रखें'}[S.lang]}" onclick="keep=!keep;toolBar()">🔒</button><button class="${hideAll?'on':''}" title="${{ur:'ڈرائنگز چھپائیں',en:'Hide drawings',hi:'ड्रॉइंग छिपाएँ'}[S.lang]}" onclick="hideAll=!hideAll;toolBar()">👁</button><button title="${{ur:'سب ڈرائنگ مٹائیں',en:'Delete all drawings',hi:'सब ड्रॉइंग हटाएँ'}[S.lang]}" onclick="DR=[];sel=null;showSty();saveDr()">🗑</button>`}
+function setTool(k){tool=k;draft=null;toolBar();cw.style.cursor=k==='cur'?'':'crosshair';cw.style.touchAction=k==='cur'?'':'none';dirty=true}
+function showSty(){const e=$('dsty');if(!sel){e.style.display='none';return}e.style.display='flex';
+ e.innerHTML=`<span>${DN[sel.type][LI[S.lang]]}</span><input type="color" value="${sel.c}" onchange="sel.c=this.value;dcol=this.value;saveDr()"><select onchange="sel.w=+this.value;dw=sel.w;saveDr()">${[1,2,3,4,5].map(w=>`<option ${w==sel.w?'selected':''}>${w}</option>`).join('')}</select>${sel.type==='text'?'<button onclick="editText()">✎</button>':''}<button onclick="delSel()">🗑</button>`}
+function openDrm(){renderDrm();$('drm').classList.add('show')}
+function closeDrm(){$('drm').classList.remove('show')}
+function renderDrm(){const L2=DR.filter(d=>!d.tmp);$('drl').innerHTML=L2.length?L2.map(d=>`<div class="drrow"><i style="background:${d.c}"></i><span>${DN[d.type][LI[S.lang]]}${d.text?' — '+d.text:''}</span><button title="select" onclick="sel=DR.find(z=>z.id===${d.id});showSty();closeDrm()">◎</button><button title="delete" onclick="DR=DR.filter(z=>z.id!==${d.id});if(sel&&sel.id===${d.id}){sel=null;showSty()}saveDr();renderDrm()">🗑</button></div>`).join(''):`<div class="empty">${t('none')}</div>`;cntDr()}
+function delSel(){if(!sel)return;DR=DR.filter(d=>d!==sel);sel=null;showSty();saveDr()}
+function t2i(t){const n=D.length,f=S.tf*60;if(!n)return 0;if(t>=D[n-1].time)return n-1+(t-D[n-1].time)/f;if(t<=D[0].time)return (t-D[0].time)/f;
+ let lo=0,hi=n-1;while(hi-lo>1){const m=(lo+hi)>>1;if(D[m].time<=t)lo=m;else hi=m}return lo+(t-D[lo].time)/(D[hi].time-D[lo].time)}
+function i2t(i){const n=D.length,f=S.tf*60;if(i>=n-1)return D[n-1].time+(i-(n-1))*f;if(i<=0)return D[0].time+i*f;const lo=Math.floor(i);return D[lo].time+(i-lo)*(D[lo+1].time-D[lo].time)}
+function px(p){const x=ch.timeScale().logicalToCoordinate(t2i(p.t)),y=cs.priceToCoordinate(p.p);return x==null||y==null?null:{x,y}}
+function unpx(x,y){const i=ch.timeScale().coordinateToLogical(x),pr=cs.coordinateToPrice(y);return i==null||pr==null||!D.length?null:{t:i2t(i),p:pr}}
+const pw_=()=>ch.timeScale().width(),ph_=()=>$('chart').clientHeight-28;
+function segD(m,a,b){const dx_=b.x-a.x,dy=b.y-a.y,l2=dx_*dx_+dy*dy;let u=l2?((m.x-a.x)*dx_+(m.y-a.y)*dy)/l2:0;u=Math.max(0,Math.min(1,u));return Math.hypot(m.x-(a.x+u*dx_),m.y-(a.y+u*dy))}
+const FIB=[0,.236,.382,.5,.618,.786,1];
+function rayEnd(a,b){const dx_=b.x-a.x,dy=b.y-a.y,l=Math.hypot(dx_,dy)||1,k=6000/l;return{x:a.x+dx_*k,y:a.y+dy*k}}
+function fibY(d,c,lv){return c[1].y+(c[0].y-c[1].y)*lv}
+function hit(d,m){const c=d.pts.map(px);if(c.some(z=>!z))return null;const T=7;
+ if(['trend','ray','arrow','rect','fib','meas'].includes(d.type)){for(let k=0;k<2;k++)if(Math.hypot(m.x-c[k].x,m.y-c[k].y)<9)return{k}}
+ switch(d.type){
+  case'trend':case'arrow':return segD(m,c[0],c[1])<T?{k:-1}:null;
+  case'ray':return segD(m,c[0],rayEnd(c[0],c[1]))<T?{k:-1}:null;
+  case'hline':return Math.abs(m.y-c[0].y)<T?{k:-1}:null;
+  case'vline':return Math.abs(m.x-c[0].x)<T?{k:-1}:null;
+  case'rect':case'meas':{const x1=Math.min(c[0].x,c[1].x),x2=Math.max(c[0].x,c[1].x),y1=Math.min(c[0].y,c[1].y),y2=Math.max(c[0].y,c[1].y);return m.x>=x1-T&&m.x<=x2+T&&m.y>=y1-T&&m.y<=y2+T?{k:-1}:null}
+  case'fib':{const x1=Math.min(c[0].x,c[1].x),x2=Math.max(c[0].x,c[1].x);if(m.x<x1-T||m.x>x2+T)return null;return FIB.some(lv=>Math.abs(m.y-fibY(d,c,lv))<T)?{k:-1}:null}
+  case'brush':for(let i=1;i<c.length;i++)if(segD(m,c[i-1],c[i])<T)return{k:-1};return null;
+  case'text':{const w=(d.text||'').length*8+12;return m.x>=c[0].x-2&&m.x<=c[0].x+w&&m.y>=c[0].y-18&&m.y<=c[0].y+4?{k:-1}:null}}
+ return null}
+function hitAny(m){for(let i=DR.length-1;i>=0;i--){const h=hit(DR[i],m);if(h)return{d:DR[i],k:h.k}}return null}
+function alpha(c,a){return /^#[0-9a-f]{6}$/i.test(c)?c+a:c}
+function lab(t,x,y,bg,al){dx.font='11px "Share Tech Mono",monospace';const w=dx.measureText(t).width+8;let X=al==='r'?x-w:x;dx.fillStyle=bg;dx.fillRect(X,y-9,w,18);dx.fillStyle='#fff';dx.textBaseline='middle';dx.fillText(t,X+4,y)}
+function barsTxt(a,b){const n=Math.abs(t2i(b.t)-t2i(a.t)),sec=Math.abs(b.t-a.t),h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),dd=Math.floor(h/24);return Math.round(n)+' bars · '+(dd?dd+'d ':'')+(h%24?h%24+'h ':'')+(m?m+'m':'')}
+function renderD(d,pw,ph,isSel){
+ const c=d.pts.map(px);if(!c.length||c.some(z=>!z))return;
+ dx.strokeStyle=d.c;dx.fillStyle=d.c;dx.lineWidth=d.w;dx.lineCap='round';dx.setLineDash([]);
+ switch(d.type){
+  case'trend':dx.beginPath();dx.moveTo(c[0].x,c[0].y);dx.lineTo(c[1].x,c[1].y);dx.stroke();break;
+  case'ray':{const e=rayEnd(c[0],c[1]);dx.beginPath();dx.moveTo(c[0].x,c[0].y);dx.lineTo(e.x,e.y);dx.stroke();break}
+  case'arrow':{dx.beginPath();dx.moveTo(c[0].x,c[0].y);dx.lineTo(c[1].x,c[1].y);dx.stroke();const an=Math.atan2(c[1].y-c[0].y,c[1].x-c[0].x),L=10+d.w*2;dx.beginPath();dx.moveTo(c[1].x,c[1].y);dx.lineTo(c[1].x-L*Math.cos(an-.4),c[1].y-L*Math.sin(an-.4));dx.lineTo(c[1].x-L*Math.cos(an+.4),c[1].y-L*Math.sin(an+.4));dx.closePath();dx.fill();break}
+  case'hline':dx.beginPath();dx.moveTo(0,c[0].y);dx.lineTo(pw,c[0].y);dx.stroke();lab(d.pts[0].p.toFixed(dpf(d.pts[0].p)),pw-2,c[0].y,d.c==='#ffffff'?'#555':d.c,'r');break;
+  case'vline':dx.beginPath();dx.moveTo(c[0].x,0);dx.lineTo(c[0].x,ph);dx.stroke();break;
+  case'rect':dx.fillStyle=alpha(d.c,'22');dx.fillRect(c[0].x,c[0].y,c[1].x-c[0].x,c[1].y-c[0].y);dx.strokeRect(c[0].x,c[0].y,c[1].x-c[0].x,c[1].y-c[0].y);break;
+  case'brush':dx.beginPath();c.forEach((z,i)=>i?dx.lineTo(z.x,z.y):dx.moveTo(z.x,z.y));dx.stroke();break;
+  case'text':dx.font='bold 13px "Noto Naskh Arabic","Share Tech Mono",sans-serif';dx.textBaseline='alphabetic';const w=dx.measureText(d.text||'').width;dx.fillStyle='#030a1acc';dx.fillRect(c[0].x-2,c[0].y-16,w+8,22);dx.fillStyle=d.c;dx.fillText(d.text||'',c[0].x+2,c[0].y);break;
+  case'fib':{const x1=Math.min(c[0].x,c[1].x),x2=Math.max(c[0].x,c[1].x);
+   FIB.forEach((lv,i)=>{const y=fibY(d,c,lv);if(i){const yp=fibY(d,c,FIB[i-1]);dx.fillStyle=alpha(d.c,i%2?'14':'0a');dx.fillRect(x1,Math.min(y,yp),x2-x1,Math.abs(y-yp))}});
+   FIB.forEach(lv=>{const y=fibY(d,c,lv),pr=d.pts[1].p+(d.pts[0].p-d.pts[1].p)*lv;dx.strokeStyle=d.c;dx.lineWidth=1;dx.beginPath();dx.moveTo(x1,y);dx.lineTo(x2,y);dx.stroke();dx.fillStyle=d.c;dx.font='11px "Share Tech Mono",monospace';dx.textBaseline='middle';dx.fillText(lv+' ('+pr.toFixed(dpf(pr))+')',x1+4,y-7)});
+   dx.setLineDash([4,4]);dx.beginPath();dx.moveTo(c[0].x,c[0].y);dx.lineTo(c[1].x,c[1].y);dx.stroke();dx.setLineDash([]);break}
+  case'meas':{const up=d.pts[1].p>=d.pts[0].p,col=up?'#2a9fd6':'#ff5d7a';dx.fillStyle=alpha(col,'33');dx.fillRect(c[0].x,c[0].y,c[1].x-c[0].x,c[1].y-c[0].y);dx.strokeStyle=col;dx.lineWidth=1;dx.strokeRect(c[0].x,c[0].y,c[1].x-c[0].x,c[1].y-c[0].y);
+   const df=d.pts[1].p-d.pts[0].p,pc=df/d.pts[0].p*100;lab((df>=0?'+':'')+df.toFixed(Math.abs(df)>10?2:5)+' ('+pc.toFixed(2)+'%) · '+barsTxt(d.pts[0],d.pts[1]),(c[0].x+c[1].x)/2-60,Math.min(c[0].y,c[1].y)-14,col);break}}
+ if(isSel){dx.fillStyle='#fff';dx.strokeStyle='#1f6fe0';dx.lineWidth=2;const H=d.type==='brush'?[c[0],c[c.length-1]]:c;H.forEach(z=>{dx.beginPath();dx.arc(z.x,z.y,4.5,0,7);dx.fill();dx.stroke()})}}
+function frame(){requestAnimationFrame(frame);
+ updCd();cntDr();if(!D.length)return;
+ const w=$('chart').clientWidth,h=$('chart').clientHeight,ts_=ch.timeScale(),last=D[D.length-1].close;
+ const sg=[w,h,cs.priceToCoordinate(last),cs.priceToCoordinate(last*1.01),ts_.logicalToCoordinate(0),ts_.logicalToCoordinate(1),D.length,hideAll,tool,sel&&sel.id,DR.length].join('|');
+ if(sg===fsig&&!dirty&&!draft&&!drag)return;fsig=sg;dirty=false;
+ const r=window.devicePixelRatio||1;
+ if(dcv.width!==Math.round(w*r)||dcv.height!==Math.round(h*r)){dcv.width=Math.round(w*r);dcv.height=Math.round(h*r);dcv.style.width=w+'px';dcv.style.height=h+'px'}
+ dx.setTransform(r,0,0,r,0,0);dx.clearRect(0,0,w,h);
+ const pw=pw_(),ph=ph_();
+ const X=i=>{let v=ts_.logicalToCoordinate(i);if(v==null){const rg=ts_.getVisibleLogicalRange();v=rg&&rg.to>rg.from?(i-rg.from)/(rg.to-rg.from)*pw:null}return v},E={X,Y:p=>cs.priceToCoordinate(p),pw,ph};
+ dx.save();dx.beginPath();dx.rect(0,0,pw,ph);dx.clip();
+ INS.forEach(i=>{const df=def(i.id);if(i.vis&&df.ovl&&i.out){dx.save();try{df.ovl(dx,E,i.p,i.c,i.out.ov!==undefined?i.out.ov:i.out)}catch(e){if(!i.werr){i.werr=1;console.warn("ovl "+i.id,e)}}dx.restore()}});
+ if(!hideAll){DR.forEach(d=>renderD(d,pw,ph,d===sel));if(draft)renderD(draft.d,pw,ph,false)}
+ dx.restore()}
+const pos=e=>{const r=cw.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}};
+const inPlot=m=>m.x>=0&&m.x<=pw_()&&m.y>=0&&m.y<=ph_();
+const OVER='#dtools,#dsty,#lg .lr,#lsubs .lr,#txin';
+function finish(){const d=draft.d;draft=null;
+ const a=d.pts[0],b=d.pts[d.pts.length-1];if(d.type!=='brush'&&Math.abs(t2i(a.t)-t2i(b.t))<.01&&Math.abs(a.p-b.p)<1e-9)return;
+ DR.push(d);sel=d.tmp?null:d;showSty();saveDr();if(!keep)setTool('cur')}
+function addOne(pt,extra){const d=Object.assign({id:Date.now()+Math.random(),pts:[pt],c:dcol,w:dw},extra);DR.push(d);sel=d;showSty();saveDr();if(!keep)setTool('cur')}
+function askText(m,pt){const i=$('txin');i.style.display='block';i.style.left=m.x+'px';i.style.top=m.y+'px';i.value='';i.focus();i.onkeydown=e=>{if(e.key==='Enter'&&i.value.trim()){addOne(pt,{type:'text',text:i.value.trim()});i.style.display='none'}else if(e.key==='Escape')i.style.display='none'}}
+function editText(){if(!sel||sel.type!=='text')return;const c=px(sel.pts[0]);if(!c)return;const i=$('txin');i.style.display='block';i.style.left=c.x+'px';i.style.top=c.y+'px';i.value=sel.text;i.focus();i.onkeydown=e=>{if(e.key==='Enter'){sel.text=i.value;i.style.display='none';saveDr()}else if(e.key==='Escape')i.style.display='none'}}
+cw.addEventListener('pointerdown',e=>{if(e.target.closest(OVER)||e.button>0)return;const m=pos(e);if(!inPlot(m))return;
+ if(tool!=='cur'){e.preventDefault();e.stopPropagation();swallow=true;const pt=unpx(m.x,m.y);if(!pt)return;DR=DR.filter(d=>!d.tmp);
+  if(tool==='hline'||tool==='vline'){addOne(pt,{type:tool});return}
+  if(tool==='text'){askText(m,pt);return}
+  if(draft&&draft.d.type!=='brush'){draft.d.pts[1]=pt;finish();return}
+  draft={d:{id:Date.now()+Math.random(),type:tool,pts:tool==='brush'?[pt]:[pt,pt],c:dcol,w:dw,tmp:tool==='meas'},down:m,moved:false,pressed:true};return}
+ const h=hitAny(m);
+ if(h){e.preventDefault();e.stopPropagation();swallow=true;sel=h.d;showSty();drag={d:h.d,k:h.k,start:unpx(m.x,m.y),orig:JSON.parse(JSON.stringify(h.d.pts))}}
+ else{if(sel){sel=null;showSty()}DR=DR.filter(d=>!d.tmp)}},true);
+cw.addEventListener('pointermove',e=>{const m=pos(e);
+ if(draft){const pt=unpx(m.x,m.y);if(pt){if(draft.d.type==='brush'){if(draft.pressed)draft.d.pts.push(pt)}else draft.d.pts[1]=pt}if(Math.hypot(m.x-draft.down.x,m.y-draft.down.y)>6)draft.moved=true}
+ else if(drag){const cur=unpx(m.x,m.y);if(cur){if(drag.k>=0)drag.d.pts[drag.k]=cur;else{const di=t2i(cur.t)-t2i(drag.start.t),dp=cur.p-drag.start.p;drag.d.pts=drag.orig.map(p=>({t:i2t(t2i(p.t)+di),p:p.p+dp}))}}}
+ else if(tool==='cur'&&!e.target.closest(OVER)){const h=inPlot(m)&&!hideAll&&hitAny(m);cw.style.cursor=h?(h.k>=0?'crosshair':'move'):''}},true);
+window.addEventListener('pointerup',()=>{swallow=false;if(draft){draft.pressed=false;if(draft.d.type==='brush'||draft.moved)finish()}if(drag){saveDr();drag=null}},true);
+['mousedown','touchstart'].forEach(ev=>cw.addEventListener(ev,e=>{if(swallow)e.stopPropagation()},true));
+document.addEventListener('keydown',e=>{if(/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName))return;
+ if((e.key==='Delete'||e.key==='Backspace')&&sel){delSel();e.preventDefault()}
+ if(e.key==='Escape'){draft=null;setTool('cur');sel=null;showSty()}});
+
+/* ===== Undo / Redo (ڈرائنگ، انڈیکیٹر، سیٹنگ، رنگ، چارٹ اسٹائل) ===== */
+var HREADY=false,HBUSY=false;
+let HS=[],HI=-1,HT=null;
+const HMAX=80;
+function hsnap(){return JSON.stringify({dr:DR.filter(d=>!d.tmp),ind:S.ind||[],ct:S.ct,ctc:S.ctc||null,mt:S.mt,mp:S.mp,iim:S.iim,emx:S.emx})}
+function hbtn(){const u=$('undob'),r=$('redob');if(u)u.disabled=HI<=0;if(r)r.disabled=HI>=HS.length-1;[u,r].forEach(b=>{if(b)b.style.opacity=b.disabled?.35:1})}
+function hreset(){HS=[hsnap()];HI=0;hbtn()}
+function hpush(){clearTimeout(HT);HT=setTimeout(()=>{const x=hsnap();if(HS[HI]===x)return;HS=HS.slice(0,HI+1);HS.push(x);if(HS.length>HMAX)HS.shift();HI=HS.length-1;hbtn()},350)}
+function hflush(){if(HT){clearTimeout(HT);HT=null;const x=hsnap();if(HS[HI]!==x){HS=HS.slice(0,HI+1);HS.push(x);if(HS.length>HMAX)HS.shift();HI=HS.length-1}}}
+function happly(x){HBUSY=true;try{const o=JSON.parse(x);
+  DR=o.dr||[];sel=null;draft=null;showSty();saveDr();renderDrm&&renderDrm();
+  INS.forEach(clearSer);S.ind=o.ind||[];S.ct=o.ct||'gold';S.ctc=o.ctc;S.mt=o.mt||S.mt;S.mp=o.mp||S.mp;S.iim=o.iim;S.emx=o.emx;
+  loadInst();closeSet();rebuildInd();
+  $('mt2').value=S.mt;$('mp').value=S.mp;$('iim').checked=S.iim!==false;$('emx').checked=S.emx!==false;
+  if(S.ctc)['bg','up','dn','gr'].forEach(k=>{const e=$('ctc_'+k);if(e&&S.ctc[k])e.value=S.ctc[k]});
+  sv();applyTheme();draw()}catch(e){console.warn('undo',e)}HBUSY=false;hbtn()}
+function hundo(){hflush();if(HI<=0)return;HI--;happly(HS[HI])}
+function hredo(){hflush();if(HI>=HS.length-1)return;HI++;happly(HS[HI])}
+document.addEventListener('keydown',e=>{if(/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName))return;const k=(e.key||'').toLowerCase();
+ if((e.ctrlKey||e.metaKey)&&k==='z'){e.preventDefault();e.shiftKey?hredo():hundo()}else if((e.ctrlKey||e.metaKey)&&k==='y'){e.preventDefault();hredo()}});
+/* ================= settings dialog ================= */
+let cur=null,tab=1;
+function openSet(uid){cur=INS.find(x=>x.uid===uid);if(!cur)return;$('sett').textContent=def(cur.id).name;setTab(1);$('set').classList.add('show')}
+function closeSet(){$('set').classList.remove('show');cur=null}
+function setTab(n){tab=n;$('tb1').classList.toggle('on',n===1);$('tb2').classList.toggle('on',n===2);renderSet()}
+function renderSet(){if(!cur)return;const df=def(cur.id);let h='';
+ if(tab===1){h+=`<div class="sr"><label>${t('visible')}</label><input type="checkbox" class="swt" ${cur.vis?'checked':''} onchange="cur.vis=this.checked;chg()"></div>`;
+  df.inputs.forEach(x=>{const v=cur.p[x.k];if(x.t==='h'){h+=`<div class="sh">${x.l}</div>`;return}h+=`<div class="sr"><label>${x.l}</label>`+(x.t==='b'?`<input type="checkbox" class="swt" ${v?'checked':''} onchange="inp('${x.k}',this.checked)">`:x.t==='x'?`<input type="text" value="${v}" onchange="inp('${x.k}',this.value)">`:x.t==='s'?`<select onchange="inp('${x.k}',this.value)">${x.o.map(o=>`<option ${o===v?'selected':''}>${o}</option>`).join('')}</select>`:`<input type="number" value="${v}" ${x.min!=null?`min="${x.min}"`:''} ${x.max!=null?`max="${x.max}"`:''} step="${x.step||1}" onchange="inp('${x.k}',+this.value)">`)+'</div>'});
+  if(!df.inputs.length)h+=`<div class="tiny">—</div>`}
+ else{df.sty.forEach((s,k)=>{h+=`<div class="sr"><label>${s.l}</label><input type="color" value="${cur.c[k]}" onchange="cur.c[${k}]=this.value;chg()">`+(s.w!=null?`<select onchange="cur.w[${k}]=+this.value;chg()">${[1,2,3,4].map(w=>`<option ${w===cur.w[k]?'selected':''}>${w}</option>`).join('')}</select>`:'<span style="width:130px"></span>')+'</div>'})}
+ $('setb').innerHTML=h}
+function inp(k,v){cur.p[k]=v;chg()}
+function chg(){saveInst();rebuildInd()}
+function resetSet(){const df=def(cur.id);cur.p=defaults(df);cur.c=df.sty.map(s=>s.d);cur.w=df.sty.map(s=>s.w||2);cur.vis=true;chg();renderSet()}
+/* ================= language ================= */
+function applyLang(){document.body.classList.toggle('rtl',S.lang==='ur');document.documentElement.lang=S.lang;document.documentElement.dir=S.lang==='ur'?'rtl':'ltr';
+ document.querySelectorAll('[data-t]').forEach(e=>e.textContent=t(e.dataset.t));
+ document.querySelectorAll('[data-p]').forEach(e=>e.placeholder=t(e.dataset.p));
+ $('vb').textContent=t(voice?'voiceOn':'voiceOff');toolBar();showSty();agList();if(D.length)draw();listInd()}
+/* ================= news ================= */
+let NSEEN=null,NSYM='',TRC=new Map(),VOX=[];
+try{VOX=speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{VOX=speechSynthesis.getVoices()}}catch(e){}
+const hasVoice=b=>!VOX.length||VOX.some(v=>v.lang.toLowerCase().startsWith(b));
+async function trNews(txt,tl){if(tl==='en')return txt;const k=tl+'|'+txt;if(TRC.has(k))return TRC.get(k);let out=null;
+ try{const r=await (await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl='+tl+'&dt=t&q='+encodeURIComponent(txt))).json();out=r[0].map(x=>x[0]).join('')}catch(e){}
+ if(!out){try{const r=await (await fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(txt)+'&langpair=en|'+tl)).json();out=r.responseData.translatedText}catch(e){}}
+ if(out)TRC.set(k,out);return out}
+function speakOne(text,lang){return new Promise(res=>{try{const u=new SpeechSynthesisUtterance(text);u.lang=lang;u.rate=.95;const v=VOX.find(x=>x.lang.toLowerCase()===lang.toLowerCase())||VOX.find(x=>x.lang.toLowerCase().startsWith(lang.slice(0,2).toLowerCase()));if(v)u.voice=v;u.onend=u.onerror=()=>res();speechSynthesis.speak(u)}catch(e){res()}})}
+async function speakNews(list){if(!list.length)return;let tl='en',lang='en-US',pre='News: ';
+ if(S.lang==='ur'){if(hasVoice('ur')){tl='ur';lang='ur-PK';pre='خبر: '}else if(hasVoice('hi')){tl='hi';lang='hi-IN';pre='समाचार: '}}
+ else if(S.lang==='hi'&&hasVoice('hi')){tl='hi';lang='hi-IN';pre='समाचार: '}
+ for(const h of list){let tx=await trNews(h.t,tl);if(!tx){tx=h.t;lang='en-US';pre='News: '}await speakOne(pre+tx,lang)}}
+function newsHandle(items,sym){const keys=items.map(x=>x.t.toLowerCase().slice(0,80));
+ if(NSEEN===null||NSYM!==sym){NSEEN=new Set(keys);NSYM=sym;return}
+ const fresh=items.filter((x,i)=>!NSEEN.has(keys[i]));keys.forEach(k=>NSEEN.add(k));
+ if(S.nv&&fresh.length)speakNews(fresh.slice(0,2))}
+function nvIcon(){const b=$('nvb');if(b)b.textContent=S.nv?'🗞🔊':'🗞🔇'}
+function toggleNewsVoice(){S.nv=!S.nv;sv();nvIcon();try{speechSynthesis.cancel()}catch(e){}if(S.nv&&NEWSL.length)speakNews(NEWSL.slice(0,1))}
+let NEWSL=[];
+const NEWSQ={XAUUSDT:['gold price XAU',/gold|xau|bullion|fed|dollar|inflation|yield|treasury|powell|rate/i,'GOLD'],XAGUSDT:['silver price XAG',/silver|xag|gold|dollar|fed|yield|inflation/i,'SILVER'],BTCUSDT:['bitcoin BTC price',/bitcoin|btc|crypto|etf|ethereum|fed|binance|coinbase/i,'BTC'],CLUSDT:['WTI crude oil price',/oil|crude|wti|brent|opec|energy|inventor|barrel|petrol/i,'OIL WTI'],BZUSDT:['Brent crude oil price',/oil|crude|brent|wti|opec|energy|inventor|barrel/i,'OIL BRENT'],EURUSDT:['EUR/USD euro dollar',/eur|euro|ecb|dollar|fed|forex|lagarde|powell/i,'EUR/USD']};
+const GFEEDS=['https://www.fxstreet.com/rss/news','https://www.investing.com/rss/news_1.rss','https://cointelegraph.com/rss'];
+let newsTok=0;
+async function getFeed(u){try{const r=await (await fetch('https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent(u))).json();return(r.items||[]).map(i=>({t:i.title,d:Date.parse((i.pubDate||'').replace(' ','T')+'Z')||0}))}catch(e){return[]}}
+async function news(){const tok=++newsTok,key=S.sym.split(':')[1],q=NEWSQ[key]||['markets',/./,key];
+ const nb=document.querySelector('#news .nb');if(nb)nb.textContent='NEWS · '+q[2];
+ const [sp,...gen]=await Promise.all([getFeed('https://news.google.com/rss/search?q='+encodeURIComponent(q[0])+'&hl=en-US&gl=US&ceid=US:en'),...GFEEDS.map(getFeed)]);
+ if(tok!==newsTok)return;
+ const seen=new Set(),out=[];const push=x=>{const k=x.t.toLowerCase().slice(0,60);if(!seen.has(k)){seen.add(k);out.push(x)}};
+ sp.sort((a,b)=>b.d-a.d).slice(0,14).forEach(push);
+ gen.flat().filter(x=>q[1].test(x.t)).sort((a,b)=>b.d-a.d).forEach(push);
+ if(out.length<5)gen.flat().sort((a,b)=>b.d-a.d).slice(0,6).forEach(push);
+ out.sort((a,b)=>b.d-a.d);
+ if(!out.length){$('nt').textContent=t('nonews');return}
+ NEWSL=out.slice(0,24);$('nt').textContent=NEWSL.map(x=>x.t).join('     ◆     ');
+ $('nt').style.animationDuration=Math.max(50,$('nt').textContent.length*.2)+'s';newsHandle(NEWSL,key)}
+/* ================= theme ================= */
+function applyTheme(){const g=S.theme==='glass';document.body.classList.toggle('glass',g);document.body.classList.toggle('dg',!g);
+ ch.applyOptions(g?{layout:{background:{type:'solid',color:'rgba(255,255,255,0)'},textColor:'#33527f'},grid:{vertLines:{color:'rgba(255,255,255,.65)'},horzLines:{color:'rgba(255,255,255,.65)'}},timeScale:{borderColor:'rgba(255,255,255,.9)'},rightPriceScale:{borderColor:'rgba(255,255,255,.9)'},crosshair:{vertLine:{color:'#2f6fe0'},horzLine:{color:'#2f6fe0'}}}:{layout:{background:{type:'solid',color:'rgba(0,0,0,0)'},textColor:'#a3aec6'},grid:{vertLines:{color:'rgba(255,255,255,.06)'},horzLines:{color:'rgba(255,255,255,.06)'}},timeScale:{borderColor:'rgba(255,255,255,.18)'},rightPriceScale:{borderColor:'rgba(255,255,255,.18)'},crosshair:{vertLine:{color:'#f5c242'},horzLine:{color:'#f5c242'}}});
+ const cc=S.cc==='auto'?'classic':S.cc;
+ cs.applyOptions(cc==='classic'?{upColor:'#10b981',borderUpColor:'#0a9f6e',wickUpColor:'#0a9f6e',downColor:'#ef476f',borderDownColor:'#d63a5e',wickDownColor:'#d63a5e'}:{upColor:'#4cc3ff',borderUpColor:'#9fe1ff',wickUpColor:'#9fe1ff',downColor:'#2f55ff',borderDownColor:'#8fa6ff',wickDownColor:'#8fa6ff'});
+ $('thb').textContent=g?'🌙':'☀️';$('ccs').value=S.cc;applyCT();if($('cts'))$('cts').value=CT[S.ct]?S.ct:'gold';dirty=true}
+/* ===== Chart styles (صرف چارٹ کا بیک گراؤنڈ اور کینڈل رنگ؛ ڈیزائن وہی رہتا ہے) ===== */
+const CT={
+ gold:{n:'🌙 Midnight Gold',n2:null},
+ noir:{n:'🖤 Midnight Noir',bg:'#0b0f14',gr:'rgba(255,255,255,.05)',tx:'#8b97a8',up:'#8fe3d6',dn:'#e5627a',cr:'#8fe3d6',bd:'rgba(255,255,255,.12)'},
+ ocean:{n:'🌊 Ocean Blue',bg:'#06142b',gr:'rgba(76,195,255,.09)',tx:'#9ec5ff',up:'#4cc3ff',dn:'#2f55ff',cr:'#4cc3ff',bd:'rgba(76,195,255,.25)'},
+ paper:{n:'⬜ Paper White',bg:'#ffffff',gr:'#e9edf3',tx:'#3b4658',up:'#16a34a',dn:'#dc2626',cr:'#2563eb',bd:'#cfd6e2',paper:1},
+ custom:{n:'🎨 Custom / اپنا'}};
+function ctCur(){const k=CT[S.ct]?S.ct:'gold';if(k==='custom'){const c=S.ctc||{bg:'#0b0f14',up:'#26d0a8',dn:'#ff5c7a',gr:'#1d2530'};const lum=h=>{const n=parseInt(h.slice(1),16);return(.3*(n>>16&255)+.59*(n>>8&255)+.11*(n&255))/255};return{bg:c.bg,gr:c.gr,tx:lum(c.bg)>.55?'#3b4658':'#a3aec6',up:c.up,dn:c.dn,cr:c.up,bd:c.gr,paper:lum(c.bg)>.55}}return CT[k]}
+function applyCT(){const k=CT[S.ct]?S.ct:'gold',w=$('chwrap');document.body.classList.remove('ctp');document.body.classList.toggle('ctn',(CT[S.ct]?S.ct:'gold')==='noir');
+ if(k==='gold'){w.style.background='';w.style.borderColor='';return}
+ const c=ctCur();w.style.background=c.bg;w.style.borderColor=c.bd;if(c.paper)document.body.classList.add('ctp');
+ ch.applyOptions({layout:{background:{type:'solid',color:'rgba(0,0,0,0)'},textColor:c.tx},grid:{vertLines:{color:c.gr},horzLines:{color:c.gr}},timeScale:{borderColor:c.bd},rightPriceScale:{borderColor:c.bd},crosshair:{vertLine:{color:c.cr},horzLine:{color:c.cr}}});
+ cs.applyOptions({upColor:c.up,borderUpColor:c.up,wickUpColor:c.up,downColor:c.dn,borderDownColor:c.dn,wickDownColor:c.dn})}
+function setCT(v){S.ct=v;sv();applyTheme();if(v==='custom')$('ctp').style.display='block'}
+function toggleCtp(){const p=$('ctp');p.style.display=p.style.display==='none'?'block':'none'}
+function ctInit(){$('cts').innerHTML=Object.keys(CT).map(k=>`<option value="${k}">${CT[k].n}</option>`).join('');
+ const c=S.ctc||{bg:'#0b0f14',up:'#26d0a8',dn:'#ff5c7a',gr:'#1d2530'};['bg','up','dn','gr'].forEach(k=>{const e=$('ctc_'+k);e.value=c[k];e.oninput=()=>{S.ctc=Object.assign({bg:'#0b0f14',up:'#26d0a8',dn:'#ff5c7a',gr:'#1d2530'},S.ctc||{});S.ctc[k]=e.value;S.ct='custom';$('cts').value='custom';sv();applyTheme()}})}
+function toggleTheme(){S.theme=S.theme==='dark'?'glass':'dark';sv();applyTheme()}
+/* ================= start ================= */
+(()=>{const host=$('chwrap'),html=host.querySelector('#wmk').outerHTML;const guard=()=>{const w=document.getElementById('wmk');if(!w||w.parentNode!==host){host.insertAdjacentHTML('beforeend',html)}else{const cs_=getComputedStyle(w);if(cs_.display==='none'||cs_.visibility==='hidden'||+cs_.opacity<.9){w.removeAttribute('style');w.style.cssText=''}}};
+ new MutationObserver(guard).observe(host,{childList:true,attributes:true,subtree:true,attributeFilter:['style','class','hidden']});setInterval(guard,3000)})();
+if(!S.init20){S.init20=true;S.theme='dark';S.cc='auto';sv()}ctInit();applyTheme();loadInst();setTimeout(()=>{HREADY=true;hreset()},0);$('tzl').textContent='🕒 '+tzName();$('tzs').innerHTML=TZS_UI.map(z=>`<option value="${z}">${z==='auto'?'Auto — device time / آپ کے ڈیوائس کا وقت ('+devTz()+')':z}</option>`).join('');$('tzs').value=S.tz||'auto';if(!S.init27){S.init27=true;INS.forEach(i=>{if(i.id==='agents8'&&i.p&&i.p.minA<6)i.p.minA=6});try{saveInst()}catch(e){}}if(YT_URL){const a=$('ytb');a.href=YT_URL;a.style.display='block'}if(!S.init23){S.init23=true;if(!INS.some(i=>i.id==='agents8')){const df=def('agents8');INS.push(mkInst({uid:S.uid++,id:'agents8',p:defaults(df),c:df.sty.map(z=>z.d),w:df.sty.map(z=>z.w||2),vis:true}));saveInst()}sv()}if(!S.init18){S.init18=true;if(!INS.some(i=>i.id==='gann')){const df=def('gann');INS.push(mkInst({uid:S.uid++,id:'gann',p:defaults(df),c:df.sty.map(z=>z.d),w:df.sty.map(z=>z.w||2),vis:true}));saveInst()}}loadDr();toolBar();frame();tfBtns();applyLang();reload();news();setInterval(news,120000);nvIcon();
+setInterval(()=>{if(S.sym[0]==='b'||S.sym[0]==='f'||used==='y'||used==='p')loadMTF()},60000);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeInd();closeSet()}});
+</script></body></html>
